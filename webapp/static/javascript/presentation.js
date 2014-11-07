@@ -138,7 +138,6 @@ function toggleChords() {
     scaleText()
   }
 }
-fucntion 
 
 function initializeSearchDatabase(){
   //remove comments
