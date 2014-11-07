@@ -14,6 +14,11 @@
       /* First non-presentation styles */
       /*===============================*/
 
+      body {
+        color: #000;
+        background-color: #fff;
+      }
+
       stitle, author, scripture_ref, copyright, line {display: block; white-space: pre;}
 
       #songbook {
