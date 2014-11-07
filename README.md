@@ -19,15 +19,17 @@ Recent Changes
 
 Install
 -------
-git pull ...
-cd yCanta
-virtualenv .
-. bin/activate
-pip install -r requirements.txt
-python start-webapp.py
+
+    git clone <repo URI here>
+    cd yCanta
+    virtualenv .
+    source bin/activate
+    pip install -r requirements.txt
+    python start-webapp.py
 
 Issues
 ------
 
 PEAK Rules package doesn't have a verifiable pypi package available.  It can be installed like so:
-  pip install --allow-external PEAK-Rules --allow-unverified PEAK-Rules TurboGears
+
+    pip install --allow-external PEAK-Rules --allow-unverified PEAK-Rules TurboGears
