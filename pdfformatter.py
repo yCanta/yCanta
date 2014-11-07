@@ -4,8 +4,12 @@ import os.path
 import re
 import string
 
-from elementtree.ElementTree import Element
-from elementtree.ElementTree import parse as etree_parse
+try: # try c version for speed then fall back to python
+  from xml.etree.cElementTree import Element
+  from xml.etree.cElementTree import parse as etree_parse
+except ImportError:
+  from xml.etree.ElementTree import Element
+  from xml.etree.ElementTree import parse as etree_parse
 
 import reportlab.lib.pagesizes
 from reportlab.pdfgen import canvas

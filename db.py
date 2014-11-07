@@ -9,7 +9,10 @@ import whichdb
 import mono2song
 import xml.sax.saxutils
 import webapp.c_utilities as c
-import elementtree.ElementTree as ET
+try: # try c version for speed then fall back to python
+  import xml.etree.cElementTree as ET
+except ImportError:
+  import xml.etree.ElementTree as ET
 from webapp.model import Song, Songbook
 
 ALL_SONGS_PATH = "songbooks/all.xml"

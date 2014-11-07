@@ -16,8 +16,12 @@ import os.path
 import hashlib
 import glob
 import tempfile
-from elementtree.ElementTree import parse
-import elementtree.ElementTree as ET 
+try: # try c version for speed then fall back to python
+  import xml.etree.cElementTree as ET
+  from xml.etree.cElementTree import parse
+except ImportError:
+  import xml.etree.ElementTree as ET
+  from xml.etree.ElementTree import parse
 import types
 import pdfformatter as formatter
 import commands
@@ -37,7 +41,7 @@ if cherrypy.config.get('song_path', ''):
 
 refresh_time = int(cherrypy.config.get('song_refresh', '0'))
 
-version =  os.popen('svn info | grep Revision').read().strip()
+version =  os.popen('svn info | grep Revision').read().strip() or 'dev'
 
 class Root(turbogears.controllers.RootController):
   @turbogears.expose(template="webapp.templates.index")

@@ -1,12 +1,17 @@
 from model import Song, Songbook
-import elementtree.ElementTree as ET 
 import mono2song
 import cherrypy
 import turbogears
 import pdfformatter as formatter
 import cssparser
-from elementtree.ElementTree import parse
-from elementtree.ElementTree import SubElement
+try: # try c version for speed then fall back to python
+  import xml.etree.cElementTree as ET 
+  from xml.etree.cElementTree import parse
+  from xml.etree.cElementTree import SubElement
+except ImportError:
+  import xml.etree.ElementTree as ET 
+  from xml.etree.ElementTree import parse
+  from xml.etree.ElementTree import SubElement
 import xml.sax.saxutils
 import time
 import os

@@ -1,4 +1,7 @@
-import elementtree.ElementTree as ET
+try: # try c version for speed then fall back to python
+  import xml.etree.cElementTree as ET
+except ImportError:
+  import xml.etree.ElementTree as ET
 
 CHORD_SPACE_RATIO = 0.45
 
