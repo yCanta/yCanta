@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 from webapp.model import Song, Songbook, hub
-import elementtree.ElementTree as ET 
+try: # try c version for speed then fall back to python
+  import xml.etree.cElementTree as ET
+except ImportError:
+  import xml.etree.ElementTree as ET
 import xml.parsers.expat
 import webapp.c_utilities as c
 from os.path import *

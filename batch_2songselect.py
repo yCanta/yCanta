@@ -1,4 +1,7 @@
-import elementtree.ElementTree as ET 
+try: # try c version for speed then fall back to python
+  import xml.etree.cElementTree as ET
+except ImportError:
+  import xml.etree.ElementTree as ET
 import webapp.controllers as w
 import webapp.c_utilities as c
 from webapp.c_utilities import pathcheck
