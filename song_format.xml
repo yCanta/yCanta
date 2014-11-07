@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<song format-version="0.1"> 
+  <title></title>
+  <author></author>
+  <chunk type="introduction"></chunk>
+  <chunk type="verse">
+    <line>song text and <c>Chords</c> in line</line>
+    <line>Next line of song</line>
+  </chunk>
+  <chunk type="chorus" repeat="every-page"></chunk>
+  <chunk type="bridge"></chunk>
+</song>

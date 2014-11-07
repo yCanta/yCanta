@@ -1,0 +1,63 @@
+#songsOl .songref{
+  border: thin solid white;
+  border-left: 3px double black;
+  border-right: 3px double black;
+  background: #e5e5e5;
+}
+#songsOl .section {
+  border: 3px double black;
+  border-bottom:1px ridge;
+  background: #a5a5a5;
+}
+#songsOl li {
+  position: relative;
+}
+a.add_chunk {
+  display: none;
+  color: red;
+}
+.hover:hover a.add_chunk {
+  text-align: center;
+  display: inline;
+  z-index: 10;
+  bottom: -0.5em;
+  position: absolute;
+  background: #f5f5f5;
+  border: outset black 1px;
+  width: 565px;
+}
+
+.hover a {
+  display: none;
+}
+.hover:hover a {
+  color: #e5e5e5;
+  background-image:url(../images/delete.png);
+  background-repeat: no-repeat;
+  display: inline;
+}
+.handle {
+  cursor: move;
+}
+#songsOl {
+  border: inset;
+  border-width: 2px;
+}
+#songsOl span {cursor: move;}
+#add_song a {padding-left: 18px;}
+#add_song a:hover {
+  background-image: url(../images/add.png);
+  background-repeat: no-repeat;
+  background-color: lightblue;
+  color: black;
+}
+.checked {
+  background: #f2fff2;
+  background-image:url(../images/accept.png);
+  background-repeat: no-repeat;
+}
+.checked:hover {
+  color: red;
+  background-image:url(../images/delete.png) !important;
+  background-repeat: no-repeat;
+}

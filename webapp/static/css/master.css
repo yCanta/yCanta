@@ -1,0 +1,153 @@
+@media screen{
+  div.header {
+    border: double;
+    border-bottom: ridge;
+    border-bottom-width: 5px;
+    border-color: black;
+    padding: 6px;
+  }
+  span.r_header {
+    position: relative;
+    left: 150px;
+  }
+  .ui-dialog {
+    background-color: lightgrey;
+    border: black double 4px;
+    height: 100%;
+  }
+  .ui-dialog-titlebar {
+    background-color: grey;
+    border-bottom: black solid 1px;
+  }
+  .ui-dialog-titlebar-close {
+    float: right;
+  }
+  .float_right {
+   background-color: lightgray;
+   max-width: 60%;
+   border-left: double black 4px;
+  }
+  .d_menu {
+    cursor: default;
+    border: solid;
+    border-width: 2px;
+    margin-right: 2px;
+  }
+  A:link {text-decoration: none; color: black;}
+  A:visited {text-decoration: none; color: black;}
+  A:hover {color: grey;}
+  a {cursor: pointer;}
+
+  .d_menu:hover {
+    background-color: lightgrey;
+    position: relative;
+    z-index: 3;
+  }
+  .d_menu .id_menu {
+    display: none;
+  }
+  .d_menu:hover .id_menu {
+    display: block;
+    position: absolute;
+    width: 275px;
+    white-space: nowrap;
+    top: 16px;
+    left: -2px;
+    background-color: lightgrey;
+    border: solid;
+    border-width: 2px;
+    overflow: auto;
+  }
+  li:hover .d_menu_l {
+    display: block;
+    position: relative;
+    z-index: 3;
+  }
+  .d_menu_l, .id_menu_l {
+    display: none;
+  }
+  .d_menu_l:hover .id_menu_l {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    white-space: nowrap;
+    top: 16px;
+    right: -1px;
+    background-color: lightgrey;
+    border: solid 1px black;
+    overflow: auto;
+  }
+  #songs_list a, #add_song a{
+    display: block;
+  }
+  .ui-selected {
+    display: block;
+  }
+  #fragment-1 td {
+    vertical-align: top;
+    width: 200px;
+  }
+  .table tr td {
+    border-bottom: solid 1px grey;
+    border-right: solid 1px grey;
+  }
+  #sidebar, #r_sidebar {
+    width: 300px;
+  }
+  dt {
+    margin-top: 10px;
+    font-weight:bold;
+  }
+  .commentcontainer {
+    display: none;
+  }
+  .comments pre {
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 2px;
+  }
+  .a:before {
+    cursor: pointer;
+    content: '  ';
+    padding-left: 20px;
+    background-image:url(../images/thumb_up_green.png);
+    background-repeat: no-repeat;
+  }
+  .r:before {
+    cursor: pointer;
+    content: '  ';
+    padding-left: 20px;
+    background-image:url(../images/thumb_down_red.png);
+    background-repeat: no-repeat;
+  }
+  .n:before {
+    cursor: pointer;
+    content: '  ';
+    padding-left: 20px;
+    background-image:url(../images/time_yellow.png);
+    background-repeat: no-repeat;
+  }
+  /*to make pre-formatted text wordwrap*/
+  pre{
+   white-space: pre-wrap;       /* css-3 */
+   white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+   white-space: -pre-wrap;      /* Opera 4-6 */
+   white-space: -o-pre-wrap;    /* Opera 7 */
+   word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  }
+  .scrollable {
+    overflow: auto;
+  } 
+  body {
+    overflow: hidden;
+  }
+}
+
+@media print {
+  .commentcontainer {
+    display: block;
+  }
+  .header, #sidebar, img, .commentcontainer label, .commentcontainer textarea, .commentcontainer a{
+    display: none;
+  }
+}

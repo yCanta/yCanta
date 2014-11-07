@@ -1,0 +1,36 @@
+#!/bin/bash
+
+TIME=$(which time)
+
+if [ "$1" = info ]
+then
+  for f in test/*
+  do
+    echo "Revision: $(echo $f | cut -f2 -d/)"
+    cat "$f/time"
+  done
+  exit
+elif [ "$1" = "test" ]
+then
+  REV="test"
+else 
+  REV=$(svn info | grep Revision: | cut -f2 -d' ')
+fi
+
+mkdir -p "test/$REV"
+if ls test/$REV/* > /dev/null
+then
+  rm -f test/$REV/*
+fi
+
+$TIME -o "test/$REV/time" python ./formatter.py songbooks/blackbook.xml stylesheets/letter-chords.css "test/$REV/out.pdf" > "test/$REV/stdout" 2> "test/$REV/stderr"
+
+echo "=== OUTPUT ==="
+file "test/$REV/out.pdf"
+ls -lh "test/$REV/out.pdf"
+echo "=== STDOUT ==="
+cat "test/$REV/stdout"
+echo "=== STDERR ==="
+cat "test/$REV/stderr"
+echo "==== TIME ===="
+cat "test/$REV/time"

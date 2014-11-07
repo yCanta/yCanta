@@ -1,0 +1,99 @@
+@media print {
+  display: block;
+  page-size: letter;
+
+  margin-left: 3in;
+  margin-right: 1in;
+  margin-top: 1in;
+  margin-bottom: 1in;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+
+  font-size: 12pt;
+  font-type: Helvetica;
+
+  page-break: no;
+}
+songbook {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+songbook title {
+  font-size: 32pt;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0.125in;
+}/*
+songlist {
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+}*/
+songref {
+  page-break: auto;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0.25in;
+  margin-bottom: 0.25in;
+}
+song {
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  page-break: auto;
+  counter-reset: verse;
+}
+
+song title {
+  font-size: 20pt;
+  margin-bottom: 0;
+}
+
+chunk {
+  margin-top: 0.25in;
+}
+chunk[type=verse] {
+  margin-left: 0.25in;
+  counter-increment: verse;
+}
+chunk[type=verse]:before {
+  content: $verse);
+  display: inline;
+  margin-left: -0.25in;
+  margin-top: 0;
+  margin-bottom: -24pt;
+  height: 0;
+}
+
+chunk[type=chorus] {
+  margin-left: 0.75in;
+}
+chunk[type=chorus]:before {
+  content: Chorus:;
+  display: inline;
+  margin-left: -0.75in;
+  margin-top: 0;
+  margin-bottom: -24pt;
+  height: 0;
+}
+
+line {
+  display: block;
+  margin-left: 0;
+  margin-top: 0;
+  height: 24pt;
+}
+
+c {
+  display: inline;
+  margin-bottom: 0;
+  height: 12pt;
+  width: 0;
+}

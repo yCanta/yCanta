@@ -1,0 +1,15 @@
+span.cordouter {
+  display: inline;
+  position: absolute;
+}
+span.cordinner {
+  position: relative;
+  top: -1em;
+}
+div.line {
+  padding-top: 1em;
+  display: none;
+}
+pre.text {
+  display: inline;
+}

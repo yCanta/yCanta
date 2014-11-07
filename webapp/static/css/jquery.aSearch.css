@@ -1,0 +1,18 @@
+.search_list{
+  padding-top:20px;
+  margin:10px 0;
+  border-right:
+  1px solid #CCCCCC;
+}
+.fixed{
+  position: absolute;
+  background: white;
+}
+#wipe_field {
+  position: absolute;
+}
+#wipe_field img {
+  position: relative;
+  right: 1.5em;
+  top: 0.25em;
+}
