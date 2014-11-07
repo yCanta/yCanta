@@ -544,12 +544,17 @@ function scaleText() {
   var win_width = win.width();
   var win_height= win.height();
 
+  var copyright_height = 0;
+  if($("#current").next().filter('chunk').size() == 0){ //last chunk
+    copyright_height = $("#current").nextAll('copyright').height();
+  }
+
   var small     = 50;
   var big       = 1500;
   var percent   = (big + small) / 2;
 
   function container_height() {
-    return container.height();
+    return container.height() + copyright_height;
   }
 
   function container_width() {
@@ -565,7 +570,7 @@ function scaleText() {
   while(big - small > 10) { // iterate till we get within 10% of ideal
     container.css("font-size", ""+percent+"%");
 
-    if(container_width() > win_width || container_height() + 75 > win_height){ // too big
+    if(container_width() > win_width || container_height() > win_height){ // too big
       big = percent;
     }
     else {
