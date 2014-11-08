@@ -33,6 +33,13 @@ if os.name == 'nt':
   print 'DBURI', dburi
   dburi = turbogears.config.update({'sqlobject.dburi': dburi})
 
+import os.path
+if not os.path.exists('songs'):
+  os.mkdir('songs')
+
+if not os.path.exists('songbooks'):
+  os.mkdir('songbooks')
+
 from webapp.controllers import Root
 
 turbogears.start_server(Root())
