@@ -24,6 +24,15 @@ else:
     turbogears.update_config(configfile="prod.cfg",
         modulename="webapp.config")
 
+import os
+if os.name == 'nt':
+  print 'OS', os.name
+  dburi = turbogears.config.get('sqlobject.dburi')
+  print 'DBURI', dburi
+  dburi = 'sqlite:///' + os.path.abspath(dburi.replace('sqlite://', '')).replace(':', '|')
+  print 'DBURI', dburi
+  dburi = turbogears.config.update({'sqlobject.dburi': dburi})
+
 from webapp.controllers import Root
 
 turbogears.start_server(Root())
