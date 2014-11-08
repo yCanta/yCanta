@@ -13,9 +13,19 @@ try: # try c version for speed then fall back to python
   import xml.etree.cElementTree as ET
 except ImportError:
   import xml.etree.ElementTree as ET
-from webapp.model import Song, Songbook
+from webapp.model import Song, Songbook, User, bootstrap_model
 
 ALL_SONGS_PATH = "songbooks/all.xml"
+
+def num_users_defined():
+  return User.select().count()
+
+def create_user(username, password):
+  if num_users_defined() == 0: # if first start init everything then create first user
+    bootstrap_model()
+
+  User(user_name=username, display_name=username, email_address="a@b", password=password)
+
 
 def songs():
   songs = [songs for songs in Song.select(orderBy=Song.q.title)]

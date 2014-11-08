@@ -50,7 +50,28 @@ class Root(turbogears.controllers.RootController):
 
   @turbogears.expose(template="webapp.templates.index")
   def index(self):
+    if db.num_users_defined() == 0: # first run ...
+      redirect(URL("/first_run"))
+
     return dict(songbooks=db.songbooks()) 
+
+  @turbogears.expose(template="webapp.templates.first_run")
+  def first_run(self):
+    if db.num_users_defined() != 0:
+      turbogears.flash('Not the first run.  User already defined.')
+      redirect(URL('/'))
+
+    return dict(songbooks=[])
+
+  @turbogears.expose()
+  def create_user(self, username, password, verify, go):
+    print 'USER:', username, password, verify, go
+    if password != verify:
+      turbogears.flash('Passwords don\'t match.  Try again.')
+      redirect(URL('/first_run'))
+
+    db.create_user(username, password)
+    redirect(URL('/'))
 
   @turbogears.expose(template="webapp.templates.reload")
   def reload(self):
