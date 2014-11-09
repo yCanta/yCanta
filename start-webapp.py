@@ -10,6 +10,11 @@ from os.path import *
 import os
 import sys
 
+for i in range(len(sys.argv)):
+  if sys.argv[i] == '--start-browser':
+    del sys.argv[i]
+    start_browser = True
+
 # first look on the command line for a desired config file,
 # if it's not on the command line, then
 # look for setup.py in this directory. If it's not there, this script is
@@ -39,6 +44,10 @@ if not os.path.exists('songs'):
 
 if not os.path.exists('songbooks'):
   os.mkdir('songbooks')
+
+if start_browser:
+  import webbrowser
+  webbrowser.open('http://127.0.0.1:8880')
 
 from webapp.controllers import Root
 
