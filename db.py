@@ -8,6 +8,7 @@ import dumbdbm
 import whichdb
 import mono2song
 import xml.sax.saxutils
+import xml.parsers.expat
 import webapp.c_utilities as c
 try: # try c version for speed then fall back to python
   import xml.etree.cElementTree as ET
@@ -17,15 +18,14 @@ from webapp.model import Song, Songbook, User, bootstrap_model
 
 ALL_SONGS_PATH = "songbooks/all.xml"
 
+def initialize_db():
+  bootstrap_model()
+
 def num_users_defined():
   return User.select().count()
 
 def create_user(username, password):
-  if num_users_defined() == 0: # if first start init everything then create first user
-    bootstrap_model()
-
   User(user_name=username, display_name=username, email_address="a@b", password=password)
-
 
 def songs():
   songs = [songs for songs in Song.select(orderBy=Song.q.title)]
@@ -42,6 +42,75 @@ def songbooks():
       del songbooks[i]
       break # we found it and removed it -- done.
   return songbooks
+
+def sync_songs():
+  songlist = glob.glob('songs/*')
+
+  for song in songlist:
+    #print 'Song:', song
+    path = song
+    try:
+      if Song.byPath(path): #skip existing songs in the db
+        continue
+    except:
+      pass #song not found, error thrown, lets add it to the db!
+    try:
+      dom = ET.parse(path)
+      if dom.find('stitle') != None and dom.find('stitle').text != None:    #don't die if no title
+        title = dom.find('stitle').text
+      else:
+        title = 'No title'
+        print 'NO TITLE:', path
+      if dom.find('author') != None and dom.find('author').text != None:    #don't die if no author
+        author = dom.find('author').text
+      else:
+        author = ''
+      if dom.find('categories') != None and dom.find('categories').text != None:    #don't die if no categories
+        categories = dom.find('categories').text
+      else:
+        categories = ''
+      #this code is direct copy from db.py song_save
+      if dom.find('chunk/line') != None: #don't die if no content
+        content = ''
+        for line in dom.findall('chunk/line'):
+          content += re.sub('<c.*?c>', '', ET.tostring(line).replace('<line>',' ').replace('</line>',' '))
+      else:
+        content = ''
+
+    except xml.parsers.expat.ExpatError:
+      title = 'No title'
+      author = ''
+      categories = ''
+      print 'MALFORMED:', path
+    
+    Song(title=c.fix_encoding(title), path=path, author=c.fix_encoding(author), 
+        categories=c.fix_encoding(categories), content=c.fix_encoding(content))
+
+def sync_songbooks():
+  songbooklist = glob.glob('songbooks/*')
+  for songbook in songbooklist:
+    if songbook.endswith('.comment') or songbook.endswith('.comment.dat') or songbook.endswith('.comment.dir') or songbook.endswith('.bak'):
+      continue  # .comment files are not songbooks
+    #print 'Songbook:', songbook
+    path = songbook
+    try:
+      if Songbook.byPath(path): #skip existing songbooks in the db
+        continue
+    except:
+      pass #songbook not found, error thrown, lets add it to the db!
+    try:
+      dom = ET.parse(path)
+      if dom.find('title') != None:    #don't die if no title
+        title = dom.find('title').text
+      else:
+        print 'NO TITLE:', path
+        title = 'No title'
+
+    except xml.parsers.expat.ExpatError:
+      title = 'No title'
+      print 'MALFORMED:', path
+
+    Songbook(title=c.fix_encoding(title), path=path)
 
 def save_song(title, author, scripture_ref, introduction, key,
     copyrights, path, cclis, submit, new, types, chunk_list, categories):

@@ -61,6 +61,10 @@ class Root(turbogears.controllers.RootController):
       turbogears.flash('Not the first run.  User already defined.')
       redirect(URL('/'))
 
+    db.initialize_db()   
+    db.sync_songs()
+    db.sync_songbooks()
+
     return dict(songbooks=[])
 
   @turbogears.expose()
