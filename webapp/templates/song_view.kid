@@ -171,7 +171,10 @@
                   <?python prev_time='' 
                   import os
                   os.environ['TZ'] = c.TIME_ZONE 
-                  time.tzset()
+                  try:
+                    time.tzset()
+                  except:
+                    pass # not implemented on Windows
                   ?>
                   <div py:for="line in recent_updates">
                     <dt py:if="(time.strftime(c.TIME_FORMAT, time.localtime(line[0])))!=prev_time" py:content="time.strftime(c.TIME_FORMAT, time.localtime(line[0]))"></dt>

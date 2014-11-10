@@ -33,6 +33,9 @@ songs/
 songbooks/
 webapp/static/songs/
 webapp/static/songbooks/
+Include/
+Lib/
+Scripts/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
