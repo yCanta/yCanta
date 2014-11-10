@@ -5,6 +5,7 @@ is a web-based program designed to quickly create, manage, and present/export so
 
 Recent Changes
 --------------
+ - *2014-11-09* - Windows support and scan of songs and songbooks on first run, license as UNLICENSE
  - *2014-11-07* - Upgraded packages and created requirements.txt for easy pip install in virtualenv
  - *2013-06-25* - Added option to launch secondary presentation windows and ability to present chords.
  - *2012-11-29* - Added option to wrap lines and chords in a song.
@@ -20,12 +21,20 @@ Recent Changes
 Install
 -------
 
+On Linux:
+
     git clone <repo URI here>
     cd yCanta
     virtualenv .
     source bin/activate
     pip install -r requirements.txt
     python start-webapp.py
+
+On Windows:
+
+    Download and install Portable Python 2.7: http://portablepython.com/wiki/Download/ (minimal install should be ok)
+    git clone <repo URI here>
+    path\to\PortablePython\Python-Portable.exe windows-build.py d:\path\to\PortablePython d:\where\you\want\the\build\to\go
 
 Issues
 ------
