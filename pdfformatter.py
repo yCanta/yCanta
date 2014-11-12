@@ -763,7 +763,9 @@ def paginate(songbook, cfg):
         # Also ... if there are enough verses left in this song (i.e. > 1) then we want to dupe the chorus AFTER adding the verse
         if len(chorus) != 0 and not cfg.page_layout.previous_page_visible(previous_pages=pages):
 
-          if idx+1 < len(song.chunks):  # this chunk and at least one more are still to go -- so do chunk, chorus, chunk... end-of-song
+          # this chunk and at least one more are still to go -- so do chunk, chorus, chunk... end-of-song
+          # UNLESS this chunk is a chorus, in which case we want to print any pre-choruses first
+          if idx+1 < len(song.chunks) and 'chorus' not in chunk.type:
             p.append(chunk)
             p.extend(chorus) # extend with chorus(es)
           else:  # this is the last chunk in the song -- do chorus, chunk, end-of-song
