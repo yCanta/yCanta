@@ -31,8 +31,8 @@
 </head>
 
 <body class="nochords" py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'">
-  <h2 class="header"><a href="${c.URL('/')}">Song Book Creator</a> &ndash; <a href="http://tempel-studios.dyndns.org/~song/trac/wiki"><small py:content="c.version"></small></a></h2>
-  <a class="header" href="http://tempel-studios.dyndns.org/~song/trac/tktnew"><i>Report a Problem/Feature request</i></a>
+  <h2 class="header"><a href="${c.URL('/')}">yCanta!</a> &ndash; <a href="http://github.com/carlhemp/yCanta"><small py:content="c.version"></small></a></h2>
+  <a class="header" href="http://github.com/carlhemp/yCanta/issues"><i>Report a Problem/Feature request</i></a>
   <div class="header">
     <span class="d_menu">
       <a href="${c.URL('song_view#')}">Songs</a>
