@@ -10,6 +10,7 @@ from os.path import *
 import os
 import sys
 
+start_browser = False
 for i in range(len(sys.argv)):
   if sys.argv[i] == '--start-browser':
     del sys.argv[i]
