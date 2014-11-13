@@ -41,7 +41,7 @@ if cherrypy.config.get('song_path', ''):
 
 refresh_time = int(cherrypy.config.get('song_refresh', '0'))
 
-version =  os.popen('svn info | grep Revision').read().strip() or 'dev'
+version =  os.popen('git show -s --format="git:%h"').read().strip() or 'hg:' + os.popen('hg id -i').read().strip()
 
 class Root(turbogears.controllers.RootController):
   @turbogears.expose(template="webapp.templates.index")
