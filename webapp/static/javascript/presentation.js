@@ -7,7 +7,10 @@ catch(err) {
   }
 }
 
+punctuation = /[^a-zA-Z0-9\s:-]/g
+// list of lists: [ [chunk or stitle, text with punctuation removed, text as is], [next...], ...]
 search_database = [];
+  
 last_search_results = [];
 secondary_windows = [];
 presentation_key_map = {
@@ -140,14 +143,18 @@ function toggleChords() {
 }
 
 function initializeSearchDatabase(){
-  //remove comments
-  $('[type=comment]').remove();
-  
-  var song_lines = $("line");
+  $('[type=comment]').remove(); //remove comments
 
+  var stitle = $("stitle");
+  stitle.each(function() {
+    var text = $(this).text().replace(punctuation, '');
+
+    search_database.push([$(this), text, $(this).text()]);
+  });
+
+  var song_lines = $("line");
   song_lines.each(function() {
     var chunk = $(this).parent();
-    punctuation = /[^a-zA-Z0-9\s:-]/g
     var text = $(this).clone().children().remove().end().text().replace(punctuation,'');
 
     search_database.push([chunk, text, chunk.parent().children('stitle').text()]);

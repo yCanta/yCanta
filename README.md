@@ -5,6 +5,7 @@ is a web-based program designed to quickly create, manage, and present/export so
 
 Recent Changes
 --------------
+ - *2014-11-12* - Presentation mode search now includes song titles
  - *2014-11-09* - Windows support and scan of songs and songbooks on first run, license as UNLICENSE
  - *2014-11-07* - Upgraded packages and created requirements.txt for easy pip install in virtualenv
  - *2013-06-25* - Added option to launch secondary presentation windows and ability to present chords.
