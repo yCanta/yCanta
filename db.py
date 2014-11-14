@@ -249,7 +249,7 @@ def songbooks_containing_song(path):
   
   songbooks = [] 
   for songbook in songbook_paths:
-    if (path in open(songbook.path, "rU").read() and songbook.path != c.ALL_SONGS_PATH):
+    if songbook.path != c.ALL_SONGS_PATH and path in open(songbook.path, "rU").read():
       songbooks.append(songbook)
 
   return songbooks
