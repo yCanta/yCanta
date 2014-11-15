@@ -48,6 +48,16 @@ def pathcheck(path):
     raise cherrypy.HTTPRedirect(URL('/'))
 
 
+def gen_unique_path(path_tmpl, title):
+  fs_title = re.sub('[^a-z0-9]+', '-', title.lower()).strip('-')
+  path = path_tmpl % fs_title
+  i = 2
+  while os.path.exists(path): # increment -2, -3, -4, etc if conflicting path
+    path = path_tmpl % ('%s-%d' % (fs_title, i))
+    i += 1
+  return path
+
+
 def convertfile(filename):
   """Returns a dictionary as documented in convert/__init__.py"""
 

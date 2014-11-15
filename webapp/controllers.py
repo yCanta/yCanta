@@ -355,8 +355,7 @@ class Root(turbogears.controllers.RootController):
         title = 'New Songbook'
 
       if new == True:
-        path = 'songbooks/%s-%s.xml' % (time.time(), 
-          re.sub('[^a-z0-9]+', '-', title.lower()) )
+        path = c.gen_unique_path('songbooks/%s.xml', title)
         assert not os.path.exists(path)
         pathcheck(path)
         
@@ -365,7 +364,19 @@ class Root(turbogears.controllers.RootController):
         # we check to see if the user is trying to hack us with a bad path
         pathcheck(path)
         songbook = Songbook.byPath(str(path))
-        songbook.title = title  # update title if needed
+
+        # check if title changed, if yes change and rename it
+        if songbook.title != title:
+          songbook.title = title
+          old_path = os.path.normpath(path)
+          old_path_base = os.path.splitext(old_path)[0]
+          new_path = os.path.normpath(c.gen_unique_path('songbooks/%s.xml', title))
+          new_path_base = os.path.splitext(new_path)[0]
+          for fn in glob.glob(old_path_base+'.*'): # glob because of comments
+            fn = os.path.normpath(fn)
+            os.rename(fn, fn.replace(old_path_base, new_path_base))
+          path = new_path
+          songbook.path = path
        
       songbook_content = '''<songbook format-version="0.1">\n<title>''' + title.strip() + "</title>"
 
