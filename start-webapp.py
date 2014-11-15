@@ -40,11 +40,9 @@ if os.name == 'nt':
   dburi = turbogears.config.update({'sqlobject.dburi': dburi})
 
 import os.path
-if not os.path.exists('songs'):
-  os.mkdir('songs')
-
-if not os.path.exists('songbooks'):
-  os.mkdir('songbooks')
+for path in ('songs', 'songbooks', 'deleted'):
+  if not os.path.exists(path):
+    os.mkdir(path)
 
 if start_browser:
   import webbrowser

@@ -254,6 +254,15 @@ def songbooks_containing_song(path):
 
   return songbooks
 
+def do_delete_file(path):
+  del_path = os.path.join('deleted', path)
+  del_dir = os.path.dirname(del_path)
+
+  if not os.path.exists(del_dir):
+    os.makedirs(del_dir)
+
+  os.rename(path, del_path)
+
 def delete_song(path):
 
   conflict_songbooks = ', '.join([songbook.title for songbook in songbooks_containing_song(path)])
@@ -262,19 +271,19 @@ def delete_song(path):
     return conflict_songbooks
 
   if os.access(path, os.W_OK):
-    os.rename(path, 'deleted/'+path)
+    do_delete_file(path)
   song = Song.byPath(str(path))
   song.destroySelf()
   return conflict_songbooks
 
 def delete_songbook(path):
   if os.access(path, os.W_OK):
-    os.rename(path, 'deleted/'+path)
+    do_delete_file(path)
 
   com_path = os.path.splitext(path)[0] + '.comment'
   com_files = glob.glob(com_path+'*')
   for f in com_files:
-    os.rename(f, 'deleted/'+f)
+    do_delete_file(f)
 
   songbook = Songbook.byPath(str(path))
   songbook.destroySelf()
