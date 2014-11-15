@@ -3,7 +3,15 @@ try {
 }
 catch(err) {
   console = new function() { 
-    this.log = function(e){};
+    this.log = function(){
+      /*if($('#log').size() == 0) {
+        $('#help').prepend('<pre id="log"><b>LOG</b><br/></pre>');
+      }
+      for(var i = 0; i < arguments.length; i++) {
+        $('#log').append(''+arguments[i]+' ');
+      }
+      $('#log').append('<br/>');*/
+    };
   }
 }
 
@@ -561,11 +569,11 @@ function scaleText() {
   var percent   = (big + small) / 2;
 
   function container_height() {
-    return container.height() + copyright_height;
+    return $('body')[0].scrollHeight;
   }
 
   function container_width() {
-    return container.width();
+    return $('body')[0].scrollWidth;
   }
 
   var oldWidth  = container_width();
