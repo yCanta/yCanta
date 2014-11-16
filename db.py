@@ -140,8 +140,7 @@ def save_song(title, author, scripture_ref, introduction, key,
     cat_str = ', '.join(categories)
 
     if new == True:
-      path = 'songs/%s-%s.song' % (time.time(), 
-        re.sub('[^a-z0-9]+', '-', (title.lower().strip() or chunk_list[0])[:60]) )
+      path = c.gen_unique_path('songs/%s.song', title)
       assert not os.path.exists(path)
       c.pathcheck(path)
       song = Song(title=c.fix_encoding(title), path=path, author=c.fix_encoding(author), 
