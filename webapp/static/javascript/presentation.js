@@ -57,6 +57,8 @@ presentation_key_map = {
                   "Show the eighth verse"               ],
   '9'         : [ function() {numberHit(8);},
                   "Show the ninth verse"                ],
+  '0'         : [ function() {numberHit(9);},
+                  "Show the tenth verse"                ],
 
   'right'     : [ nextChunk         , "Go to the next verse/chunk"                ],
   'down'      : [ nextChunk         , "Go to the next verse/chunk"                ],
@@ -80,6 +82,8 @@ presentation_key_map = {
                   "Go to the chorus of the current song if a search is not in progress"],  
   'b'         : [ function (){if(! isSearching()) gotoBridge();},
                   "Go to the bridge of the current song if a search is not in progress"],  
+  'e'         : [ function (){if(! isSearching()) gotoEnding();},
+                  "Go to the ending of the current song if a search is not in progress"],  
   'pageup'    : [ prevSong,           "Go to the previous song"                   ],
 
   'home'      : [ function (){if(! isSearching()) firstSong();},
@@ -457,6 +461,20 @@ function gotoBridge(){
   }
 
   showChunk(bridge);
+}
+function gotoEnding(){
+  if(! inPresentation()){ // presentation mode only
+    return;
+  }
+
+  var cur = $("#current");
+  var ending = cur.parent().children('[type=ending]:first');
+
+  if(ending.length == 0){ // no bridge -- do nothing
+    ending = cur; // we show bridge next so its ok
+  }
+
+  showChunk(ending);
 }
 function gotoVerse(num){
   if(! inPresentation()){
