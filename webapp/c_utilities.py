@@ -48,8 +48,11 @@ def pathcheck(path):
     raise cherrypy.HTTPRedirect(URL('/'))
 
 
-def gen_unique_path(path_tmpl, title):
+def gen_unique_path(path_tmpl, title, author=0):
   fs_title = re.sub('[^a-z0-9]+', '-', title.lower()).strip('-')
+  if author:
+    fs_author = re.sub('[^a-z0-9]+', '-', author.lower()).strip('-')
+    fs_title = fs_title+'_'+fs_author
   path = path_tmpl % fs_title
   i = 2
   while os.path.exists(path): # increment -2, -3, -4, etc if conflicting path

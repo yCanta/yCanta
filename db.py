@@ -140,7 +140,7 @@ def save_song(title, author, scripture_ref, introduction, key,
     cat_str = ', '.join(categories)
 
     if new == True:
-      path = c.gen_unique_path('songs/%s.song', title)
+      path = c.gen_unique_path('songs/%s.song', title, author)
       assert not os.path.exists(path)
       c.pathcheck(path)
       song = Song(title=c.fix_encoding(title), path=path, author=c.fix_encoding(author), 
@@ -150,8 +150,25 @@ def save_song(title, author, scripture_ref, introduction, key,
       # we check to see if the user is trying to hack us with a bad path
       c.pathcheck(path)
       song = Song.byPath(str(path))
-      song.title = c.fix_encoding(title)  # update title if needed
-      song.author = c.fix_encoding(author)
+
+      # check if title or author is changed, if yes change and rename it, also update links in songbooks
+      if song.title != title or song.author != author:
+        song.title = c.fix_encoding(title)  # update title if needed
+        song.author = c.fix_encoding(author)
+        old_path = os.path.normpath(path)
+        new_path = os.path.normpath(c.gen_unique_path('songs/%s.song', title, author))
+        os.rename(old_path,new_path)
+        path = new_path
+        song.path = path
+
+        #rename old_path occurences in all of the songbooks
+        songbook_paths = Songbook.select()
+        for songbook in songbook_paths:
+          sb = open(songbook.path, "rU").read()
+          if songbook.path != c.ALL_SONGS_PATH and old_path in sb:
+            open(songbook.path, 'w').write(sb.replace(old_path, new_path))
+
+
       song.categories = c.fix_encoding(cat_str)
       song.content = ''
 
