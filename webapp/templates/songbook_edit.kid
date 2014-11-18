@@ -63,9 +63,6 @@
       $("#"+node.attr('value').replace(/\W/g,'_')).removeAttr('class');
        
     }
-    function remove(node){
-      node.parentNode.parentNode.parentNode.removeChild(node.parentNode.parentNode)
-    }
     function insertSection(name,node) {
       if(!name || name.trim() == ''){return}
 
@@ -77,7 +74,7 @@
             <span onclick="rename_section(this)">                                                  \
               <img class="commentbutton" src="static/images/pencil.png"/>                          \
             </span>                                                                                \
-            <a onclick="remove(this); gen_section_drop_menu()">__</a>                              \
+            <a onclick="$(this).parent().remove(); gen_section_drop_menu()">__</a>                              \
           </div></div>')
       gen_section_drop_menu()
 
@@ -96,7 +93,7 @@
             <input type="hidden" name="status" value="n"></input>                         \
             <span onclick="getSongContent(\''+node.getAttribute("path")+'\')">'+node.innerHTML+'</span>          \
             <input type="hidden" value="'+node.getAttribute("path")+'" name="songbook_items"></input>          \
-            <a onclick="removeChecked($(this).prev(\'input\')); remove(this)">__</a>      \
+            <a onclick="removeChecked($(this).prev(\'input\')); $(this).parent().remove()">__</a>      \
             </li></span>')
       $("#songsOl").sortable('refresh')
       $("#songsOl > span > li.songref:last").animate({backgroundColor:"green"},0).animate({backgroundColor:"#e5e5e5"},5000);
@@ -249,7 +246,7 @@
                     <span py:if="path != webapp.c_utilities.ALL_SONGS_PATH and item[1] in comments" onclick="$(this).nextAll('div').slideToggle('normal')"><img
                     class="commentbutton" src="static/images/comments.png"/><span class="count" py:content="item[1] in comments and comments[item[1]].count('/div') or ''"></span></span>
                     <input type="hidden" value="${item[1]}" name="songbook_items"></input>
-                    <a onclick="removeChecked($(this).prev('input')); remove(this)">__</a>
+                    <a onclick="removeChecked($(this).prev('input')); $(this).parent().remove()">__</a>
                     <div py:if="path != webapp.c_utilities.ALL_SONGS_PATH" class="commentcontainer">
                       <div class="comments" py:content="XML(item[1] in comments and comments[item[1]] or '')"></div>
                     </div>
@@ -267,7 +264,7 @@
                     <span onclick="rename_section(this)">
                       <img class="commentbutton" src="static/images/pencil.png"/>
                     </span>
-                    <a onclick="remove(this); gen_section_drop_menu()">__</a>
+                    <a onclick="$(this).parent().remove(); gen_section_drop_menu()">__</a>
                   </div>
                 </span>
               </ol>
