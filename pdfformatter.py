@@ -657,8 +657,7 @@ def word_wrap(text, width, font, size, hanging_indent=0):
 def print_chords(pdf, cfg=None, font_size=None, y_offset=None, x_offset=None, page_mapping=None, line=None):
   assert None not in (pdf, cfg, font_size, y_offset, x_offset, page_mapping, line)
 
-  y_offset += font_size 
-
+  y_offset += cfg.SONGCHORD_SIZE
   pdf.setFont(cfg.FONT_FACE, cfg.SONGCHORD_SIZE)
 
   # loop through chords
@@ -697,14 +696,15 @@ def print_line(pdf, font_face=None, font_size=None, y_offset=None, x_offset=0, l
   
   return y_offset + line_space
 
+def page_height(p):
+  return sum(i.height + i.height_after for i in p)
+
 def paginate(songbook, cfg):
   ''' returns a list of pages: each page is a list of things to show on that page 
       Songbook and Song objects only count for titles and headers - chunks have to be listed separate
 
       *** calculations MUST be kept in sync with calc_heights and format_page
   '''
-  def page_height(p):
-    return sum(i.height + i.height_after for i in p)
 
   def height_of_introduction_plus_first_chunk(chunks):
     height = 0
@@ -866,7 +866,7 @@ def paginate(songbook, cfg):
       pages.append(p)
       p = []
 
- # now do regular index pages if we are paginating a songbook
+  # now do regular index pages if we are paginating a songbook
   if isinstance(songbook, Songbook) and cfg.DISPLAY_INDEX != INDEX_OFF:
     # create a new page if no room on current page
     if page_height(p) + songbook.index.height > USABLE_HEIGHT:
@@ -998,6 +998,12 @@ def calc_heights(songbook, cfg):
       # space for chords
       if cfg.DISPLAY_CHORDS and chunk.has_chords():
         chunk.height += len(chunk.lines) * (cfg.SONGCHORD_SIZE + cfg.SONGCHORD_SPACE)
+
+      # set height on lines (currently unused?)
+      for l in chunk.lines:
+        l.height = cfg.SONGLINE_SIZE + cfg.SONGLINE_SPACE
+        if cfg.DISPLAY_CHORDS and chunk.has_chords():
+          l.height += cfg.SONGCHORD_SIZE + cfg.SONGCHORD_SPACE
 
     # after looping through chunks and setting their height, any copyright_footer height is added to the last chunk
     # no copyright_footer if no copyright
@@ -1165,10 +1171,20 @@ def format_page(pdf, cfg, page_mapping):
               #print 'reducing from', cfg.SONGLINE_SIZE, 'to', font_size, '%2.2f%%' % (font_size / cfg.SONGLINE_SIZE)
             
           # we have a font -- lets use it
+          #DBG:sav_y = y
           if cfg.DISPLAY_CHORDS and item.has_chords():
             y = print_chords(pdf, cfg, font_size=font_size, y_offset=y, x_offset=label_length, page_mapping=page_mapping, line=line)
           y = print_line(pdf, font_face=cfg.FONT_FACE, font_size=font_size, y_offset=y, x_offset=label_length,
                          line_space=cfg.SONGLINE_SPACE, page_mapping=page_mapping, line=line.text)
+          #DBG:pdf.setStrokeColor('green')
+          #DBG:pdf.rect(page_mapping.startx+label_length, page_mapping.starty-(sav_y),
+          #DBG:    pdf.stringWidth(line.text, cfg.FONT_FACE, font_size), -line.height)
+          #DBG:pdf.setStrokeColor('red')
+          #DBG:pdf.rect(page_mapping.startx+label_length, page_mapping.starty-(sav_y),
+          #DBG:    pdf.stringWidth(line.text, cfg.FONT_FACE, font_size), sav_y-y)
+          #DBG:# reset
+          #DBG:pdf.setStrokeColor('black')
+          #DBG:pdf.setFillColor('black')
 
       if item.last_chunk:
         y += cfg.SONGCHUNK_B4
@@ -1217,7 +1233,7 @@ def format_page(pdf, cfg, page_mapping):
       y = print_line(pdf, font_face=cfg.INDEX_SONG_FONT, font_size=cfg.INDEX_SONG_SIZE, y_offset=y, line_space=cfg.INDEX_SONG_SPACE,
           x_offset=max(cfg.INDEX_SONG_SIZE, cfg.INDEX_FIRST_LINE_SIZE)*2, page_mapping=page_mapping, line=item.index_text)
 
-   # INDEX ITEMS (after CatIndexEntry because CatIndexEntry is a subclass of IndexEntry)
+    # INDEX ITEMS (after CatIndexEntry because CatIndexEntry is a subclass of IndexEntry)
     elif isinstance(item, IndexEntry) and (cfg.DISPLAY_INDEX != INDEX_OFF or cfg.DISPLAY_SCRIP_INDEX != INDEX_OFF):
       if item.is_song_title:
         LINE_SIZE = cfg.INDEX_SONG_SIZE
@@ -1245,6 +1261,11 @@ def format_page(pdf, cfg, page_mapping):
   #pdf.rect(page_mapping.startx, page_mapping.starty,
   #    page_mapping.endx-page_mapping.startx,page_mapping.endy-page_mapping.starty,
   #    fill=0)
+  if page_height(page_mapping.page) != y:
+    print 'Page:', pdf.getPageNumber(), 'Expected page height:', page_height(page_mapping.page), 'not equal to actual page height:', y
+    #DBG:pdf.rect(page_mapping.startx, page_mapping.starty,
+    #DBG:    page_mapping.endx-page_mapping.startx,-page_height(page_mapping.page),
+    #DBG:    fill=0)
 
 
 def format(songbook, pdf, cfg):
