@@ -626,7 +626,7 @@ def word_wrap(text, width, font, size, hanging_indent=0):
   while len(text) > 0:
     num_words = len(text)
 
-    while myStringWidth(' '.join(text[:num_words]), font, size) > width:
+    while num_words > 1 and myStringWidth(' '.join(text[:num_words]), font, size) > width:
       num_words = num_words - 1 # try again minus one word
 
     # num_words is now the most that can fit this line
