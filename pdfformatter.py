@@ -786,7 +786,7 @@ def paginate(songbook, cfg):
   # done with all songs in songbook -- add final song page if cat_index starts on next page and len(p) > 0
   if (cfg.DISPLAY_CAT_INDEX == INDEX_ON_NEW_PAGE):
     # Fresh page if current page has anything on it.
-    if len(p) !=0:
+    if len(p) != 0:
       pages.append(p)
       p = []
     # add pages until previous page not visible so index is not visible from last song 
@@ -825,7 +825,7 @@ def paginate(songbook, cfg):
   # done with category index -- add last page if scripture index starts on next page and len(p) > 0
   if cfg.DISPLAY_SCRIP_INDEX == INDEX_ON_NEW_PAGE: 
     # Fresh page if current page has anything on it.
-    if len(p) !=0:
+    if len(p) != 0:
       pages.append(p)
       p = []
     # add pages until previous index is not visible so index is not visible
@@ -858,7 +858,7 @@ def paginate(songbook, cfg):
   # done with scripture index -- add final page if index starts on next page and len(p) > 0
   if cfg.DISPLAY_INDEX == INDEX_ON_NEW_PAGE:
     # Fresh page if current page has anything on it.
-    if len(p) !=0:
+    if len(p) != 0:
       pages.append(p)
       p = []
     # add pages until previous index is not visible so index is not visible
