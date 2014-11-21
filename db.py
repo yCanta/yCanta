@@ -192,20 +192,20 @@ def save_song(title, author, scripture_ref, introduction, key,
     s_cclis = ET.SubElement(root,"cclis")
     s_cclis.text = cclis
     
-    status = 0
+    split_chunk = 0
     i = 0 #counter for chunk_list
     while(i<len(chunk_list)):
       #split at blank lines with no following text 
-      split_chunks = re.split('\n[ \t\r\f\v]*?\n(?=\s*?\S)', chunk_list[i])
-      if split_chunks[0] != chunk_list[i]:
-        status = 1
+      new_chunks = re.split('\n[ \t\r\f\v]*?\n(?=\s*?\S)', chunk_list[i])
+      if new_chunks[0] != chunk_list[i]:
+        split_chunk = 1
         chunk_list.pop(i)
-        chunk_list = chunk_list[:i] + split_chunks + chunk_list[i:]
+        chunk_list = chunk_list[:i] + new_chunks + chunk_list[i:]
         n=1
-        while (n < len(split_chunks)):
+        while (n < len(new_chunks)):
           types.insert(i,types[i])
           n += 1
-        i += len(split_chunks)
+        i += len(new_chunks)
       else:
         i += 1 
     
@@ -216,6 +216,7 @@ def save_song(title, author, scripture_ref, introduction, key,
       lines = chunk.splitlines()
       n = 0
       while n < len(lines):
+        # if it looks like a chord line and the next line doesn't ... then treat it as a chord line
         if (n+1 < len(lines)) and mono2song.is_chord(lines[n]) and not mono2song.is_chord(lines[n+1]):
           line = '<line>' + mono2song.combine(lines[n],lines[n+1]) + '</line>'
           try:
@@ -257,7 +258,7 @@ def save_song(title, author, scripture_ref, introduction, key,
   #  Now that we have parsed the content we can update it in the database
   song.content = c.fix_encoding(content)
 
-  return [status, path]
+  return [split_chunk, path]
 
 def songbooks_containing_song(path):
   #check to make sure not in any songbooks
