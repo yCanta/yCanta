@@ -34,8 +34,8 @@ On Linux:
     cd yCanta
     virtualenv .
     source bin/activate
-    pip install -r requirements.txt
-    python start-webapp.py
+    pip install -e .
+    gearbox serve --reload 
 
 On Windows:
 
