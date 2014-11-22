@@ -1,0 +1,4 @@
+recursive-include ycanta/public *
+include ycanta/public/favicon.ico
+recursive-include ycanta/i18n *
+recursive-include ycanta/templates *
