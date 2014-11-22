@@ -113,6 +113,19 @@ def sync_songbooks():
 
     Songbook(title=c.fix_encoding(title), path=path)
 
+
+def songbook_rename(path, title):
+  """Rename songbook at path to new-style path based off title.  Returns new path"""
+  old_path = os.path.normpath(path)
+  old_path_base = os.path.splitext(old_path)[0]
+  new_path = os.path.normpath(c.gen_unique_path('songbooks/%s.xml', title, orig_path=old_path))
+  new_path_base = os.path.splitext(new_path)[0]
+  for fn in glob.glob(old_path_base+'.*'): # glob because of comments
+    fn = os.path.normpath(fn)
+    os.rename(fn, fn.replace(old_path_base, new_path_base))
+  return new_path
+
+
 def save_song(title, author, scripture_ref, introduction, key,
     copyrights, path, cclis, submit, new, types, chunk_list, categories):
     
@@ -157,7 +170,7 @@ def save_song(title, author, scripture_ref, introduction, key,
         song.title = c.fix_encoding(title)  # update title if needed
         song.author = c.fix_encoding(author)
         old_path = os.path.normpath(path)
-        new_path = os.path.normpath(c.gen_unique_path('songs/%s.song', title, author))
+        new_path = os.path.normpath(c.gen_unique_path('songs/%s.song', title, author, orig_path=old_path))
         os.rename(old_path,new_path)
         path = new_path
         song.path = path

@@ -375,15 +375,7 @@ class Root(turbogears.controllers.RootController):
         # check if title changed, if yes change and rename it
         if songbook.title != title:
           songbook.title = title
-          old_path = os.path.normpath(path)
-          old_path_base = os.path.splitext(old_path)[0]
-          new_path = os.path.normpath(c.gen_unique_path('songbooks/%s.xml', title))
-          new_path_base = os.path.splitext(new_path)[0]
-          for fn in glob.glob(old_path_base+'.*'): # glob because of comments
-            fn = os.path.normpath(fn)
-            os.rename(fn, fn.replace(old_path_base, new_path_base))
-          path = new_path
-          songbook.path = path
+          songbook.path = path = db.songbook_rename(path, title)
        
       songbook_content = '''<songbook format-version="0.1">\n<title>''' + title.strip() + "</title>"
 
