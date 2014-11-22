@@ -77,6 +77,21 @@ class Root(turbogears.controllers.RootController):
     db.create_user(username, password)
     redirect(URL('/'))
 
+
+  @turbogears.expose()
+  @identity.require(identity.not_anonymous())
+  def admin_do_rename(self):
+    for songbook in Songbook.select():
+      if songbook.path == c.ALL_SONGS_PATH:
+        continue
+      songbook.path = db.songbook_rename(songbook.path, songbook.title)
+
+    for song in Song.select():
+      song.path = db.song_rename(song.path, song.title, song.author)
+
+    redirect(URL('/'))
+ 
+
   @turbogears.expose(template="webapp.templates.reload")
   def reload(self):
     return dict(time=refresh_time)
