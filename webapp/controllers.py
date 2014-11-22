@@ -86,7 +86,6 @@ class Root(turbogears.controllers.RootController):
   def songbook_export_configs(self, path):
     pathcheck(path)
     songbook_configs = c.songbook_configs_to_dicts(path)
-    print 'songbook_export_configs:', songbook_configs.keys()
     return songbook_configs
 
   @turbogears.expose(format="json")
