@@ -31,7 +31,7 @@
 </head>
 
 <body class="nochords" py:match="item.tag=='{http://www.w3.org/1999/xhtml}body'">
-  <h2 class="header"><a href="${c.URL('/')}">yCanta!</a> &ndash; <a href="http://github.com/carlhemp/yCanta"><small py:content="c.version"></small></a></h2>
+  <h2 class="header"><a href="${c.URL('/')}">yCanta! song manager</a> &ndash; <a href="http://github.com/carlhemp/yCanta"><small py:content="c.version"></small></a></h2>
   <a class="header" href="http://github.com/carlhemp/yCanta/issues"><i>Report a Problem/Feature request</i></a>
   <div class="header">
     <span class="d_menu">
