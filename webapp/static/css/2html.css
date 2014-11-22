@@ -15,7 +15,7 @@ line {
   margin-left: 2em;
   bottom: 1em;
 }
-.nochords chunk:not([type=comment]) line { // always show chords in comments
+.nochords chunk:not([type=comment]) line { /* always show chords in comments*/
  padding-top: 0em;
  bottom: 0em;
 }
@@ -23,7 +23,7 @@ c {
  position: absolute;
  bottom: 1em;
 }
-.nochords chunk:not([type=comment]) c { // always show chords in comments
+.nochords chunk:not([type=comment]) c { /* always show chords in comments*/
  display: none;
 }
 

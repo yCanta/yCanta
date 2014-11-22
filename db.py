@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import re
 import cgi
@@ -249,6 +250,8 @@ def save_song(title, author, scripture_ref, introduction, key,
 
     # add copyright information to the element tree
     s_copyright = ET.SubElement(root, "copyright")
+    copyrights = copyrights.replace('(c)',u'©').replace('(C)',u'©')
+
     s_copyright.text = copyrights
 
     tree = ET.ElementTree(root)
