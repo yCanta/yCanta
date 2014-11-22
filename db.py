@@ -164,9 +164,19 @@ def save_song(title, author, scripture_ref, introduction, key,
         #rename old_path occurences in all of the songbooks
         songbook_paths = Songbook.select()
         for songbook in songbook_paths:
+          if songbook.path == c.ALL_SONGS_PATH:  # Don't bother with all songs songbook
+            continue
+
           sb = open(songbook.path, "rU").read()
-          if songbook.path != c.ALL_SONGS_PATH and old_path in sb:
+          if old_path in sb:
             open(songbook.path, 'w').write(sb.replace(old_path, new_path))
+            
+            sb_comment = get_comment_db(songbook.path)
+            if sb_comment.has_key(str(old_path)):
+              comment = sb_comment[str(old_path)]
+              del sb_comment[str(old_path)]
+              sb_comment[str(new_path)] = comment
+              sb_comment.close()  # save our changes
 
 
       song.categories = c.fix_encoding(cat_str)
