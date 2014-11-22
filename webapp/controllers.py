@@ -83,6 +83,14 @@ class Root(turbogears.controllers.RootController):
 
   @turbogears.expose(format="json")
   @identity.require(identity.not_anonymous())
+  def songbook_export_configs(self, path):
+    pathcheck(path)
+    songbook_configs = c.songbook_configs_to_dicts(path)
+    print 'songbook_export_configs:', songbook_configs.keys()
+    return songbook_configs
+
+  @turbogears.expose(format="json")
+  @identity.require(identity.not_anonymous())
   def songs_list(self):
     songs=db.songs()
     out = ""
@@ -471,32 +479,9 @@ class Root(turbogears.controllers.RootController):
 
     # for loop reads stylesheets and packages them in a list of dictionaries
     for c_path in config_paths:
-      tmp_dict = dict()
-      # read path and dump contents in tmp
+      config_files[os.path.basename(c_path)] = c.builtin_config_to_dict(c_path)
 
-      for line in open(c_path, "rU"):
-        line = line.replace('--','').replace('-','_').split()
-        if len(line) == 2:
-          tmp_dict[line[0]]=line[1].replace('_','-')
-
-      #config_files[c_path.replace(cf_dir,'')]=tmp_dict
-      config_files[os.path.basename(c_path)]=tmp_dict
-
-    songbook_configs = dict()
-    songbook_xml = parse(path)
-    for format_config in songbook_xml.findall('//formatter'):
-      key = format_config.get('name')
-      config_val = dict()
-
-      # parse the config_val dict from the xml element content
-      raw_args = format_config.text.replace('--', '').replace('-', '_').split()
-      for i in range(0, len(raw_args), 2):
-        if i+1 < len(raw_args): # can't go out of bounds
-          config_val[raw_args[i]] = raw_args[i+1].replace('_', '-')
-
-      # lets store this key and config
-      songbook_configs[key] = config_val
-    # done parsing songbook_configs
+    songbook_configs = c.songbook_configs_to_dicts(path)
 
     #DEBUG:  print config_files
     return dict(title=title, path=path, config_files=config_files, songbook_configs=songbook_configs, songbooks=db.songbooks(), selected=selected)

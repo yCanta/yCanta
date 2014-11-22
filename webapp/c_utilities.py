@@ -114,6 +114,39 @@ def save_config(path, save_name, config_string):
   songbook_xml.write(path)
 
 
+def builtin_config_to_dict(path):
+  tmp_dict = dict()
+  
+  # read path and dump contents in tmp
+  for line in open(path, "rU"):
+    line = line.replace('--','').replace('-','_').split()
+    if len(line) == 2:
+      tmp_dict[line[0]]=line[1].replace('_','-')
+
+  return tmp_dict
+
+
+def songbook_configs_to_dicts(path):
+  """Returns a dict of config dictionaries for the songbook in path"""
+  songbook_configs = dict()
+  songbook_xml = parse(path)
+
+  for format_config in songbook_xml.findall('//formatter'):
+    key = format_config.get('name')
+    config_val = dict()
+
+    # parse the config_val dict from the xml element content
+    raw_args = format_config.text.replace('--', '').replace('-', '_').split()
+    for i in range(0, len(raw_args), 2):
+      if i+1 < len(raw_args): # can't go out of bounds
+        config_val[raw_args[i]] = raw_args[i+1].replace('_', '-')
+
+    # lets store this key and config
+    songbook_configs[key] = config_val
+
+  return songbook_configs
+
+
 def grab_title(song_content):
   for line in song_content.splitlines():
     if (line.find('<title>') != -1) & (line.find('</title>') != -1):

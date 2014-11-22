@@ -18,12 +18,44 @@
     <script type="text/javascript">
       <![CDATA[
 
+      function toid(str) {
+        return str.replace(/[^a-zA-Z0-9_.:-]/, '-');
+      }
+
       $(document).ready(function() {
           $('#tabs').tabs();
           
           
           function update_config() {
-            var name = $('#config_update option:selected').val();
+            var cur_selected = $('#config_update option:selected');
+            if(cur_selected.hasClass('songbook')){
+                var songbook_path = cur_selected.attr('data');
+                //console.log('path:', songbook_path);
+                $.ajax({
+                  url: "songbook_export_configs",
+                  type: "GET",
+                  data: ({path: songbook_path}),
+                  success: function(data){
+                    //console.log('success:', data);
+                    // delete old configs for this songbook if they already exist
+                    $('option.dynamic').remove();
+                    for(var config in data){
+                      if(!data[config]) {
+                        continue;
+                      }
+                      var config_id = toid(songbook_path + ':' + config);
+                      //console.log('config:', config, 'id:', config_id);
+                      config_files[config_id] = data[config];
+                      cur_selected.after('<option id="'+config_id+'" class="dynamic">'+config+'</option>');
+                    }
+                  }
+                });
+                return;
+            }
+            var name = cur_selected.val();
+            if(cur_selected.hasClass('dynamic')){
+              name = cur_selected.attr('id');
+            }
             $('input').attr("checked", false)
             for (var key in config_files[name]) {
               if(($('#'+key).val() != config_files[name][key]) && ($('#'+key).attr("type") != "checkbox")) {
@@ -123,6 +155,10 @@
         background: Highlight;
         color: HighlightText;
       }
+
+      option.dynamic {
+        text-indent: 20px;
+      }
     </style>
 
 
@@ -149,6 +185,9 @@
             <optgroup label="Saved for this songbook">
               <option py:for="file in songbook_configs" py:if="file != selected" py:content="file"></option>
               <option py:for="file in songbook_configs" py:attrs="selected='selected'"  py:if="file == selected" py:content="file"></option>
+            </optgroup>
+            <optgroup label="Load from other songbooks" id="config_other_songbooks">
+              <option py:for="sb in songbooks" py:attrs="data=sb.path" py:content="sb.title" class="songbook"></option>
             </optgroup>
           </select> 
         </span>
