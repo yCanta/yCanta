@@ -126,6 +126,31 @@ def songbook_rename(path, title):
   return new_path
 
 
+def song_rename(path, title, author):
+  """Rename song at path to new-style path based off title and author.  Returns new path"""
+  old_path = os.path.normpath(path)
+  new_path = os.path.normpath(c.gen_unique_path('songs/%s.song', title, author, orig_path=old_path))
+  os.rename(old_path,new_path)
+
+  #rename old_path occurences in all of the songbooks
+  songbook_paths = Songbook.select()
+  for songbook in songbook_paths:
+    if songbook.path == c.ALL_SONGS_PATH:  # Don't bother with all songs songbook
+      continue
+
+    sb = open(songbook.path, "rU").read()
+    if old_path in sb:
+      open(songbook.path, 'w').write(sb.replace(old_path, new_path))
+      
+      sb_comment = get_comment_db(songbook.path)
+      if sb_comment.has_key(str(old_path)):
+        comment = sb_comment[str(old_path)]
+        del sb_comment[str(old_path)]
+        sb_comment[str(new_path)] = comment
+        sb_comment.close()  # save our changes
+
+  return new_path
+
 def save_song(title, author, scripture_ref, introduction, key,
     copyrights, path, cclis, submit, new, types, chunk_list, categories):
     
@@ -169,28 +194,7 @@ def save_song(title, author, scripture_ref, introduction, key,
       if song.title != title or song.author != author:
         song.title = c.fix_encoding(title)  # update title if needed
         song.author = c.fix_encoding(author)
-        old_path = os.path.normpath(path)
-        new_path = os.path.normpath(c.gen_unique_path('songs/%s.song', title, author, orig_path=old_path))
-        os.rename(old_path,new_path)
-        path = new_path
-        song.path = path
-
-        #rename old_path occurences in all of the songbooks
-        songbook_paths = Songbook.select()
-        for songbook in songbook_paths:
-          if songbook.path == c.ALL_SONGS_PATH:  # Don't bother with all songs songbook
-            continue
-
-          sb = open(songbook.path, "rU").read()
-          if old_path in sb:
-            open(songbook.path, 'w').write(sb.replace(old_path, new_path))
-            
-            sb_comment = get_comment_db(songbook.path)
-            if sb_comment.has_key(str(old_path)):
-              comment = sb_comment[str(old_path)]
-              del sb_comment[str(old_path)]
-              sb_comment[str(new_path)] = comment
-              sb_comment.close()  # save our changes
+        song.path = path = song_rename(path, title, author)
 
 
       song.categories = c.fix_encoding(cat_str)
