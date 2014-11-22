@@ -1008,7 +1008,7 @@ def calc_heights(songbook, cfg):
     # after looping through chunks and setting their height, any copyright_footer height is added to the last chunk
     # no copyright_footer if no copyright
     if song.copyright:
-      copyright_text = 'Copyright ' + song.copyright + '.'
+      copyright_text = song.copyright + '.'
       if song.ccli:
         copyright_text = copyright_text + '  Used By Permission. CCLI License #'+cfg.CCLI
 
