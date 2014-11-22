@@ -3,7 +3,6 @@ import mono2song
 import cherrypy
 import turbogears
 import pdfformatter as formatter
-import cssparser
 try: # try c version for speed then fall back to python
   import xml.etree.cElementTree as ET 
   from xml.etree.cElementTree import parse
@@ -158,12 +157,6 @@ def grab_title(song_content):
       title = "No entered title"
 
   return title
-
-def export2pdf(path, wpath, stylesheet):
-  css = cssparser.CSS(stylesheet)
-  pdf = formatter.parse(path, css)
-  formatter.format(pdf, 'webapp/static/%s' % wpath, css)
-  return 
 
 def fix_encoding(text):
   if type(text) == unicode:
