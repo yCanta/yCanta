@@ -5,6 +5,7 @@ is a web-based program designed to quickly create, manage, and present/export so
 
 Recent Changes
 --------------
+ - *2014-11-22* - Allowed export to use configurations from other songbooks 
  - *2014-11-21* - PDF formatter enhancements: fix overflow issue, and infinite loop with large margins
  - *2014-11-20* - Improvements to song search in app: ignore punctuation when searching, enable a:author search
  - *2014-11-17* - Songs and songbooks now have nice filenames
