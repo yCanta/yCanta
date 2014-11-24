@@ -1,0 +1,101 @@
+stitle, categories, cclis {
+  margin-bottom: 1em;
+}
+categories, cclis {
+  display: block;
+}
+stitle {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+line {
+  display: block;
+  position: relative;
+  padding-top: 1em;
+  margin-left: 2em;
+  bottom: 1em;
+}
+.nochords line {
+ padding-top: 0em;
+ bottom: 0em;
+}
+c {
+ position: absolute;
+ bottom: 1em;
+}
+.nochords c {
+ display: none;
+}
+
+/*counter stuff  */
+song {
+ white-space: pre-wrap;
+ counter-reset: verse_n; 
+}
+[type=verse]:before {
+ position: relative;
+ top: 1.3em;
+ right: 0em;
+ content: counter(verse_n) ")";
+ counter-increment: verse_n;
+}
+/*end of counter stuff */
+
+[type=chorus]:before {
+ content: '\A Chorus: \A\A';
+}
+[type=pre-chorus]:before {
+ content: '\A Pre-Chorus:\A\A';
+}
+[type='final chorus']:before {
+ content: '\A Final Chorus:\A\A';
+}
+[type=bridge]:before {
+ content: '\A Bridge:\A\A';
+}
+[type=ending]:before {
+ content: '\A Ending:\A\A';
+}
+[type=comment]:before {
+ content: '\A Comment:\A\A';
+ color: #555;
+ font-style: italic;
+}
+.nochords [type=chorus]:before {
+ content: '\A Chorus:';
+}
+.nochords [type=pre-chorus]:before {
+ content: '\A Pre-Chorus:';
+}
+.nochords [type='final chorus']:before {
+ content: '\A Final Chorus:';
+}
+.nochords [type=bridge]:before {
+ content: '\A Bridge:';
+}
+.nochords [type=ending]:before {
+ content: '\A Ending:';
+}
+.nochords [type=comment]:before {
+ content: '\A Comment:';
+}
+[type=comment] line {
+ color: #555;
+ font-style: italic;
+}
+chunk:before {
+ content: ' ';
+}
+key:not(:empty):before {content: 'Key: '}
+author, introduction {margin-right: 1em;}
+copyright:before {
+ content: '\A ';
+}
+copyright {
+ margin-top: 1em;
+}
+introduction:before {
+ content: '\A'; 
+}
+cclis:not(:empty):before {content: 'CCLI'; visibility: visible;}
+cclis {visibility: hidden;}
