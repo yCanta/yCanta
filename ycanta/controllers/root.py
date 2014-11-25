@@ -39,6 +39,10 @@ class RootController(BaseController):
     def _before(self, *args, **kw):
         tmpl_context.project_name = "ycanta"
 
+    @expose('ycanta.templates.sb')
+    def sb(self):
+        return dict(page='sb')
+
     @expose('ycanta.templates.index')
     def index(self):
         """Handle the front-page."""
