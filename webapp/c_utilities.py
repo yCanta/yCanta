@@ -15,7 +15,7 @@ except ImportError:
 import xml.sax.saxutils
 import time
 import os
-import os.path
+import posixpath
 import re
 import convert
 
@@ -50,14 +50,14 @@ def pathcheck(path):
 
 def gen_unique_path(path_tmpl, title, author=0, orig_path=None):
   if orig_path is not None:
-    orig_path = os.path.normpath(orig_path)
+    orig_path = posixpath.normpath(orig_path)
   fs_title = re.sub('[^a-z0-9]+', '-', title.lower()).strip('-')
   if author:
     fs_author = re.sub('[^a-z0-9]+', '-', author.lower()).strip('-')
     fs_title = fs_title+'_'+fs_author
   path = path_tmpl % fs_title
   i = 2
-  while os.path.normpath(path) != orig_path and os.path.exists(path): # increment -2, -3, -4, etc if conflicting path
+  while posixpath.normpath(path) != orig_path and posixpath.exists(path): # increment -2, -3, -4, etc if conflicting path
     path = path_tmpl % ('%s-%d' % (fs_title, i))
     i += 1
   return path

@@ -7,6 +7,7 @@ import time
 import shelve
 import dumbdbm
 import whichdb
+import posixpath
 import mono2song
 import xml.sax.saxutils
 import xml.parsers.expat
@@ -49,7 +50,7 @@ def sync_songs():
 
   for song in songlist:
     #print 'Song:', song
-    path = song
+    path = song.replace('\\', '/')
     try:
       if Song.byPath(path): #skip existing songs in the db
         continue
@@ -93,7 +94,7 @@ def sync_songbooks():
     if songbook.endswith('.comment') or songbook.endswith('.comment.dat') or songbook.endswith('.comment.dir') or songbook.endswith('.bak'):
       continue  # .comment files are not songbooks
     #print 'Songbook:', songbook
-    path = songbook
+    path = songbook.replace('\\', '/')
     try:
       if Songbook.byPath(path): #skip existing songbooks in the db
         continue
@@ -116,20 +117,20 @@ def sync_songbooks():
 
 def songbook_rename(path, title):
   """Rename songbook at path to new-style path based off title.  Returns new path"""
-  old_path = os.path.normpath(path)
-  old_path_base = os.path.splitext(old_path)[0]
-  new_path = os.path.normpath(c.gen_unique_path('songbooks/%s.xml', title, orig_path=old_path))
-  new_path_base = os.path.splitext(new_path)[0]
+  old_path = posixpath.normpath(path)
+  old_path_base = posixpath.splitext(old_path)[0]
+  new_path = posixpath.normpath(c.gen_unique_path('songbooks/%s.xml', title, orig_path=old_path))
+  new_path_base = posixpath.splitext(new_path)[0]
   for fn in glob.glob(old_path_base+'.*'): # glob because of comments
-    fn = os.path.normpath(fn)
+    fn = posixpath.normpath(fn)
     os.rename(fn, fn.replace(old_path_base, new_path_base))
   return new_path
 
 
 def song_rename(path, title, author):
   """Rename song at path to new-style path based off title and author.  Returns new path"""
-  old_path = os.path.normpath(path)
-  new_path = os.path.normpath(c.gen_unique_path('songs/%s.song', title, author, orig_path=old_path))
+  old_path = posixpath.normpath(path)
+  new_path = posixpath.normpath(c.gen_unique_path('songs/%s.song', title, author, orig_path=old_path))
   os.rename(old_path,new_path)
 
   #rename old_path occurences in all of the songbooks
@@ -180,7 +181,7 @@ def save_song(title, author, scripture_ref, introduction, key,
 
     if new == True:
       path = c.gen_unique_path('songs/%s.song', title, author)
-      assert not os.path.exists(path)
+      assert not posixpath.exists(path)
       c.pathcheck(path)
       song = Song(title=c.fix_encoding(title), path=path, author=c.fix_encoding(author), 
           categories=c.fix_encoding(cat_str), content='')
@@ -302,10 +303,10 @@ def songbooks_containing_song(path):
   return songbooks
 
 def do_delete_file(path):
-  del_path = os.path.join('deleted', path)
-  del_dir = os.path.dirname(del_path)
+  del_path = posixpath.join('deleted', path)
+  del_dir = posixpath.dirname(del_path)
 
-  if not os.path.exists(del_dir):
+  if not posixpath.exists(del_dir):
     os.makedirs(del_dir)
 
   os.rename(path, del_path)
@@ -327,7 +328,7 @@ def delete_songbook(path):
   if os.access(path, os.W_OK):
     do_delete_file(path)
 
-  com_path = os.path.splitext(path)[0] + '.comment'
+  com_path = posixpath.splitext(path)[0] + '.comment'
   com_files = glob.glob(com_path+'*')
   for f in com_files:
     do_delete_file(f)
@@ -393,7 +394,7 @@ def get_comment_db(songbook_path):
   if songbook_path == c.ALL_SONGS_PATH:
     return dict()
 
-  comment_path = os.path.splitext(songbook_path)[0] + '.comment'
+  comment_path = posixpath.splitext(songbook_path)[0] + '.comment'
 
   # check if this is an old comment file -- we now use dumbdbm for portability
   # upgrade done automatically TODO: this could be removed in the future

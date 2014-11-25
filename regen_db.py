@@ -6,7 +6,7 @@ except ImportError:
   import xml.etree.ElementTree as ET
 import xml.parsers.expat
 import webapp.c_utilities as c
-from os.path import *
+from posixpath import *
 import turbogears
 import glob
 import sys
@@ -34,7 +34,7 @@ print '\n'
 
 for song in songlist:
   print 'Song:', song
-  path = song
+  path = song.replace('\\', '/')
   try:
     dom = ET.parse(path)
 
@@ -79,7 +79,7 @@ for songbook in songbooklist:
  
   print 'Songbook:', songbook
 
-  path = songbook
+  path = songbook.replace('\\', '/')
 
   try:
     dom = ET.parse(path)

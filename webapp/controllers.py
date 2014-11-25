@@ -12,7 +12,7 @@ import db
 import c_utilities as c 
 import time
 import os
-import os.path
+import posixpath
 import hashlib
 import glob
 import tempfile
@@ -200,7 +200,7 @@ class Root(turbogears.controllers.RootController):
       except SQLObjectNotFound:
         return '[SONG NOT IN DATABASE -- REPORT THIS]'
 
-    recent_list = ((os.path.getmtime('songs/'+f), 'songs/'+f) for f in os.listdir('songs/'))
+    recent_list = ((posixpath.getmtime('songs/'+f), 'songs/'+f) for f in os.listdir('songs/'))
     
     sorted_list = sorted(recent_list, reverse=True)[:15]
 
@@ -378,7 +378,7 @@ class Root(turbogears.controllers.RootController):
 
       if new == True:
         path = c.gen_unique_path('songbooks/%s.xml', title)
-        assert not os.path.exists(path)
+        assert not posixpath.exists(path)
         pathcheck(path)
         
         songbook = Songbook(title=title, path=path)
@@ -485,7 +485,7 @@ class Root(turbogears.controllers.RootController):
 
     # for loop reads stylesheets and packages them in a list of dictionaries
     for c_path in config_paths:
-      config_files[os.path.basename(c_path)] = c.builtin_config_to_dict(c_path)
+      config_files[posixpath.basename(c_path)] = c.builtin_config_to_dict(c_path)
 
     songbook_configs = c.songbook_configs_to_dicts(path)
 
@@ -505,7 +505,7 @@ class Root(turbogears.controllers.RootController):
         data = upload.file.read()
 
         dir = tempfile.mkdtemp() 
-        target_file_name = os.path.join(dir, upload.filename)
+        target_file_name = posixpath.join(dir, upload.filename)
 
         f = open(target_file_name, 'wb')
         f.write(data)
@@ -607,7 +607,7 @@ class Root(turbogears.controllers.RootController):
     pathcheck(path)
 
 
-    if os.path.exists(path):
+    if posixpath.exists(path):
       raw_content = open(path, "rU").read() 
     else:
       raw_content = "Replace this text with your song categories.\nEach category separated by a comma."
@@ -688,11 +688,11 @@ class Root(turbogears.controllers.RootController):
    book_arg_hash.update(arguments)
    book_arg_hash = book_arg_hash.hexdigest()     # get a string of the hash
 
-   dir, fn = os.path.split(wpath)                # split into dir and file
+   dir, fn = posixpath.split(wpath)                # split into dir and file
    wpath = '%s/%s/%s' % (dir, book_arg_hash, fn) # add the hash as the last directory
 
    # create book_arg_hash dir if needed
-   if not os.path.isdir('webapp/static/%s/%s' % (dir, book_arg_hash)):
+   if not posixpath.isdir('webapp/static/%s/%s' % (dir, book_arg_hash)):
      os.makedirs('webapp/static/%s/%s' % (dir, book_arg_hash))        
 
    #print path, wpath
