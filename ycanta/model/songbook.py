@@ -5,13 +5,16 @@ from sqlalchemy import *
 from sqlalchemy.orm import mapper, relation
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import Integer, Unicode, UnicodeText, DateTime
+from sqlalchemy.ext.declarative import declared_attr
 #from sqlalchemy.orm import relation, backref
 
 from ycanta.model import DeclarativeBase, metadata, DBSession
 from ycanta.model.auth import User
 
 class LastModifiedMixin(object):
-  last_modified_who = Column(ForeignKey(User.user_id))
+  @declared_attr
+  def last_modified_who(cls):
+    return Column(ForeignKey(User.user_id))
   last_modified_ts  = Column(DateTime, default=func.now())
 
 class Songbook(LastModifiedMixin, DeclarativeBase):
@@ -29,8 +32,9 @@ class Songbook(LastModifiedMixin, DeclarativeBase):
 class SongbookHistory(LastModifiedMixin, DeclarativeBase):
   __tablename__ = 'songbook_history'
 
-  id      = Column(ForeignKey(Songbook.id))
-  content = Column(UnicodeText(), nullable=False)
+  id          = Column(Integer, primary_key=True)
+  songbook_id = Column(ForeignKey(Songbook.id))
+  content     = Column(UnicodeText(), nullable=False)
 
 
 class Song(LastModifiedMixin, DeclarativeBase):
@@ -54,7 +58,8 @@ class Song(LastModifiedMixin, DeclarativeBase):
 class SongHistory(LastModifiedMixin, DeclarativeBase):
   __tablename__ = 'song_history'
 
-  id      = Column(ForeignKey(Song.id))
+  id      = Column(Integer, primary_key=True)
+  song_id = Column(ForeignKey(Song.id))
   content = Column(UnicodeText(), nullable=False)
 
 
