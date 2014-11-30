@@ -17,8 +17,8 @@ class LastModifiedMixin(object):
     return Column(ForeignKey(User.user_id))
   last_modified_ts  = Column(DateTime, default=func.now())
 
-class Songbook(LastModifiedMixin, DeclarativeBase):
-  __tablename__ = 'songbook'
+class Book(LastModifiedMixin, DeclarativeBase):
+  __tablename__ = 'book'
   
   id            = Column(Integer, primary_key=True)
   title         = Column(Unicode(), nullable=False, unique=True)
@@ -26,15 +26,15 @@ class Songbook(LastModifiedMixin, DeclarativeBase):
   configuration = Column(UnicodeText(), nullable=True)
   
   def repr(self):
-    return '<Songbook: id=%s title=%s>' % (repr(self.id), repr(self.title))
+    return '<Book: id=%s title=%s>' % (repr(self.id), repr(self.title))
 
 
-class SongbookHistory(LastModifiedMixin, DeclarativeBase):
-  __tablename__ = 'songbook_history'
+class BookHistory(LastModifiedMixin, DeclarativeBase):
+  __tablename__ = 'book_history'
 
-  id          = Column(Integer, primary_key=True)
-  songbook_id = Column(ForeignKey(Songbook.id))
-  content     = Column(UnicodeText(), nullable=False)
+  id      = Column(Integer, primary_key=True)
+  book_id = Column(ForeignKey(Book.id))
+  content = Column(UnicodeText(), nullable=False)
 
 
 class Song(LastModifiedMixin, DeclarativeBase):
