@@ -18,24 +18,25 @@ develop-eggs/
 dist/
 downloads/
 eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
 *.egg-info/
 .installed.cfg
 *.egg
-bin/
-include/
-song.db
-songs/
-songbooks/
-webapp/static/songs/
-webapp/static/songbooks/
-Include/
-Lib/
-Scripts/
+/bin/
+/include/
+/song.db
+/songs/
+/songbooks/
+/webapp/static/songs/
+/webapp/static/songbooks/
+/Include/
+/Lib/
+/Scripts/
+/share
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

@@ -11,6 +11,9 @@ from sqlalchemy.ext.declarative import declared_attr
 from ycanta.model import DeclarativeBase, metadata, DBSession
 from ycanta.model.auth import User
 
+import ycanta.lib.song
+
+
 class LastModifiedMixin(object):
   @declared_attr
   def last_modified_who(cls):
@@ -53,6 +56,14 @@ class Song(LastModifiedMixin, DeclarativeBase):
   
   def repr(self):
     return '<Song: id=%s title=%s author=%s>' % (repr(self.id), repr(self.title), repr(self.author))
+
+  def toxmlstr(self):
+    return ycanta.lib.song.song_to_str(self)
+
+  def toxmlET(self):
+    return ycanta.lib.song.song_to_ET(self)
+
+
 
 
 class SongHistory(LastModifiedMixin, DeclarativeBase):
