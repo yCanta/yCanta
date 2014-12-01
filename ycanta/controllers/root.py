@@ -31,7 +31,7 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
-    secc = SecureController()
+    book = SecureController()
     admin = AdminController(model, DBSession, config_type=TGAdminConfig)
 
     error = ErrorController()
@@ -39,9 +39,13 @@ class RootController(BaseController):
     def _before(self, *args, **kw):
         tmpl_context.project_name = "ycanta"
 
-    @expose('ycanta.templates.sb')
+    @expose('ycanta.templates.book')
     def sb(self):
-        return dict(page='sb')
+        return dict()
+
+    @expose('ycanta.templates.songb')
+    def songb(self):
+        return dict(page='songb')
 
     @expose('ycanta.templates.index')
     def index(self):

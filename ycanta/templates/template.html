@@ -21,10 +21,8 @@
     <a class="ui-btn ui-icon-carat-l ui-btn-icon-left ui-btn-icon-notext" href="#left_panel">&nbsp;</a>
     <b><h1 align="center">yCanta!</h1></b>
     <a class="ui-btn ui-icon-carat-r ui-btn-icon-right ui-btn-icon-notext" href="#right_panel">&nbsp;</a>
-    <a class="ui-btn ui-icon-home ui-btn-icon-right">&nbsp;</a>
-    <a class="ui-btn ui-icon-carat-r ui-btn-icon-right">Canaan</a>
-    <a class="ui-btn ui-icon-carat-r ui-btn-icon-right">Amazing Grace</a>
-    <a class="ui-btn ui-icon-edit ui-btn-icon-right">Edit</a>
+    <a href="/" class="ui-btn ui-icon-home ui-btn-icon-right">&nbsp;</a>
+    <a py:for="crumb in breadcrumbs" href="${crumb}" data-transition="slide" class="ui-btn ui-icon-carat-r ui-btn-icon-right">${crumb}</a>
     <a style="float: right;" class="ui-btn ui-icon-bars ui-btn-icon-left">&nbsp;</a>
   </div>
   
