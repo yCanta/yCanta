@@ -18,21 +18,8 @@ def convert(input):
     if item.lower().startswith('title'):
       d['title'] = item.replace('Title=','')
 
-    #switch author around from default instead of Doe, John >> John Doe
     elif item.lower().startswith('author'): 
-      item = item.replace('Author=','').split('|')
-      auth_list=[]
-      
-      #make sure author is a list
-      if isinstance(item, basestring):
-        item = [item]
-      for name in item:
-        name = name.split(',')
-        name = name[1].strip() + ' ' + name[0].strip()
-        auth_list.append(name)
-      d['author'] = ' | '.join(auth_list)
-
-
+      d['author'] = item.replace('Author=','').replace('|',',')
     elif item.lower().startswith('fields'):
       t = item.replace('Fields=','').lower()
       t = re.sub('[ ]*(\d)*','', t)
