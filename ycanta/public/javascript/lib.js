@@ -15,8 +15,9 @@ function togglechords() {
 $(window).resize(function(){height_resize('.scrollable');});
 
 function height_resize(r_element) {
+  var win_height = $(window).height()
   $(r_element).each(function(index){
-    $(this).css("height",window.innerHeight - $(this).parent().offset().top)
+    $(this).outerHeight(win_height - $(this).offset().top)
   })
 };
 

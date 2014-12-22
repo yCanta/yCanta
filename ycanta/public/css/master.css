@@ -1,5 +1,7 @@
+body.javascript .javascript {display: none;}
+
 @media screen{
-  div.header {
+/*  div.header {
     border: double;
     border-bottom: ridge;
     border-bottom-width: 5px;
@@ -32,12 +34,12 @@
     border: solid;
     border-width: 2px;
     margin-right: 2px;
-  }
+  }*/
   A:link {text-decoration: none; color: black;}
   A:visited {text-decoration: none; color: black;}
   A:hover {color: grey;}
   a {cursor: pointer;}
-
+/*
   .d_menu:hover {
     background-color: lightgrey;
     position: relative;
