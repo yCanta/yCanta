@@ -3,7 +3,7 @@
 from tg import expose, flash
 from tg.i18n import ugettext as _, lazy_ugettext as l_
 from tg.predicates import has_permission
-
+from ycanta import model
 from ycanta.lib.base import BaseController
 
 __all__ = ['SecureController']
@@ -33,12 +33,12 @@ class SecureController(BaseController):
 
 class BookController(object):
     def __init__(self, name):             #creating a new book
-        #self.db = model.Book.get_by(title=name)
+        self.book = model.Book(title='Book1', content='<xml><songref status="n" ref="songs/1355104343.14-down-in-the-valley.song"/></xml>')
         pass
 
     @expose('ycanta.templates.book')
     def index(self):                      #viewing songbook 
-        return dict(title="this name", breadcrumbs = ['Canaan','Amazing Grace','Edit'], page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
+        return dict(book=self.book, breadcrumbs = [[self.book.title,'book/'+self.book.title]], page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
 
     @expose('ycanta.templates.book_edit')
     def edit(self):
@@ -58,12 +58,15 @@ class BookController(object):
 
 class SongController(object):
     def __init__(self, book, name):    #creating a new song
+        self.song = model.Song(title='Song1', author='Author', ccli='0', content='<song><chunk><line>First line of this song</line></chunk></song>')
         pass
+        '''        song_id = name.split('-')[0]   #grab song id from beginning of name
+        self.song = model.Song.get_by(id=song_id)
+        self.book = model.Book.get_by(title=name)'''
 
-    @expose('ycanta.templates.book')
+    @expose('ycanta.templates.song')
     def index(self):                   #viewing song
-        print 'we are here~'
-        return dict(title="this name", breadcrumbs = ['Canaan','Amazing Grace'], page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
+        return dict(title="this name", breadcrumbs = [['Canaan','book/Canaan'],['Amazing Grace','book/Canaan/song/Amazing']], page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
 
     @expose('ycanta.templates.song_edit')
     def edit(self):
