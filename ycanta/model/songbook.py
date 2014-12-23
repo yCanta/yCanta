@@ -25,11 +25,15 @@ class Book(LastModifiedMixin, DeclarativeBase):
   
   id            = Column(Integer, primary_key=True)
   title         = Column(Unicode(), nullable=False, unique=True)
-  content       = Column(UnicodeText(), nullable=False)
+  content       = Column(UnicodeText(), nullable=False) # space separated list of ids
   configuration = Column(UnicodeText(), nullable=True)
   
   def repr(self):
     return '<Book: id=%s title=%s>' % (repr(self.id), repr(self.title))
+
+  def songs(self):
+    """Returns a list of Song objects in this Book"""
+    return DBSession.query(Song).filter(Song.id.in_(self.content.split()))
 
 
 class BookHistory(LastModifiedMixin, DeclarativeBase):
