@@ -58,7 +58,8 @@ class BookController(object):
 
 class SongController(object):
     def __init__(self, book, name):    #creating a new song
-        self.song = model.Song(title='Song1', author='Author', ccli='0', content='<song><chunk><line>First line of this song</line></chunk></song>')
+        self.book = model.Book(title='Book1', content='<xml><songref status="n" ref="songs/1355104343.14-down-in-the-valley.song"/></xml>')
+        self.song = model.DBSession.query(model.Song).get(name)
         pass
         '''        song_id = name.split('-')[0]   #grab song id from beginning of name
         self.song = model.Song.get_by(id=song_id)
@@ -66,7 +67,7 @@ class SongController(object):
 
     @expose('ycanta.templates.song')
     def index(self):                   #viewing song
-        return dict(title="this name", breadcrumbs = [['Canaan','book/Canaan'],['Amazing Grace','book/Canaan/song/Amazing']], page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
+        return dict(song=self.song, book=self.book, breadcrumbs = [['Canaan','book/Canaan'],['Amazing Grace','book/Canaan/song/Amazing']], page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
 
     @expose('ycanta.templates.song_edit')
     def edit(self):
