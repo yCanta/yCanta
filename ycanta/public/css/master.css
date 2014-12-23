@@ -144,6 +144,10 @@ body.javascript .javascript {display: none;}
   }
 
 @media (min-width: 60em) {
+/* disable "dismiss" on wide viewports */
+.ui-panel-dismiss{
+    display: none;
+}
   #open_left_panel {
     display: none;
   }
