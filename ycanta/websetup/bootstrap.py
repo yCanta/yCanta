@@ -62,7 +62,7 @@ def bootstrap(command, conf, vars):
     import ycanta.lib.song
     count = 0
     for songfile in glob.glob('songs/*'):
-      song = ycanta.lib.song.load(songfile)
+      song = model.Song.load_from_file(songfile)
       model.DBSession.add(song)
       count += 1
 

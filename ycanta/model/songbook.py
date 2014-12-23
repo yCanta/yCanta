@@ -67,7 +67,9 @@ class Song(LastModifiedMixin, DeclarativeBase):
   def toxmlET(self):
     return ycanta.lib.song.song_to_ET(self)
 
-
+  @classmethod
+  def load_from_file(clas, filename):
+    return ycanta.lib.song.load(filename)
 
 
 class SongHistory(LastModifiedMixin, DeclarativeBase):
