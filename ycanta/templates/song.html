@@ -16,7 +16,18 @@
     </span>
     <div role="main" class="ui-content scrollable">
       <h3 py:content="song.title"></h3>
+      <p>
+        <span py:if="song.author" py:content="song.author"></span>
+        <span py:if="song.scripture" py:content="song.scripture"></span>
+      </p>
+      <p>
+        <span py:if="song.introduction" py:content="song.introduction"></span>
+        <span py:if="song.key">Key: <span py:replace="song.key"></span></span>
+      </p>
+      <!-- Song content -->
       <p py:replace="HTML(song.content)"></p>
+      <p py:if="song.ccli">CCLI</p>
+      <p py:if="song.copyright" py:content="song.copyright"></p>
     </div>
     <!-- Right Panel -->
     <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">

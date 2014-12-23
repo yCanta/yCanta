@@ -58,16 +58,21 @@ class BookController(object):
 
 class SongController(object):
     def __init__(self, book, name):    #creating a new song
-        self.book = model.Book(title='Book1', content='<xml><songref status="n" ref="songs/1355104343.14-down-in-the-valley.song"/></xml>')
-        self.song = model.DBSession.query(model.Song).get(name)
-        pass
-        '''        song_id = name.split('-')[0]   #grab song id from beginning of name
-        self.song = model.Song.get_by(id=song_id)
-        self.book = model.Book.get_by(title=name)'''
+        self.book = model.Book.all_songs_book()
+        
+        song_id = name.split('-')[0]
+        self.song = model.DBSession.query(model.Song).get(song_id)
+        if self.song == None:          #we have an invalid song_id, error handling goes below here
+          pass
 
     @expose('ycanta.templates.song')
     def index(self):                   #viewing song
-        return dict(song=self.song, book=self.book, breadcrumbs = [['Canaan','book/Canaan'],['Amazing Grace','book/Canaan/song/Amazing']], page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
+        song = self.song
+        book = self.book
+        breadcrumbs = [[book.title,'book/'+ book.title],
+                  [song.title, 'book/'+book.title+'/song/'+str(song.id)+'-'+song.title]]
+
+        return dict(song=self.song, book=self.book, breadcrumbs = breadcrumbs, page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
 
     @expose('ycanta.templates.song_edit')
     def edit(self):

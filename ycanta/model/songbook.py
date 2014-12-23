@@ -39,7 +39,7 @@ class Book(LastModifiedMixin, DeclarativeBase):
   def all_songs_book(clas):
     return Book(
         title=u'All Songs',
-        content=u' '.join(DBSession.query(Song.id).order_by(Song.title)))
+        content=u' '.join(unicode(s.id) for s in DBSession.query(Song.id).order_by(Song.title)))
 
 
 class BookHistory(LastModifiedMixin, DeclarativeBase):
