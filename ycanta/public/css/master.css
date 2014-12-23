@@ -141,7 +141,38 @@ body.javascript .javascript {display: none;}
     overflow: auto;
   } 
   body {
+    margin: 0px;
     overflow: hidden;
+  }
+}
+@media (min-width: 60em) {
+  #open_left_panel {
+    display: none;
+  }
+  #left_panel {
+    visibility: visible;
+    position: relative;
+    left: 0;
+    clip: initial;
+    float: left;
+    width: 25%;
+    background: none;
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    transition: none !important;
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    transform: none !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+  #main {
+    position: relative;
+    width: 67%;
+    padding-top: 0.5em;
+    padding-left: 8%;
+    float: right;
   }
 }
 
