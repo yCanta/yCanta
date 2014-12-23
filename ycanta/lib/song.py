@@ -7,11 +7,25 @@ import ycanta.model
 
 def load(path):
   """Given filename or file object, parse xml and load to song object"""
-  def get_piece(dom, piece):
+  def get_piece(dom, piece, nullable=True):
     if dom.find(piece) != None and dom.find(piece).text != None :
-      return dom.find(piece).text
+      return unicode(dom.find(piece).text)
     else:
-      return None
+      if nullable == True:
+        return None
+      else:
+        return u'Unknown'
+
+  def to_boolean(s):
+    if(s is None
+        or len(s.strip()) == 0
+        or s.strip().lower().startswith('no')
+        or s.strip().lower().startswith('false')
+        or s.strip().lower().startswith('off')):
+      return False
+    else:
+      return True
+
 
   dom = ET.parse(path)
 
@@ -20,15 +34,15 @@ def load(path):
 
 
   song = ycanta.model.Song(
-      title        = get_piece(dom, 'stitle'),
-      author       = get_piece(dom, 'author'),
+      title        = get_piece(dom, 'stitle', nullable=False),
+      author       = get_piece(dom, 'author', nullable=False),
       scripture    = get_piece(dom, 'scripture_ref'),
       introduction = get_piece(dom, 'introduction'),
       key          = get_piece(dom, 'key'),
       categories   = get_piece(dom, 'categories'),
-      ccli         = get_piece(dom, 'cclis'),
+      ccli         = to_boolean(get_piece(dom, 'cclis')),
       copyright    = get_piece(dom, 'copyright'),
-      content      = ET.tostring(content, encoding='utf-8'),
+      content      = ET.tostring(content, encoding='utf-8').decode('utf-8'),
       )
 
   return song
