@@ -73,6 +73,9 @@ class Song(LastModifiedMixin, DeclarativeBase):
   def toxmlET(self):
     return ycanta.lib.song.song_to_ET(self)
 
+  def searchstr(self):
+      return "t:Beauty For Ashes; a:Robert Manzano; a:Bill Murry c:Gratefulness c:Joy c:Love for God c:Righteousness c:Scripture Songs He gave me beauty for ashes The oil of joy for mourning The garment of praise For the spirit of heaviness That we might be trees of righteousness The planting of the Lord That He might be glorified"    #if no category, author, then have a !c, !a in place
+
   @classmethod
   def load_from_file(clas, filename):
     return ycanta.lib.song.load(filename)

@@ -15,11 +15,11 @@ body.javascript .javascript {display: none;}
     z-index: 2000;
     display: block;
   }
-
-  A:link {text-decoration: none; color: black;}
-  A:visited {text-decoration: none; color: black;}
-  A:hover {color: grey;}
-  a {cursor: pointer;}
+  #list a {display: block;}
+  A:link {text-decoration: none !important; color: black !important;}
+  A:visited {text-decoration: none !important; color: black !important;}
+  A:hover {color: grey !important;}
+  a {cursor: pointer !important;}
 /*
   .d_menu:hover {
     background-color: lightgrey;
