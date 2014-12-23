@@ -35,6 +35,12 @@ class Book(LastModifiedMixin, DeclarativeBase):
     """Returns a list of Song objects in this Book"""
     return DBSession.query(Song).filter(Song.id.in_(self.content.split()))
 
+  @classmethod
+  def all_songs_book(clas):
+    return Book(
+        title=u'All Songs',
+        content=u' '.join(DBSession.query(Song.id).order_by(Song.title)))
+
 
 class BookHistory(LastModifiedMixin, DeclarativeBase):
   __tablename__ = 'book_history'
