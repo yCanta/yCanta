@@ -1,40 +1,21 @@
 body.javascript .javascript {display: none;}
 
 @media screen{
-/*  div.header {
-    border: double;
-    border-bottom: ridge;
-    border-bottom-width: 5px;
-    border-color: black;
-    padding: 6px;
-  }
-  span.r_header {
+  #actions_menu{
+    text-align: right;
     position: relative;
-    left: 150px;
-  }
-  .ui-dialog {
-    background-color: lightgrey;
-    border: black double 4px;
-    height: 100%;
-  }
-  .ui-dialog-titlebar {
-    background-color: grey;
-    border-bottom: black solid 1px;
-  }
-  .ui-dialog-titlebar-close {
     float: right;
   }
-  .float_right {
-   background-color: lightgray;
-   max-width: 60%;
-   border-left: double black 4px;
+  #toppings{
+    display: none;
   }
-  .d_menu {
-    cursor: default;
-    border: solid;
-    border-width: 2px;
-    margin-right: 2px;
-  }*/
+  #actions_menu:hover div#toppings{
+    position: absolute;
+    right: 0px;
+    z-index: 2000;
+    display: block;
+  }
+
   A:link {text-decoration: none; color: black;}
   A:visited {text-decoration: none; color: black;}
   A:hover {color: grey;}
@@ -43,7 +24,8 @@ body.javascript .javascript {display: none;}
   .d_menu:hover {
     background-color: lightgrey;
     position: relative;
-    z-index: 3;
+    z-index: 3;:w
+
   }
   .d_menu .id_menu {
     display: none;
@@ -145,6 +127,22 @@ body.javascript .javascript {display: none;}
     overflow: hidden;
   }
 }
+@media (min-width: 40em) {
+  #actions_menu:hover div#toppings{
+    position: static;
+    display: inline;
+  }
+  #hamburger_icon{
+    visibility: hidden;
+  }
+  #actions_menu {     
+    float: right;
+    position: relative;
+  }
+  #toppings li, #toppings li a, #toppings{
+    display: inline
+  }
+
 @media (min-width: 60em) {
   #open_left_panel {
     display: none;

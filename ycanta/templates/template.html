@@ -26,15 +26,13 @@
         <a py:for="crumb in breadcrumbs" py:if="crumb == 'Edit'" href="/book/Canaan/song/Amazing" data-transition="slide" class="breadcrumb ui-btn ui-icon-edit ui-btn-icon-right">${crumb}</a>
       </py:match>
     </span>
-    <span style="position: relative; float:right">
-      <span style="color: #F6F6F6; right:0px; position: absolute;">
-        <a onclick="$('#hamburger').toggle('blind')" style="horizontal-align: right" class="ui-btn ui-icon-bars ui-btn-icon-left">&nbsp;</a>
-        <div style="" data-role="listview" id="hamburger">
-          <li>item 1</li>
-          <li>item 2</li>
-          <li>item 3</li>
-        </div>
-      </span>
+    <span id="actions_menu">
+      <a id="hamburger_icon" class="ui-btn ui-icon-bars ui-btn-icon-left">&nbsp;</a>
+      <div data-role="listview" id="toppings">
+        <li data-icon="delete"><a>item 1</a></li>
+        <li data-icon="info"><a>item 2</a></li>
+        <li data-icon="false"><a>item 3</a></li>
+      </div>
     </span>
   </div>
   <!-- Main included content -->
@@ -71,7 +69,6 @@
       $( "[data-role='header'], [data-role='footer']" ).toolbar({ theme: "a" });
       $("#left_panel, #right_panel").panel({ theme: "a" });      
       $( "#list" ).filterable({ theme: "a" });
-      $("#hamburger").hide();
       $(window).trigger("resize")
 
     });
