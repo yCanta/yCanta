@@ -67,9 +67,8 @@
   <script type="text/javascript">
   $(document).ready(function(){
     $("body").addClass("javascript")
-    $( "[data-role='header'], [data-role='footer']" ).toolbar({ theme: "a" });
+    $("[data-role='header'], [data-role='footer']").toolbar({ theme: "a" });
     $("#left_panel, #right_panel").panel({ theme: "a" });      
-    $( "#list" ).filterable({ theme: "a" });
     $(window).trigger("resize")
 
   });
@@ -80,6 +79,8 @@
       $(window).trigger("resize")
       $("#toppings").listview();
       $("#toppings").listview("refresh");
+      $("#list").filterable({ theme: "a" });
+      $("#list").filterable("refresh");
   });
 
   </script>
