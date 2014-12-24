@@ -9,84 +9,83 @@ from ycanta.lib.base import BaseController
 __all__ = ['SongbookController']
 
 class SongbookController(BaseController):
-    """Sample controller-wide authorization"""
-    
-    # The predicate that must be met for all the actions in this controller:
-    #allow_only = has_permission('manage',
-    #                            msg=l_('Only for people with the "manage" permission'))
-    
-    
-    @expose()  #self is sb, 
-    def _lookup(self, *args):
-        print '>>>', args
-        if len(args) == 0:
-            pass
-        elif len(args) <= 2:   #book with name and/or edit, pdf, present, etc
-            return BookController(args[0]), args[1:]
-        elif len(args) <= 4:   #song with name and/or edit, pdf, etc 
-            return SongController(args[0], args[2]), args[3:]
+  """Sample controller-wide authorization"""
+  
+  # The predicate that must be met for all the actions in this controller:
+  #allow_only = has_permission('manage',
+  #                            msg=l_('Only for people with the "manage" permission'))
+  
+  
+  @expose()  #self is sb, 
+  def _lookup(self, *args):
+    print '>>>', args
+    if len(args) == 0:
+      pass
+    elif len(args) <= 2:   #book with name and/or edit, pdf, present, etc
+      return BookController(args[0]), args[1:]
+    elif len(args) <= 4:   #song with name and/or edit, pdf, etc 
+      return SongController(args[0], args[2]), args[3:]
 
-        return BookController('controller'), []
+    return BookController('controller'), []
 
 
 class BookController(object):
-    def __init__(self, name):             # setup controller for book 'name'
-        self.book = model.Book.all_songs_book()
-        pass
+  def __init__(self, name):             # setup controller for book 'name'
+    self.book = model.Book.all_songs_book()
 
-    @expose('ycanta.templates.book')
-    def index(self):                      # viewing songbook 
-      booktitles = [model.Book.ALL_SONGS_TITLE, 'Some other book']
-      booktitles.extend(b.title for b in model.DBSession.query(model.Book.title).order_by(model.Book.title))
+  @expose('ycanta.templates.book')
+  def index(self):                      # viewing songbook 
+    booktitles = [model.Book.ALL_SONGS_TITLE, 'Some other book']
+    booktitles.extend(b.title for b in model.DBSession.query(model.Book.title).order_by(model.Book.title))
 
-      return dict(book=self.book, booktitles=booktitles,
-          breadcrumbs=[(self.book.title,'book/'+self.book.title)])
+    return dict(book=self.book, booktitles=booktitles,
+        breadcrumbs=[(self.book.title,'book/'+self.book.title)])
 
-    @expose('ycanta.templates.book_edit')
-    def edit(self):
-        return dict()
+  @expose('ycanta.templates.book_edit')
+  def edit(self):
+    return dict()
 
-    @expose('ycanta.templates.pdf')
-    def pdf(self):
-        return dict()
+  @expose('ycanta.templates.pdf')
+  def pdf(self):
+    return dict()
 
-    @expose('ycanta.templates.present')
-    def present(self):
-        return dict()
+  @expose('ycanta.templates.present')
+  def present(self):
+    return dict()
 
-    @expose()
-    def delete(self):
-        return dict()
+  @expose()
+  def delete(self):
+    return dict()
 
 class SongController(object):
-    def __init__(self, book, name):    #creating a new song
-        self.book = model.Book.all_songs_book()
-        
-        song_id = name.split('-')[0]
-        self.song = model.DBSession.query(model.Song).get(song_id)
-        if self.song == None:          #we have an invalid song_id, error handling goes below here
-          pass
+  def __init__(self, book, name):    # setup controller for song 'name' in book 'book'
+    self.book = model.Book.all_songs_book()
+    
+    song_id = name.split('-')[0]
+    self.song = model.DBSession.query(model.Song).get(song_id)
+    if self.song == None:          #we have an invalid song_id, error handling goes below here
+      pass
 
-    @expose('ycanta.templates.song')
-    def index(self):                   #viewing song
-        song = self.song
-        book = self.book
-        breadcrumbs = [[book.title,'book/'+ book.title],
-                  [song.title, 'book/'+book.title+'/song/'+str(song.id)+'-'+song.title]]
+  @expose('ycanta.templates.song')
+  def index(self):                   #viewing song
+    song = self.song
+    book = self.book
+    breadcrumbs = [[book.title,'book/'+ book.title],
+              [song.title, 'book/'+book.title+'/song/'+str(song.id)+'-'+song.title]]
 
-        return dict(song=self.song, book=self.book, breadcrumbs = breadcrumbs)
+    return dict(song=self.song, book=self.book, breadcrumbs = breadcrumbs)
 
-    @expose('ycanta.templates.song_edit')
-    def edit(self):
-        return dict()
+  @expose('ycanta.templates.song_edit')
+  def edit(self):
+    return dict()
 
-    @expose('ycanta.templates.pdf')
-    def pdf(self):
-        return dict()
+  @expose('ycanta.templates.pdf')
+  def pdf(self):
+    return dict()
 
-    @expose()
-    def delete(self):
-        return dict()
+  @expose()
+  def delete(self):
+    return dict()
 
 
  #   @expose('ycanta.templates.index')
