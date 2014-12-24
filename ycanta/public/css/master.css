@@ -23,6 +23,12 @@ body.jsdatastorage .jsdatastorage {display: none;}
   A:visited {text-decoration: none !important; color: black !important;}
   A:hover {color: grey !important;}
   a {cursor: pointer !important;}
+  #list .selectedTrue {
+    border-left:  solid grey 3pt;
+    border-right: solid grey 3pt;
+    padding-left:  3pt;
+    padding-right: 3pt;
+  }
 /*
   .d_menu:hover {
     background-color: lightgrey;

@@ -5,7 +5,7 @@
   <xi:include href="template.html" />
 
 <head>
-<title>${book.title} > ${song.title}</title>
+<title>yCanta: ${book.title} > ${song.title}</title>
 </head>
 
 <body>
@@ -37,8 +37,12 @@
       <p py:if="song.copyright" py:content="song.copyright"></p>
     </div>
     <!-- Left Panel -->
+    <?python
+    def song_url(s):
+      return tg.url('/book/%s/song/%s-%s' % (book.title, s.id, s.title))
+    ?>
     <div class="jsdatastorage">
-      <a py:for="song in book.songs()" href="${tg.url('/book/'+book.title+'/song/'+str(song.id)+'-'+song.title)}" data-filtertext="${song.tosearchstr()}" class="leftnav">${song.title}</a>
+      <a py:for="s in book.songs()" href="${song_url(s)}" data-filtertext="${s.tosearchstr()}" class="leftnav selected${s.title==song.title}">${s.title}</a>
     </div>
     <!-- Right Panel -->
     <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">
