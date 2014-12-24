@@ -5,6 +5,8 @@ except ImportError:
 
 import ycanta.model
 
+CHORD_SPACE_RATIO = 0.45
+
 def load(path):
   """Given filename or file object, parse xml and load to song object"""
   def get_piece(dom, piece, nullable=True):
@@ -60,11 +62,72 @@ def song_to_ET(song):
   ET.SubElement(dom, 'key').text           = song.key
   ET.SubElement(dom, 'categories').text    = song.categories
   ET.SubElement(dom, 'cclis').text         = song.ccli
-  chunks = ET.XML(song.content)
+  chunks = ET.XML(song.content.encode('utf-8'))
   dom.extend(chunks.findall('chunk'))
   ET.SubElement(dom, 'copyright').text     = song.copyright
 
   return dom
+
+def song_chunks_to_mono(song, exclude_chords=False):
+  
+  def is_chord_line(line):
+    return line.find('c') is not None
+
+  def strip_chord(line):
+    '''strip chords from a line (ET object), return string'''
+    text = line.text or ''
+    for c in line.findall('c'):
+      text += c.tail or ''
+    return text
+
+  def expand_chord(line):
+    '''expands chords that are in xml format into monospaced format'''
+
+    #------------- taken from pdfformatter.parse_song       
+    # parse chords from line 
+    text = line.text or ''
+    chords = {}                             # chords is a dictionary of (position, text)
+
+    # parse chords and rest of line text
+    for c in line.findall('c'):
+      chords[len(text)] = c.text            # len(text) is offset in text where chord appears
+      text += c.tail or ''
+    #-------------
+
+    str_chords = ''
+    for offset in sorted(chords.keys()):
+      str_chords += ' '*(offset-len(str_chords)) + chords[offset]
+
+    # Add space to the end of the chord line to make the chord recognized as a chord when reimporting.
+    w = str_chords.count(' ') + 0.0
+    char = len(str_chords) - w
+
+    w_ad = int(((CHORD_SPACE_RATIO * char)/(1-CHORD_SPACE_RATIO) - w) + 1)
+    str_chords += ' '*w_ad
+
+    expanded_line = str_chords + '\n' + text.rstrip()
+    return expanded_line
+
+  
+  # Start of actual function ...
+  chunks = []
+
+  for chunk in song_to_ET(song).findall('chunk'):
+    chunk_text=[]
+    lines = chunk.findall('line')
+    for line in lines:
+      if is_chord_line(line):
+        if exclude_chords:
+          chunk_text.append(strip_chord(line))
+        else:
+          chunk_text.append(expand_chord(line))
+      else:
+        chunk_text.append(line.text or "")
+
+    chunks.append('\n'.join(chunk_text))
+
+  return chunks
+
 
 
 

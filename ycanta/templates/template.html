@@ -53,7 +53,7 @@
   <!-- Left Panel -->
   <div data-role="panel" data-display="overlay" id="left_panel">
     <div class="scrollable " style="overflow:auto;" id="list" data-filter="true" >
-      <a py:for="song in book.songs()" href="${tg.url('/book/'+book.title+'/song/'+str(song.id)+'-'+song.title)}" data-filtertext="${song.searchstr()}">${song.title}</a>
+      <a py:for="song in book.songs()" href="${tg.url('/book/'+book.title+'/song/'+str(song.id)+'-'+song.title)}" data-filtertext="${song.tosearchstr()}">${song.title}</a>
     </div> 
   </div>
 

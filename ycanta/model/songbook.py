@@ -73,8 +73,17 @@ class Song(LastModifiedMixin, DeclarativeBase):
   def toxmlET(self):
     return ycanta.lib.song.song_to_ET(self)
 
-  def searchstr(self):
-      return "t:Beauty For Ashes; a:Robert Manzano; a:Bill Murry c:Gratefulness c:Joy c:Love for God c:Righteousness c:Scripture Songs He gave me beauty for ashes The oil of joy for mourning The garment of praise For the spirit of heaviness That we might be trees of righteousness The planting of the Lord That He might be glorified"    #if no category, author, then have a !c, !a in place
+  def tosearchstr(self):
+    def ensure_str(s, default):
+      if not isinstance(s, basestring):
+        return default
+      return s
+
+    ret = u't:%s; ' % self.title
+    ret += u' '.join('a:%s; ' % a for a in ensure_str(self.author, '!a').split(','))
+    ret += u' '.join('c:%s; ' % c for c in ensure_str(self.categories, '!c').split(','))
+    ret += u'\n\n'.join(ycanta.lib.song.song_chunks_to_mono(self, exclude_chords=True))
+    return ret
 
   @classmethod
   def load_from_file(clas, filename):
