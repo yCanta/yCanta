@@ -12,10 +12,17 @@
   <div class="ui-responsive-panel" id="main" data-role="page">
     <span class="javascript">
       <breadcrumb />
-      <toppings />
+      <li class="toppings"><a class="ui-btn ui-icon-edit ui-btn-icon-left">Edit</a></li>
+      <li class="toppings"><a class="ui-btn ui-icon-pdf ui-btn-icon-left">PDF</a></li>
+      <li class="toppings">
+        <a onclick="$('body').toggleClass('nochords')" class="ui-btn ui-icon-grid ui-btn-icon-left">
+          Chords
+        </a>
+      </li>
+      <li class="toppings"><a class="ui-btn ui-icon-delete ui-btn-icon-left">Delete</a></li>
     </span>
     <div role="main" class="ui-content scrollable">
-      <p><span py:replace="song.title"></span>&nbsp;&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></p>
+      <h3><span py:replace="song.title"></span>&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></h3>
       <p>
         <span py:if="song.author" py:content="song.author"></span>
         <span py:if="song.scripture" py:content="song.scripture"></span>
