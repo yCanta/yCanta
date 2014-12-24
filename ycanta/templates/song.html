@@ -10,7 +10,7 @@
 
 <body>
   <div class="ui-responsive-panel" id="main" data-role="page">
-    <span class="javascript">
+    <span class="jsdatastorage">
       <breadcrumb />
       <li class="toppings"><a class="ui-btn ui-icon-edit ui-btn-icon-left">Edit</a></li>
       <li class="toppings"><a class="ui-btn ui-icon-pdf ui-btn-icon-left">PDF</a></li>
@@ -37,7 +37,7 @@
       <p py:if="song.copyright" py:content="song.copyright"></p>
     </div>
     <!-- Left Panel -->
-    <div class="javascript">
+    <div class="jsdatastorage">
       <a py:for="song in book.songs()" href="${tg.url('/book/'+book.title+'/song/'+str(song.id)+'-'+song.title)}" data-filtertext="${song.tosearchstr()}" class="leftnav">${song.title}</a>
     </div>
     <!-- Right Panel -->
