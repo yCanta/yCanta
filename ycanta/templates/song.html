@@ -37,12 +37,8 @@
       <p py:if="song.copyright" py:content="song.copyright"></p>
     </div>
     <!-- Left Panel -->
-    <?python
-    def song_url(s):
-      return tg.url('/book/%s/song/%s-%s' % (book.title, s.id, s.title))
-    ?>
     <div class="jsdatastorage">
-      <a py:for="s in book.songs()" href="${song_url(s)}" data-filtertext="${s.tosearchstr()}" class="leftnav selected${s.title==song.title}">${s.title}</a>
+      <a py:for="s in book.songs()" href="${song_url(book, s)}" data-filtertext="${s.tosearchstr()}" class="leftnav selected${s.title==song.title}">${s.title}</a>
     </div>
     <!-- Right Panel -->
     <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">

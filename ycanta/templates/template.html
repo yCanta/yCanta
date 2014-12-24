@@ -2,6 +2,10 @@
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
       py:strip="">
+<?python
+def song_url(book,song):
+  return tg.url('/book/%s/song/%s-%s' % (book.title, song.id, song.title))
+?>
 <head py:match="head" py:attrs="select('@*')">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta charset="${response.charset}" />

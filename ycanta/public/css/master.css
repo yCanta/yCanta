@@ -29,6 +29,14 @@ body.jsdatastorage .jsdatastorage {display: none;}
     padding-left:  3pt;
     padding-right: 3pt;
   }
+  #songlist a {
+    display: block;
+  }
+  #songlist {
+    column-width: 20em;           -moz-column-width: 20em;           -webkit-column-width: 20em;      
+    column-rule-width: 1pt;       -moz-column-rule-width: 1pt;       -webkit-column-rule-width: 1pt;  
+    column-rule-style: solid;     -moz-column-rule-style: solid;     -webkit-column-rule-style: solid;
+  }
 /*
   .d_menu:hover {
     background-color: lightgrey;

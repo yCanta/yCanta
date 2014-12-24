@@ -23,7 +23,9 @@
     </span>
     <div role="main" class="ui-content scrollable">
       <h3><span py:replace="book.title"></span>&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></h3>
-      <p>Content goes here eventually</p>
+      <div id="songlist">
+        <a py:for="song in book.songs()" href="${song_url(book, song)}">${song.title}</a>
+      </div>
       <!--<p>
         <span py:if="song.author" py:content="song.author"></span>
         <span py:if="song.scripture" py:content="song.scripture"></span>
@@ -39,8 +41,6 @@
     </div>
     <!-- Left Panel -->
     <div class="jsdatastorage">
-      <a class="leftnav" href="http://google.com" data-filtertext="foo bar">Haha, pretending to be a song</a>
-      <a class="leftnav" href="http://yahoo.com" data-filtertext="baz quux">Not a song either</a>
       <a py:for="title in booktitles" href="${tg.url('/book/'+title)}" data-filtertext="${title}" class="leftnav selected${title==book.title}">${title}</a>
     </div>
     <!-- Right Panel -->
