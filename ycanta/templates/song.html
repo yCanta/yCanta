@@ -15,7 +15,7 @@
       <toppings />
     </span>
     <div role="main" class="ui-content scrollable">
-      <h3 py:content="song.title"></h3>
+      <p><span py:replace="song.title"></span>&nbsp;&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></p>
       <p>
         <span py:if="song.author" py:content="song.author"></span>
         <span py:if="song.scripture" py:content="song.scripture"></span>

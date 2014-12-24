@@ -22,8 +22,8 @@
     <a href="/book" class="ui-btn ui-icon-home ui-btn-icon-right">&nbsp;</a>
     <span id="breadcrumb">
       <py:match path="breadcrumb">
-      <a py:for="crumb in breadcrumbs" py:if="crumb[0] != 'Edit'" href="/${crumb[1]}" data-transition="slide" class="breadcrumb ui-btn ui-icon-carat-r ui-btn-icon-right">${crumb[0]}</a>
-      <a py:for="crumb in breadcrumbs" py:if="crumb == 'Edit'" href="/book/Canaan/song/Amazing" data-transition="slide" class="breadcrumb ui-btn ui-icon-edit ui-btn-icon-right">${crumb}</a>
+      <a py:for="crumb in breadcrumbs" py:if="crumb[0] != 'Edit'" href="/${crumb[1]}" class="breadcrumb ui-btn ui-icon-carat-r ui-btn-icon-right">${crumb[0]}</a>
+      <a py:for="crumb in breadcrumbs" py:if="crumb == 'Edit'" href="/book/Canaan/song/Amazing" class="breadcrumb ui-btn ui-icon-edit ui-btn-icon-right">${crumb}</a>
       </py:match>
     </span>
     <span id="actions_menu">
@@ -62,6 +62,11 @@
   </div>
 
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript">
+  $(document).bind("mobileinit", function() {
+    $.mobile.defaultPageTransition = 'none';
+  });
+  </script>
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script src="${tg.url('/javascript/lib.js')}"></script>
   <script type="text/javascript">

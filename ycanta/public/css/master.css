@@ -1,6 +1,9 @@
 body.javascript .javascript {display: none;}
 
 @media screen{
+  .inline{
+    display: inline;
+  }
   #actions_menu{
     text-align: right;
     position: relative;
