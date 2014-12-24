@@ -47,8 +47,8 @@
   
   <!-- Left Panel -->
   <div data-role="panel" data-display="overlay" id="left_panel">
-    <div class="scrollable " style="overflow:auto;" id="list" data-filter="true" >
-      <a py:for="song in book.songs()" href="${tg.url('/book/'+book.title+'/song/'+str(song.id)+'-'+song.title)}" data-filtertext="${song.tosearchstr()}">${song.title}</a>
+    <div class="scrollable " style="overflow:auto;" id="list" data-filter="true">
+      <strong>Javascript Required</strong>
     </div> 
   </div>
 
@@ -76,6 +76,7 @@
   $(document).on("pageshow","[data-role='page']", function() {
       $("span#breadcrumb").html($(this).find(".breadcrumb").clone());
       $("#toppings").empty().html($(this).find(".toppings").clone());
+      $("#list").empty().html($(this).find(".leftnav").clone());
       $(window).trigger("resize")
       $("#toppings").listview();
       $("#toppings").listview("refresh");

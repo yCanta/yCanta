@@ -36,6 +36,10 @@
       <p py:if="song.ccli">CCLI</p>
       <p py:if="song.copyright" py:content="song.copyright"></p>
     </div>
+    <!-- Left Panel -->
+    <div class="javascript">
+      <a py:for="song in book.songs()" href="${tg.url('/book/'+book.title+'/song/'+str(song.id)+'-'+song.title)}" data-filtertext="${song.tosearchstr()}" class="leftnav">${song.title}</a>
+    </div>
     <!-- Right Panel -->
     <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">
       <!-- panel content here -->
