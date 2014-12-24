@@ -6,7 +6,7 @@ from tg.i18n import ugettext as _, lazy_ugettext as l_
 from tg.exceptions import HTTPFound
 from tg import predicates
 from ycanta import model
-from ycanta.controllers.secure import SecureController
+from ycanta.controllers.songbook import SongbookController
 from ycanta.model import DBSession, metadata
 from tgext.admin.tgadminconfig import BootstrapTGAdminConfig as TGAdminConfig
 from tgext.admin.controller import AdminController
@@ -31,7 +31,7 @@ class RootController(BaseController):
     must be wrapped around with :class:`tg.controllers.WSGIAppController`.
 
     """
-    book = SecureController()
+    book = SongbookController()
     admin = AdminController(model, DBSession, config_type=TGAdminConfig)
 
     error = ErrorController()

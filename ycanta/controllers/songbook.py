@@ -6,9 +6,9 @@ from tg.predicates import has_permission
 from ycanta import model
 from ycanta.lib.base import BaseController
 
-__all__ = ['SecureController']
+__all__ = ['SongbookController']
 
-class SecureController(BaseController):
+class SongbookController(BaseController):
     """Sample controller-wide authorization"""
     
     # The predicate that must be met for all the actions in this controller:
