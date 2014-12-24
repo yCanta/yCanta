@@ -28,6 +28,8 @@ class Book(LastModifiedMixin, DeclarativeBase):
   content       = Column(UnicodeText(), nullable=False) # space separated list of ids
   configuration = Column(UnicodeText(), nullable=True)
   
+  ALL_SONGS_TITLE = u'All Songs'
+
   def repr(self):
     return '<Book: id=%s title=%s>' % (repr(self.id), repr(self.title))
 
@@ -38,7 +40,7 @@ class Book(LastModifiedMixin, DeclarativeBase):
   @classmethod
   def all_songs_book(clas):
     return Book(
-        title=u'All Songs',
+        title=Book.ALL_SONGS_TITLE,
         content=u' '.join(unicode(s.id) for s in DBSession.query(Song.id).order_by(Song.title)))
 
 

@@ -18,27 +18,29 @@ class SecureController(BaseController):
     
     @expose()  #self is sb, 
     def _lookup(self, *args):
-        print args
+        print '>>>', args
         if len(args) == 0:
             pass
         elif len(args) <= 2:   #book with name and/or edit, pdf, present, etc
-            print args[1:]
             return BookController(args[0]), args[1:]
         elif len(args) <= 4:   #song with name and/or edit, pdf, etc 
-            print args[3:]
             return SongController(args[0], args[2]), args[3:]
 
         return BookController('controller'), []
 
 
 class BookController(object):
-    def __init__(self, name):             #creating a new book
-        self.book = model.Book(title='Book1', content='<xml><songref status="n" ref="songs/1355104343.14-down-in-the-valley.song"/></xml>')
+    def __init__(self, name):             # setup controller for book 'name'
+        self.book = model.Book.all_songs_book()
         pass
 
     @expose('ycanta.templates.book')
-    def index(self):                      #viewing songbook 
-        return dict(book=self.book, breadcrumbs = [[self.book.title,'book/'+self.book.title]], page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
+    def index(self):                      # viewing songbook 
+      booktitles = [model.Book.ALL_SONGS_TITLE, 'Some other book']
+      booktitles.extend(b.title for b in model.DBSession.query(model.Book.title).order_by(model.Book.title))
+
+      return dict(book=self.book, booktitles=booktitles,
+          breadcrumbs=[(self.book.title,'book/'+self.book.title)])
 
     @expose('ycanta.templates.book_edit')
     def edit(self):
@@ -72,7 +74,7 @@ class SongController(object):
         breadcrumbs = [[book.title,'book/'+ book.title],
                   [song.title, 'book/'+book.title+'/song/'+str(song.id)+'-'+song.title]]
 
-        return dict(song=self.song, book=self.book, breadcrumbs = breadcrumbs, page_content = "this", l_panel="this is the left panel", r_panel="this is the right one!")
+        return dict(song=self.song, book=self.book, breadcrumbs = breadcrumbs)
 
     @expose('ycanta.templates.song_edit')
     def edit(self):
