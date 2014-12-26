@@ -156,7 +156,7 @@ def is_chord(line):
   line = line            # not stripping any whitespace so we can manually make a line a chord line by adding extra space
   count = line.count(' ') + 0.0 
    
-  if len(line) == 0:
+  if len(line) == 0 or not any(c.isalpha() for c in line):
     return 0  
   elif len(line) <= 4:        #for lines with one or two chords
     return 1
