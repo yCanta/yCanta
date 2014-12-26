@@ -33,12 +33,13 @@ class BookController(object):
   def __init__(self, name):             # setup controller for book 'name'
     self.book = model.Book.all_songs_book()
 
+  def booktitles(self):
+    return [model.Book.ALL_SONGS_TITLE, 'Some other book'] + [b.title for b in model.DBSession.query(model.Book.title).order_by(model.Book.title)]
+
   @expose('ycanta.templates.book')
   def index(self):                      # viewing songbook 
-    booktitles = [model.Book.ALL_SONGS_TITLE, 'Some other book']
-    booktitles.extend(b.title for b in model.DBSession.query(model.Book.title).order_by(model.Book.title))
 
-    return dict(book=self.book, booktitles=booktitles,
+    return dict(book=self.book, booktitles=self.booktitles(),
         breadcrumbs=[(self.book.title,'book/'+self.book.title)])
 
   @expose('ycanta.templates.book_edit')
@@ -47,7 +48,8 @@ class BookController(object):
 
   @expose('ycanta.templates.pdf')
   def pdf(self):
-    return dict()
+    return dict(book=self.book, booktitles=self.booktitles(),
+        breadcrumbs=[(self.book.title,'book/'+self.book.title), ('PDF export', 'book/%s/pdf' % self.book.title)])
 
   @expose('ycanta.templates.present')
   def present(self):

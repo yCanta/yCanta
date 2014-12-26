@@ -1,0 +1,34 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <xi:include href="template.html" />
+
+<head>
+  <title>yCanta: PDF: ${book.title}</title>
+</head>
+
+<body>
+  <div class="ui-responsive-panel" id="main" data-role="page">
+    <span class="jsdatastorage">
+      <breadcrumb />
+      <li class="toppings"><a class="ui-btn ui-icon-edit ui-btn-icon-left">Cancel</a></li>
+    </span>
+    <div role="main" class="ui-content scrollable">
+      <h3><span py:replace="book.title"></span>&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></h3>
+      <div>
+        This is where the PDF export stuff would go
+      </div>
+    </div>
+    <!-- Left Panel -->
+    <div class="jsdatastorage">
+      <a py:for="title in booktitles" href="${tg.url('/book/'+title)}" data-filtertext="${title}" class="leftnav selected${title==book.title}">${title}</a>
+    </div>
+    <!-- Right Panel -->
+    <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">
+      <p>Maybe some stuff for PDFs in this panel too?</p>
+      <!-- panel content here -->
+    </div>
+  </div>
+</body>
+</html>
