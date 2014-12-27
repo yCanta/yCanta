@@ -22,7 +22,17 @@
       <li class="toppings"><a class="ui-btn ui-icon-delete ui-btn-icon-left">Delete</a></li>
     </span>
     <div role="main" class="ui-content scrollable">
-      <h3><span py:replace="song.title"></span>&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></h3>
+      <h3>
+        <span py:replace="song.title"></span>&nbsp;&nbsp;
+        <a href="#songInfo" data-rel="popup" class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a>
+        <div data-role="popup" id="songInfo">
+          <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+        <ul data-role="listview" data-inset="true">
+          <li data-role="list-divider">Information</li>
+          <li><a>Canaan Nominations</a></li>
+        </ul>
+        </div>
+      </h3>
       <p>
         <span py:if="song.author" py:content="song.author"></span>
         <span py:if="song.scripture" py:content="song.scripture"></span>
