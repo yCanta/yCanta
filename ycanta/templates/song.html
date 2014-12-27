@@ -24,8 +24,8 @@
     <div role="main" class="ui-content scrollable">
       <h3>
         <span py:replace="song.title"></span>&nbsp;&nbsp;
-        <a href="#songInfo" data-rel="popup" class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a>
-        <div data-role="popup" id="songInfo">
+        <a href="#songInfo${song.id}" data-rel="popup" class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a>
+        <div data-role="popup" id="songInfo${song.id}">
           <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
         <ul data-role="listview" data-inset="true">
           <li data-role="list-divider">Information</li>
