@@ -29,6 +29,12 @@ body.jsdatastorage .jsdatastorage {display: none;}
     padding-left:  3pt;
     padding-right: 3pt;
   }
+  #list .section {
+    font-size: larger;
+  }
+  #list .indent {
+    margin-left: 1em;
+  }
   #songlist a {
     display: block;
   }

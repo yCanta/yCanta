@@ -12,7 +12,7 @@
   <div class="ui-responsive-panel" id="main" data-role="page">
     <span class="jsdatastorage">
       <breadcrumb />
-      <li class="toppings"><a class="ui-btn ui-icon-edit ui-btn-icon-left">Cancel</a></li>
+      <li class="toppings"><a class="ui-btn ui-icon-back ui-btn-icon-left" onclick="history.back()">Cancel</a></li>
     </span>
     <div role="main" class="ui-content scrollable">
       <h3><span py:replace="book.title"></span>&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></h3>
@@ -22,7 +22,9 @@
     </div>
     <!-- Left Panel -->
     <div class="jsdatastorage">
-      <a py:for="title in booktitles" href="${tg.url('/book/'+title)}" data-filtertext="${title}" class="leftnav selected${title==book.title}">${title}</a>
+      <a py:for="cfg in book_configs" href="${tg.url('/book/'+cfg['name'])}" data-filtertext="${cfg['name']}" class="leftnav">${cfg['name']}</a>
+      <strong class="leftnav section">Global</strong>
+      <a py:for="cfg in global_configs" href="${tg.url('/book/'+cfg['name'])}" data-filtertext="${cfg['name']}" class="leftnav indent">${cfg['name']}</a>
     </div>
     <!-- Right Panel -->
     <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">

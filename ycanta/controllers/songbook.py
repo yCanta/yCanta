@@ -48,7 +48,7 @@ class BookController(object):
 
   @expose('ycanta.templates.pdf')
   def pdf(self):
-    return dict(book=self.book, booktitles=self.booktitles(),
+    return dict(book=self.book, book_configs=self.book.get_configs(), global_configs=model.Book.get_global_configs(),
         breadcrumbs=[(self.book.title,'book/'+self.book.title), ('PDF export', 'book/%s/pdf' % self.book.title)])
 
   @expose('ycanta.templates.present')

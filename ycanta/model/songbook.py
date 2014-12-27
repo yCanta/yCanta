@@ -26,7 +26,7 @@ class Book(LastModifiedMixin, DeclarativeBase):
   id            = Column(Integer, primary_key=True)
   title         = Column(Unicode(), nullable=False, unique=True)
   content       = Column(UnicodeText(), nullable=False) # space separated list of ids
-  configuration = Column(UnicodeText(), nullable=True)
+  configuration = Column(UnicodeText(), nullable=True)  # JSON data {'config name': '--string', 'config2': '...' }
   
   ALL_SONGS_TITLE = u'All Songs'
 
@@ -36,6 +36,20 @@ class Book(LastModifiedMixin, DeclarativeBase):
   def songs(self):
     """Returns a list of Song objects in this Book"""
     return DBSession.query(Song).filter(Song.id.in_(self.content.split()))
+
+  def get_configs(self):
+    """Returns a list of configs"""
+    # TODO: actually implement
+    return [
+        dict(name='Config name', config='--index-cat-exclude Needs,Duplicate --small-size 4 --display-scrip-index no-page-break --font-face Helvetica --start-song-on-new-page no --song-space-after 6 --small-space 4 --display-index no-page-break --songtitle-space 4 --paper-orientation landscape --index-title-space 2 --songchunk-b4 6 --index-cat-font Helvetica --paper-margin-top 0.5 --page-margin-right 0.1 --resize-percent 100 --index-cat-b4 12 --copyright-space-b4 1 --paper-margin-bottom 0.5 --display-cat-index on-new-page --page-margin-bottom 0.1 --hide-booktitle no --page-layout single-sided --index-title-b4 30 --scripture-location under-title --songline-size 6 --songchord-space 1 --index-song-font Helvetica-Bold --songchord-size 6 --page-margin-left 0.1 --columns 5 --songline-space 2 --copyright-size 4 --index-song-size 6 --index-title-size 10 --index-cat-size 8 --songtitle-size 8 --paper-margin-left 0.5 --page-margin-top 0.1 --display-chords no --songtitle-format $num\s --index-first-line-font Helvetica-Oblique --index-first-line-space 2 --index-song-space 2 --binder-margin 0 --ccli None --index-cat-space 2 --paper-margin-right 0.5 --index-first-line-size 6 --paper-size letter --index-title-font Helvetica --booktitle-size 12 --booktitle-space 3 --print_a checked --print_n checked'),
+      ]
+
+  @classmethod
+  def get_global_configs(clas):
+    """Same format as book.get_configs()"""
+    return [
+        dict(name='Global cfg', config='--index-cat-exclude Needs,Duplicate --small-size 4 --display-scrip-index no-page-break --font-face Helvetica --start-song-on-new-page no --song-space-after 6 --small-space 4 --display-index no-page-break --songtitle-space 4 --paper-orientation landscape --index-title-space 2 --songchunk-b4 6 --index-cat-font Helvetica --paper-margin-top 0.5 --page-margin-right 0.1 --resize-percent 100 --index-cat-b4 12 --copyright-space-b4 1 --paper-margin-bottom 0.5 --display-cat-index on-new-page --page-margin-bottom 0.1 --hide-booktitle no --page-layout single-sided --index-title-b4 30 --scripture-location under-title --songline-size 6 --songchord-space 1 --index-song-font Helvetica-Bold --songchord-size 6 --page-margin-left 0.1 --columns 5 --songline-space 2 --copyright-size 4 --index-song-size 6 --index-title-size 10 --index-cat-size 8 --songtitle-size 8 --paper-margin-left 0.5 --page-margin-top 0.1 --display-chords no --songtitle-format $num\s --index-first-line-font Helvetica-Oblique --index-first-line-space 2 --index-song-space 2 --binder-margin 0 --ccli None --index-cat-space 2 --paper-margin-right 0.5 --index-first-line-size 6 --paper-size letter --index-title-font Helvetica --booktitle-size 12 --booktitle-space 3 --print_a checked --print_n checked'),
+      ]
 
   @classmethod
   def all_songs_book(clas):
