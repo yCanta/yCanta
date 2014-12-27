@@ -19,7 +19,7 @@
     </span>
     <div role="main" class="ui-content scrollable">
       <h3><span py:replace="book.title"></span>&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></h3>
-      <div id="songlist">
+      <div id="songlist" class="columns">
         <a py:for="song in book.songs()" href="${song_url(book, song)}">${song.title}</a>
       </div>
     </div>

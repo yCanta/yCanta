@@ -17,14 +17,421 @@
     <div role="main" class="ui-content scrollable">
       <h3><span py:replace="book.title"></span>&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></h3>
       <div>
-        This is where the PDF export stuff would go
+      <h2>Export options</h2>
+      <?python
+        import pdfformatter as formatter
+        import json
+      ?>
+      <form action="export2pdf" method="post" target="_blank" enctype="multipart/form-data">
+
+        <input type="hidden" name="book" value="${book.title}" />
+
+        <div id="tabs" data-role="tabs">
+          <div data-role="navbar">
+          <ul>
+              <li><a href="#fragment-1"><span>Layout</span></a></li>
+              <li><a href="#fragment-2"><span>Margins</span></a></li>
+              <li><a href="#fragment-3"><span>Text Options</span></a></li>
+              <li class="hide_for_songs"><a href="#fragment-4"><span>Index Options</span></a></li>
+            </ul>
+          </div>
+          <div id="fragment-1" class="columns">
+            <div data-role="fieldcontain">
+              <label for="page_layout" title="Choose the physical layout of the songbook">Layout:</label>
+              <select id="page_layout" name="page_layout" size="1" data-mini="true">
+                <option py:for="layout in formatter.get_options('--page-layout')" py:content="layout" value="${layout}"></option>
+              </select>
+            </div>
+            <div data-role="fieldcontain">
+              <label for="paper_orientation">Orientation:</label>
+              <select id="paper_orientation" name="paper_orientation" size="1">
+                <option py:for="orient in formatter.get_options('--paper-orientation')" py:content="orient" value="${orient}"></option>
+              </select>
+            </div>
+            <div data-role="fieldcontain">
+              <label for="paper_size"> Paper Size:</label>
+              <select id="paper_size" name="paper_size" size="1">
+                <option py:for="p_size in formatter.get_options('--paper-size')" value="${p_size}" py:content="p_size"></option>
+              </select>
+            </div>
+            <div data-role="fieldcontain">
+              <label for="font_face" title="Font to be used in the songbook">Font:</label>
+              <select id="font_face" name="font_face" size="1">
+                <option py:for="font in formatter.get_options('--font-face')" value="${font}" py:content="font" />
+              </select>
+            </div>
+            
+            <div class="hide_for_songs">
+              <div data-role="fieldcontain">
+                <label for="hide_booktitle">Hide book title?</label>
+                <select id="hide_booktitle" name="hide_booktitle" size="1">
+                  <option py:for="option in formatter.get_options('--hide-booktitle')" py:content="option" value="${option}"></option>
+                </select>
+              </div>
+              <div data-role="fieldcontain">
+                <label for="songtitle_format">Song number format:</label>
+                <input id="songtitle_format" name="songtitle_format" type="text" size="10" value="$$num\s"></input>
+                ($$num substitutes the song number; \s must be used for spaces)
+              </div>
+              <div data-role="fieldcontain">
+                <label for="scripture_location">Scripture reference location</label>
+                <select id="scripture_location" name="scripture_location" size="1">
+                  <option py:for="option in formatter.get_options('--scripture-location')" py:content="option" value="${option}"></option>
+                </select>
+              </div>
+            </div>
+
+            <div data-role="fieldcontain">
+              <label for="display_chords">Chords:</label>
+              <select id="display_chords" name="display_chords" size="1">
+                <option py:for="option in formatter.get_options('--display-chords')" py:content="option" value="${option}"></option>
+              </select>
+            </div>
+            <div data-role="fieldcontain" class="hide_for_songs">
+              <label for="start_song_on_new_page">Start songs on new pages:</label>
+              <select id="start_song_on_new_page" name="start_song_on_new_page" size="1">
+                <option py:for="option in formatter.get_options('--start-song-on-new-page')" py:content="option" value="${option}"></option>
+              </select>
+            </div>
+
+            <div data-role="fieldcontain">
+              <label for="columns">Columns:</label>
+              <input id="columns" name="columns" type="text" size="1"></input>
+            </div>
+            <div data-role="fieldcontain">
+              <label for="ccli">CCLI license number</label>
+              <input id="ccli" name="ccli" type="text" size="10"></input>
+            </div>
+
+            <div class="hide_for_songs">
+              <div data-role="fieldcontain">
+                <label for="display_cat_index">Category Index:</label>
+                <select id="display_cat_index" name="display_cat_index" size="1">
+                  <option py:for="option in formatter.get_options('--display-index')" py:content="option" value="${option}"></option>
+                </select>
+              </div>
+              <div data-role="fieldcontain">
+                <label for="display_scrip_index">Scripture Index:</label>
+                <select id="display_scrip_index" name="display_scrip_index" size="1">
+                  <option py:for="option in formatter.get_options('--display-index')" py:content="option" value="${option}"></option>
+                </select>
+              </div>
+              <div data-role="fieldcontain">
+                <label for="display_index">Alphabetical Index:</label>
+                <select id="display_index" name="display_index" size="1">
+                  <option py:for="option in formatter.get_options('--display-index')" py:content="option" value="${option}"></option>
+                </select>
+              </div>
+              <div data-role="fieldcontain" class="indent">
+                <input type="checkbox" id="include_first_line" name="include_first_line"></input>
+                <label for="include_first_line">Include first line of first verse and chorus:</label>
+              </div>
+            </div>
+          </div>
+          <div style="width:800px;" id="fragment-2">
+            <p><b>Paper:</b> <small>(All numbers are in inches)</small></p>
+            <table border="0" cellpadding="0" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td title="Binder Margin"> </td>
+                  <td class="L" title="Paper Margin Top"> </td>
+                  <td class="B" title="Paper Margin Top"> </td>
+                  <td class="B" title="Paper Margin Top"> </td>
+                  <td class="B" title="Paper Margin Top" colspan="2">
+                    <input id="paper_margin_top" name="paper_margin_top" size="2" type="text"/></td>
+                  <td class="B" title="Paper Margin Top"> </td>
+                  <td class="B" title="Paper Margin Top"> </td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td title="Binder Margin"> </td>
+                  <td title="Paper Margin Left" class="L"> </td>
+                  <td title="Column Margin Top" class="L"> </td>
+                  <td title="Column Margin Top"><input id="page_margin_top" name="page_margin_top" size="2" type="text"/></td>
+                  <td title="Column Margin Top"> </td>
+                  <td class="L"> </td>
+                  <td class="B"> <input size="2" title="column margin top" disabled="disabled" type="text"/> </td>
+                  <td class="R"> </td>
+                  <td title="Paper Margin Right"> </td>
+                </tr>
+                <tr>
+                  <td title="Binder Margin"><input id="binder_margin" name="binder_margin" size="2" title="binder_margin" type="text"/></td>
+                  <td title="Paper Margin Left" class="L">
+                    <input id="paper_margin_left" name="paper_margin_left" size="2" type="text"/></td>
+                  <td title="Column Margin Left" class="L"><input id="page_margin_left" name="page_margin_left" size="2" type="text"/></td>
+                  <td class="L R T B content">
+                    <h1 class="hide_for_songs" style="width: 200px">Songbook Title</h1>
+                    <h2><span class="hide_for_songs">1</span> Song</h2>
+                    <div style="margin-bottom:0.2em">
+                      <i style="padding-right: 2em; white-space: nowrap" class="small_size small_space demo_element">John Doe and Mr. Smith</i>
+                      <i style="padding-right: 2em; white-space: nowrap" class="small_size small_space demo_element">1 John 3:16</i>
+                    </div>
+                    <table style="border:0px">
+                      <tr><td valign="top" align="right">1)</td><td style="width:100%">
+                          <div>Line one of verse 1</div>
+                          <div>Line two of verse 1</div>
+                          <div>Line three of verse 1</div>
+                          <p/>
+                      </td></tr>
+                      <tr><td valign="top">Chorus</td><td style="padding-left:1em">
+                          <div>Line one of chorus</div>
+                          <div>Line two of chorus</div>
+                          <div>Line three of chorus</div>
+                          <p/>
+                      </td></tr>
+                      <tr><td valign="top" align="right">2)</td><td style="width:100%">
+                          <div>Line one of verse 2</div>
+                          <div>Line two of verse 2</div>
+                          <div>Line three of verse 2</div>
+                          <p/>
+                      </td></tr>
+                    </table>
+                    <div><small>&copy; Copyright so and so, no rights reserved.  Use however you want.</small></div>
+                  </td>
+                  <td title="Column Margin Right"><input id="page_margin_right" name="page_margin_right" size="2" type="text"/></td>
+                  <td class="L"><input size="2" title="page_margin_left" disabled="disabled" type="text"/></td>
+                  <td class="L R T B content" style="width:200px">
+                    <span class="hide_for_songs">
+                      <h2 style="width: 200px">2 Song</h2>
+                      <div style="margin-bottom:0.2em">
+                        <i style="padding-right: 2em; white-space: nowrap" class="small_size small_space demo_element">Christian Name</i>
+                        <i style="padding-right: 2em; white-space: nowrap" class="small_size small_space demo_element">Judges 3:13</i>
+                        <i style="padding-right: 0em; white-space: nowrap" class="small_size small_space demo_element">Key: Am</i>
+                      </div>
+                      <table style="border:0px">
+                        <tr><td valign="top" align="right">1)</td><td style="width:100%">
+                            <div>Line one of verse 1</div>
+                            <div>Line two of verse 1</div>
+                            <div>Line three of verse 1</div>
+                            <div>Line four of verse 1</div>
+                            <p/>
+                        </td></tr>
+                        <tr><td valign="top">Chorus</td><td style="padding-left:1em">
+                            <div>Line one of chorus</div>
+                            <div>Line two of chorus</div>
+                            <div>Line three of chorus</div>
+                            <p/>
+                        </td></tr>
+                      </table>
+                      <div><small>&copy; Copyright so and so, no rights reserved.  Use however you want.</small></div>
+
+                      <h2>Index</h2>
+                      <div><b>A title entry</b></div>
+                      <div><i>A first line entry</i></div>
+                      <div><b>Another title entry</b></div>
+                      <div><b>One more title entry</b></div>
+                      <div><i>This is a first line entry</i></div>
+                    </span>
+                  </td>
+                  <td class="R"><input size="2" title="page_margin_right" disabled="disabled" type="text"/></td>
+                  <td title="Paper Margin Right"><input id="paper_margin_right" name="paper_margin_right" size="2" type="text"/></td>
+                </tr>
+                <tr>
+                  <td title="Binder Margin"> </td>
+                  <td title="Paper Margin Left" class="L"> </td>
+                  <td title="Column Margin Bottom" class="L"> </td>
+                  <td title="Column Margin Bottom"><input id="page_margin_bottom" name="page_margin_bottom" size="2" type="text"/></td>
+                  <td title="Column Margin Bottom"> </td>
+                  <td class="L"> </td>
+                  <td> <input size="2" title="column margin bottom" disabled="disabled" type="text"/> </td>
+                  <td class="R"> </td>
+                  <td title="Paper Margin Right"> </td>
+                </tr>
+                <tr>
+                  <td title="Binder Margin"> </td>
+                  <td class="L" title="Paper Margin Bottom"> </td>
+                  <td class="T" title="Paper Margin Bottom"> </td>
+                  <td class="T" title="Paper Margin Bottom"> </td>
+                  <td class="T" title="Paper Margin Bottom" colspan="2">
+                    <input id="paper_margin_bottom" name="paper_margin_bottom" size="2" type="text"/></td>
+                  <td class="T" title="Paper Margin Bottom"> </td>
+                  <td class="T" title="Paper Margin Bottom"> </td>
+                  <td> </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="width:600px;" id="fragment-3">
+            <table><tr><td style="vertical-align: top">
+              <table class="table"><tr><td></td>
+                  <td><H4>Text Size</H4></td>
+                  <td title="Space below the text"><H4>Space below</H4></td>
+                  <td title="Allow automatic reduction of font size to this percentage of the set font size"><H4>Max Resize</H4></td>
+                </tr>
+                <tr class="hide_for_songs">
+                  <td>Book Title</td>
+                  <td><input id="booktitle_size" type="text" name="booktitle_size" size="1"> </input></td>
+                  <td><input id="booktitle_space" type="text" name="booktitle_space" size="1"> </input></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Song Title</td>
+                  <td><input id="songtitle_size" type="text" name="songtitle_size" size="1"> </input></td>
+                  <td><input id="songtitle_space" type="text" name="songtitle_space" size="1" ></input></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Author, Scripture, and Key</td>
+                  <td><input id="small_size" type="text" name="small_size" size="1" ></input></td>
+                  <td><input id="small_space" type="text" name="small_space" size="1" ></input></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Line</td>
+                  <td><input id="songline_size" type="text" name="songline_size" size="1" ></input></td>
+                  <td><input id="songline_space" type="text" name="songline_space" size="1" ></input></td>
+                  <td title="Allow automatic reduction of font size to this percentage of the set font size">
+                    <select id="resize_percent" name="resize_percent" size="1">
+                      <option py:for="size in ['100','95','90','85','80','75','70','65','60','55','50']" py:content="size + '%'" value="${size}" ></option>
+                      <option value="0" >Wrap</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Chord</td>
+                  <td><input id="songchord_size" type="text" name="songchord_size" size="1" ></input></td>
+                  <td><input id="songchord_space" type="text" name="songchord_space" size="1" ></input></td>
+                  <td></td>
+                </tr>
+                <tr title="Spacing before Chorus/Verse/Bridge/etc">
+                  <td>Block Spacing</td>
+                  <td></td>
+                  <td><input id="songchunk_b4" type="text" name="songchunk_b4" size="1" ></input></td>
+                  <td></td>
+                </tr>
+                <tr title="Spacing after the end of the song">
+                  <td>Song Spacing</td>
+                  <td></td>
+                  <td><input id="song_space_after" type="text" name="song_space_after" size="1" ></input></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>Copyright</td>
+                  <td><input id="copyright_size" type="text" name="copyright_size" size="1" ></input></td>
+                  <td title="Spacing before the copyright footer">
+                    <input id="copyright_space_b4" type="text" name="copyright_space_b4" size="1" ></input></td>
+                  <td></td>
+                </tr>
+              </table>
+            </td><td id="example">
+              <h1 class="booktitle_size booktitle_space demo_element hide_for_songs">Book Title</h1>
+              <h2 class="songtitle_size songtitle_space demo_element"><span class="hide_for_songs">1</span> Song Title</h2>
+              <div style="margin-bottom:0.2em">
+                <i style="padding-right: 2em; white-space: nowrap" class="small_size small_space demo_element">John Dow and Mr. Smith</i>
+                <i style="padding-right: 2em; white-space: nowrap" class="small_size small_space demo_element">1 John 3:16</i>
+                <i style="padding-right: 0em; white-space: nowrap" class="small_size small_space demo_element">Key: Am</i>
+              </div>
+              <div class="songchord_size songchord_space demo_element">A, Em, G, A</div>
+              <table style="border:0px">
+                <tr><td valign="top" align="right">1)</td><td style="width:100%">
+                    <div style="white-space: pre;" class="songchord_size songchord_space demo_element">   A        B    Dm</div>
+                    <div class="songline_size songline_space demo_element">Line one of verse 1</div>
+                    <div style="white-space: pre;" class="songchord_size songchord_space demo_element">   B        Em      G</div>
+                    <div class="songline_size songline_space demo_element">Line two of verse 1</div>
+                    <div style="white-space: pre;" class="songchord_size songchord_space demo_element">   C           Dm</div>
+                    <div class="songline_size songline_space demo_element">Line three of verse 1</div>
+                    <p class="songchunk_b4 demo_element"/>
+                </td></tr>
+                <tr><td valign="top" align="right">2)</td><td style="width:100%">
+                    <div class="songline_size songline_space demo_element">Line one of verse 2</div>
+                    <div class="songline_size songline_space demo_element">Line two of verse 2</div>
+                    <div class="songline_size songline_space demo_element">Line three of verse 2</div>
+                    <p class="songchunk_b4 demo_element"/>
+                </td></tr>
+              </table>
+              <div class="copyright_size copyright_space_b4 demo_element"><small>&copy; Copyright so and so, no rights reserved.</small></div>
+              <div class="copyright_size copyright_space_b4 demo_element"><small>Use however you want.</small></div>
+              <p class="song_space_after demo_element"/>
+              <h2 class="songtitle_size songtitle_space demo_element hide_for_songs">2 Song Title</h2>
+              <h3 class="hide_for_songs">. . .</h3>
+            </td></tr>
+          </table>
+          </div>
+          <div class="hide_for_songs" style="width:600px;" id="fragment-4">
+            <table class="table" ><tr><td></td>
+                <td><H4>Text Size:</H4></td>
+                <td title="Spacing below the text"><H4>Spacing:</H4></td>
+                <td><H4>Font:</H4></td>
+              </tr>
+              <tr>
+                <td>Index Title:</td>
+                <td><input id="index_title_size" type="text" name="index_title_size" size="1"> </input></td>
+                <td><input id="index_title_space" type="text" name="index_title_space" size="1"> </input></td>
+                <td>
+                  <select id="index_title_font" name="index_title_font" size="1">
+                    <option py:for="font in formatter.get_options('--index-title-font')" value="${font}" py:content="font" />
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Category Title:</td>
+                <td><input id="index_cat_size" type="text" name="index_cat_size" size="1"> </input></td>
+                <td><input id="index_cat_space" type="text" name="index_cat_space" size="1"> </input></td>
+                <td>
+                  <select id="index_cat_font" name="index_cat_font" size="1">
+                    <option py:for="font in formatter.get_options('--index-cat-font')" value="${font}" py:content="font" />
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Song Title:</td>
+                <td><input id="index_song_size" type="text" name="index_song_size" size="1"> </input></td>
+                <td><input id="index_song_space" type="text" name="index_song_space" size="1" ></input></td>
+                <td>
+                  <select id="index_song_font" name="index_song_font" size="1">
+                    <option py:for="font in formatter.get_options('--index-song-font')" value="${font}" py:content="font" />
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>First Line:</td>
+                <td><input id="index_first_line_size" type="text" name="index_first_line_size" size="1" ></input></td>
+                <td><input id="index_first_line_space" type="text" name="index_first_line_space" size="1" ></input></td>
+                <td>
+                  <select id="index_first_line_font" name="index_first_line_font" size="1">
+                    <option py:for="font in formatter.get_options('--index-first-line-font')" value="${font}" py:content="font" />
+                  </select>
+                </td>
+              </tr>
+              <tr title="Spacing between songs and the Index if index on same page as songs">
+                <td>Index Spacing:</td>
+                <td></td>
+                <td><input id="index_title_b4" type="text" name="index_title_b4" size="1" ></input></td>
+                <td></td>
+              </tr>
+              <tr title="Spacing before catedories in the category index">
+                <td>Category Spacing:</td>
+                <td></td>
+                <td><input id="index_cat_b4" type="text" name="index_cat_b4" size="1" ></input></td>
+                <td></td>
+              </tr>
+              <tr title="Categories to exclude (separate with a ',' no spaces allowed)">
+                <td>Excluded categories</td>
+                <td colspan="3"><input id="index_cat_exclude" type="text" name="index_cat_exclude" size="30" ></input></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!--<div class="hide_for_songs" title="Optionally save the current configuration.  Accessible from 'Format' field on refresh">
+          <hr/>
+          <label for="save_name">Save configuration as:</label>
+          <input name="save_name" py:if="selected in songbook_configs" value="${selected}" id="save_name"></input>
+          <input name="save_name" py:if="selected not in songbook_configs" id="save_name"></input>
+          <input onclick="return $('form').removeAttr('target')" type="submit" name="save_config" value="Save Config"></input>
+          <span py:if="selected in songbook_configs">Configuration saved!</span> 
+          <hr/>
+        </div>-->
+        <input type="submit" name="submit_export" value="Export"/>
+      </form>
+
       </div>
     </div>
     <!-- Left Panel -->
     <div class="jsdatastorage">
-      <a py:for="cfg in book_configs" href="${tg.url('/book/'+cfg['name'])}" data-filtertext="${cfg['name']}" class="leftnav">${cfg['name']}</a>
+      <a py:for="cfg in book_configs" href="${tg.url('/book/'+cfg['name'])}" data-filtertext="${cfg['name']}" data="${cfg['config']}" class="leftnav">${cfg['name']}</a>
       <strong class="leftnav section">Global</strong>
-      <a py:for="cfg in global_configs" href="${tg.url('/book/'+cfg['name'])}" data-filtertext="${cfg['name']}" class="leftnav indent">${cfg['name']}</a>
+      <a py:for="cfg in global_configs" href="${tg.url('/book/'+cfg['name'])}" data-filtertext="${cfg['name']}" data="${cfg['config']}" class="leftnav indent">${cfg['name']}</a>
     </div>
     <!-- Right Panel -->
     <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">
