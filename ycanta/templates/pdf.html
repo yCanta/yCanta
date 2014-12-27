@@ -12,7 +12,7 @@
   <div class="ui-responsive-panel" id="main" data-role="page">
     <span class="jsdatastorage">
       <breadcrumb />
-      <li class="toppings"><a class="ui-btn ui-icon-back ui-btn-icon-left" onclick="history.back()">Cancel</a></li>
+      <li class="toppings"><a class="ui-btn ui-icon-back ui-btn-icon-left" href="${tg.url('/book/%s' % book.title)}" data-rel="back">Cancel</a></li>
     </span>
     <div role="main" class="ui-content scrollable">
       <h3><span py:replace="book.title"></span>&nbsp;&nbsp;<a class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a></h3>
@@ -128,7 +128,7 @@
               </div>
             </div>
           </div>
-          <div style="width:800px;" id="fragment-2">
+          <div id="fragment-2">
             <p><b>Paper:</b> <small>(All numbers are in inches)</small></p>
             <table border="0" cellpadding="0" cellspacing="0">
               <tbody>

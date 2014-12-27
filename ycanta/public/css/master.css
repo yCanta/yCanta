@@ -40,7 +40,7 @@ body.jsdatastorage .jsdatastorage {display: none;}
   #list .section {
     font-size: larger;
   }
-  #songlist a {
+  .songlist a {
     display: block;
   }
 /*
