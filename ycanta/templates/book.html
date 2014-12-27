@@ -13,12 +13,8 @@
     <span class="jsdatastorage">
       <breadcrumb />
       <li class="toppings"><a class="ui-btn ui-icon-edit ui-btn-icon-left">Edit</a></li>
-      <li class="toppings"><a class="ui-btn ui-icon-pdf ui-btn-icon-left" href="${tg.url('/book/%s/pdf' % book.title)}">PDF</a></li>
-      <li class="toppings">
-        <a onclick="$('body').toggleClass('nochords')" class="ui-btn ui-icon-grid ui-btn-icon-left">
-          Chords
-        </a>
-      </li>
+      <li class="toppings"><a class="ui-btn ui-icon-action ui-btn-icon-left" href="${tg.url('/book/%s/pdf' % book.title)}">PDF</a></li>
+      <li class="toppings"><a class="ui-btn ui-icon-camera ui-btn-icon-left" href="">Present</a></li>
       <li class="toppings"><a class="ui-btn ui-icon-delete ui-btn-icon-left">Delete</a></li>
     </span>
     <div role="main" class="ui-content scrollable">
