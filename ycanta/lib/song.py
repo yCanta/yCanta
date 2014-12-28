@@ -50,7 +50,7 @@ def load(path):
   return song
 
 def song_to_str(song):
-  return ET.tostring(song_to_ET(song))
+  return ET.tostring(song_to_ET(song), encoding='utf-8').decode('utf-8')
 
 def song_to_ET(song):
   dom = ET.Element('song')
@@ -61,11 +61,10 @@ def song_to_ET(song):
   ET.SubElement(dom, 'introduction').text  = song.introduction
   ET.SubElement(dom, 'key').text           = song.key
   ET.SubElement(dom, 'categories').text    = song.categories
-  ET.SubElement(dom, 'cclis').text         = song.ccli
+  ET.SubElement(dom, 'cclis').text         = unicode(song.ccli)
   chunks = ET.XML(song.content.encode('utf-8'))
   dom.extend(chunks.findall('chunk'))
   ET.SubElement(dom, 'copyright').text     = song.copyright
-
   return dom
 
 def song_chunks_to_mono(song, exclude_chords=False):

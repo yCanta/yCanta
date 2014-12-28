@@ -78,14 +78,22 @@ def song_url(book,song):
 
   });
   $(document).on("pageshow","[data-role='page']", function() {
-      $("span#breadcrumb").html($(this).find(".breadcrumb").clone());
-      $("#toppings").empty().html($(this).find(".toppings").clone());
-      $("#list").empty().html($(this).find(".leftnav").clone());
-      $(window).trigger("resize")
-      $("#toppings").listview();
-      $("#toppings").listview("refresh");
-      $("#list").filterable({ theme: "a" });
-      $("#list").filterable("refresh");
+    $("span#breadcrumb").html($(this).find(".breadcrumb").clone());
+    $("#toppings").empty().html($(this).find(".toppings").clone());
+    $("#list").empty().html($(this).find(".leftnav").clone());
+    $(window).trigger("resize")
+    $("#toppings").listview();
+    $("#toppings").listview("refresh");
+    $("#list").filterable({ theme: "a" });
+    $("#list").filterable("refresh");
+
+    $(this).find("chunk").each(function(index){
+      if($(this).find('c').length == 0){
+        $(this).addClass('nochords')
+      } else {
+        $(this).addClass('haschords')
+      }
+    });
   });
 
   </script>

@@ -61,22 +61,22 @@ song {
  color: #555;
  font-style: italic;
 }
-.nochords [type=chorus]:before {
+.nochords [type=chorus]:before, [type=chorus].nochords:before {
  content: '\A Chorus:';
 }
-.nochords [type=pre-chorus]:before {
+.nochords [type=pre-chorus]:before, [type=pre-chorus].nochords:before {
  content: '\A Pre-Chorus:';
 }
-.nochords [type='final chorus']:before {
+.nochords [type='final chorus']:before, [type=final chorus].nochords:before {
  content: '\A Final Chorus:';
 }
-.nochords [type=bridge]:before {
+.nochords [type=bridge]:before, [type=bridge].nochords:before {
  content: '\A Bridge:';
 }
-.nochords [type=ending]:before {
+.nochords [type=ending]:before, [type=ending].nochords:before {
  content: '\A Ending:';
 }
-.nochords [type=comment]:before {
+.nochords [type=comment]:before, [type=comment].nochords:before {
  content: '\A Comment:';
 }
 [type=comment] line {
