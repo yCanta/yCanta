@@ -27,8 +27,8 @@ def song_url(book,song):
     <a href="/book" class="ui-btn ui-icon-home ui-btn-icon-right">&nbsp;</a>
     <span id="breadcrumb">
       <py:match path="breadcrumb">
-      <a py:for="crumb in breadcrumbs" py:if="crumb[0] != 'Edit'" href="/${crumb[1]}" class="breadcrumb ui-btn ui-icon-carat-r ui-btn-icon-right">${crumb[0]}</a>
-      <a py:for="crumb in breadcrumbs" py:if="crumb == 'Edit'" href="/book/Canaan/song/Amazing" class="breadcrumb ui-btn ui-icon-edit ui-btn-icon-right">${crumb}</a>
+      <a py:for="crumb in breadcrumbs" py:if="crumb[0] != 'Edit'" href="${tg.url(crumb[1])}" class="breadcrumb ui-btn ui-icon-carat-r ui-btn-icon-right">${crumb[0]}</a>
+      <a py:for="crumb in breadcrumbs" py:if="crumb[0] == 'Edit'" href="${tg.url(crumb[1])}" class="breadcrumb ui-btn ui-icon-edit ui-btn-icon-left">${crumb[0]}</a>
       </py:match>
     </span>
     <span id="actions_menu">

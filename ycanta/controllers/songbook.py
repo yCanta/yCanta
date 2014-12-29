@@ -40,7 +40,7 @@ class BookController(object):
   def index(self):                      # viewing songbook 
 
     return dict(book=self.book, booktitles=self.booktitles(),
-        breadcrumbs=[(self.book.title,'book/'+self.book.title)])
+        breadcrumbs=[(self.book.title,'/book/'+self.book.title)])
 
   @expose('ycanta.templates.book_edit')
   def edit(self):
@@ -49,7 +49,7 @@ class BookController(object):
   @expose('ycanta.templates.pdf')
   def pdf(self):
     return dict(book=self.book, book_configs=self.book.get_configs(), global_configs=model.Book.get_global_configs(),
-        breadcrumbs=[(self.book.title,'book/'+self.book.title), ('PDF export', 'book/%s/pdf' % self.book.title)])
+        breadcrumbs=[(self.book.title,'/book/'+self.book.title), ('PDF export', '/book/%s/pdf' % self.book.title)])
 
   @expose('ycanta.templates.present')
   def present(self):
@@ -72,14 +72,19 @@ class SongController(object):
   def index(self):                   #viewing song
     song = self.song
     book = self.book
-    breadcrumbs = [[book.title,'book/'+ book.title],
-              [song.title, 'book/'+book.title+'/song/'+str(song.id)+'-'+song.title]]
+    breadcrumbs = [[book.title,'/book/'+ book.title],
+              [song.title, '/book/'+book.title+'/song/'+str(song.id)+'-'+song.title]]
 
     return dict(song=self.song, book=self.book, breadcrumbs = breadcrumbs)
 
   @expose('ycanta.templates.song_edit')
   def edit(self):
-    return dict()
+    song = self.song
+    book = self.book
+    breadcrumbs = [[book.title,'/book/'+ book.title],
+              [song.title, '/book/'+book.title+'/song/'+str(song.id)+'-'+song.title],['Edit','/book/%s/song/%s-%s/edit' % (book.title, song.id, song.title)]]
+
+    return dict(song=self.song, book=self.book, breadcrumbs = breadcrumbs)
 
   @expose('ycanta.templates.pdf')
   def pdf(self):
