@@ -18,6 +18,10 @@ line {
 .haschords a.chords {
   background-color: darkgray;
 }
+.haschords a.chords:hover {
+  background-color: lightgray;
+  color: black !important;
+}
 .nochords line {
  padding-top: 0em;
  bottom: 0em;
