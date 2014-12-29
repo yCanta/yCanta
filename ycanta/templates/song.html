@@ -34,14 +34,14 @@
         </div>
       </h3>
       <p>
-        <span py:if="song.author" py:content="song.author"></span>
+        <span py:if="song.author" class="author" py:content="song.author"></span>
         <span py:if="song.scripture" py:content="song.scripture"></span>
       </p>
       <p>
         <span py:if="song.introduction" py:content="song.introduction"></span>
         <span py:if="song.key">Key: <span py:replace="song.key"></span></span>
       </p>
-      <p><span py:if="song.categories"  py:content="song.categories"></span></p>
+      <p><span py:if="song.categories" class="categories" py:content="song.categories"></span></p>
       <p py:if="song.ccli">CCLI</p>
       <!-- Song content -->
       <p py:replace="HTML(song.content)"></p>
@@ -56,5 +56,11 @@
       <!-- panel content here -->
     </div>
   </div>
+  <script type="text/javascript">
+  $(document).on("pageshow","[data-role='page']", function() {
+    makeSearchable('.categories', 'c:')
+    makeSearchable('.author', 'a:')
+    });
+  </script>
 </body>
 </html>

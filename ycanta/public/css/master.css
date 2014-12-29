@@ -27,9 +27,9 @@ body.jsdatastorage .jsdatastorage {display: none;}
     display: block;
   }
   #list a {display: block;}
-  A:link {text-decoration: none !important; color: black !important;}
-  A:visited {text-decoration: none !important; color: black !important;}
-  A:hover {color: grey !important;}
+  a {text-decoration: none !important; color: black !important; font-weight: normal !important;}
+  a:visited {text-decoration: none !important; color: black !important; font-weight: normal !important;}
+  a:hover {color: grey !important;}
   a {cursor: pointer !important;}
   #list .selectedTrue {
     border-left:  solid grey 3pt;

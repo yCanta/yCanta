@@ -1,16 +1,3 @@
-function togglechords() {
-  body = document.getElementsByTagName('body')[0];
-  chord_toggle = document.getElementById('chord-toggle');
-  chordson = (body.className != 'nochords');
-  if(chordson){
-    body.className = 'nochords';
-    chord_toggle.innerHTML = 'Show chords';
-  }
-  else {
-    body.className = '';
-    chord_toggle.innerHTML = 'Hide chords';
-  }
-}
 
 $(window).resize(function(){height_resize('.scrollable');});
 
@@ -20,6 +7,26 @@ function height_resize(r_element) {
     $(this).outerHeight(win_height - $(this).offset().top)
   })
 };
+
+function makeSearchable(tag,prepend) {
+  var tagElement = $.mobile.activePage.find(tag)
+  var tagText = tagElement.text().split(',')
+  tagElement.empty()
+  
+  for(var i=0; i < tagText.length; i++) {
+    var link = document.createElement('a')
+      link.setAttribute('onclick',"$('#left_panel .ui-filterable input').val('"+prepend+jQuery.trim(tagText[i].replace("'",
+                "\\\'"))+"'); $('#left_panel .ui-filterable input').keyup()");
+    if(i < tagText.length - 1){
+      link.innerHTML=jQuery.trim(tagText[i]) + ', ';
+    }
+    else{
+      link.innerHTML=jQuery.trim(tagText[i]);
+    }
+    $(tag).append(link);
+  }
+}
+
 
 function confirmSubmit(text) {
   if(text){
