@@ -15,30 +15,79 @@
       <li class="toppings"><a class="ui-btn ui-icon-back ui-btn-icon-left" href="${tg.url('/book/%s' % book.title)}" data-rel="back">Cancel</a></li>
     </span>
     <div role="main" class="ui-content scrollable">
-      <h3>
-        <span py:replace="song.title"></span>&nbsp;&nbsp;
-        <a href="#songInfo${song.id}" data-rel="popup" class="inline ui-btn ui-icon-info ui-btn-icon-notext"></a>
-        <div data-role="popup" id="songInfo${song.id}">
-          <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-        <ul data-role="listview" data-inset="true">
-          <li data-role="list-divider">Information</li>
-          <li><a>Canaan Nominations</a></li>
-        </ul>
+      <form action="song_save" method="post">
+        <!--div class="scrollable" style="float:right; width:240px;">
+          <dl id="cat_list">
+            <dt>Song Categories</dt>
+            <dd py:for="cat in db.get_st_categories()".>
+              <input type="checkbox" py:attrs="value=cat" py:content="cat" checked="${cat in categories or None}" name="categories" />
+            </dd>
+            <hr />
+            <dd py:for="cat in categories">
+              <input py:if="cat not in db.get_st_categories()" type="checkbox" py:attrs="value=cat" py:content="cat" checked="checked" name="categories" />
+            </dd>
+          </dl-->
+          <!--Add new category -->
+          <!--dl id="add_cat">  
+            <input class="def_input" type="text" defaultText="Add category" size="15" value="Add category" /><a onclick="addCategory($(this).prev(), '#cat_list');"> Add</a>
+          </dl>
+        </div-->
+        <br/>
+        <div data-role="navbar">
+          <ul>
+            <li><input type="submit" name="submit" value="Save" /></li>
+            <li><input type="button" onclick="history.back()" value="Cancel" /></li>
+            <li><input type="button" onclick="window.location.reload()" value="Reset" /></li>
+          </ul>
         </div>
-      </h3>
-      <p>
-        <span py:if="song.author" class="author" py:content="song.author"></span>
-        <span py:if="song.scripture" py:content="song.scripture"></span>
-      </p>
-      <p>
-        <span py:if="song.introduction" py:content="song.introduction"></span>
-        <span py:if="song.key">Key: <span py:replace="song.key"></span></span>
-      </p>
-      <p><span py:if="song.categories" class="categories" py:content="song.categories"></span></p>
-      <p py:if="song.ccli">CCLI</p>
-      <!-- Song content -->
-      <p py:replace="HTML(song.content)"></p>
-      <p py:if="song.copyright" py:content="song.copyright"></p>
+        <!--input type="hidden" name="new" value="${new}" /--><br />
+        <h2>Title:
+          <input class="def_input" defaultText="New Song" type="text" name="title" size="40" py:attrs="{'value': song.title}" />
+        </h2>
+        <h4>
+          Author:<input type="text" name="author" size="30" py:attrs="{'value': song.author}" /> 
+          Scripture Ref:<input type="text" name="scripture" size="15" py:attrs="{'value': song.scripture}" />
+        </h4>
+        CCLI:<input type="checkbox" name="cclis" size="6" checked="${song.ccli}" />
+        Intro:<input type="text" name="introduction" size="46" py:attrs="{'value': song.introduction}" /> 
+        Key:<input type="text" name="key" size="1" py:attrs="{'value': song.key}" />
+          <a onclick="$('.transpose-keys').toggle()">
+            <img src="static/images/transpose.png" />
+          </a>
+
+        <p><i>A blank line between text in a chunk will split it when saved.</i></p>
+        <div>
+          <ol id="songsOl">
+            <li class="hover" py:for="chunk in song.toxmlET().findall('chunk')">
+              <img class="handle" src="static/images/move.png" />
+              <select name="types" size="1">
+                <option py:for="item in ['verse','chorus']" py:content='item.title()' selected='${item == chunk.get("type") or None}'></option>
+                <optgroup label='Misc'>
+                  <option py:for="item in ['pre-chorus','final chorus','bridge','ending',
+                    'no label', 'indented no label', 'comment']" py:content='item.title()' 
+                    selected='${item == chunk.get("type") or None}'></option>
+                </optgroup>
+              </select>
+              <a onclick="$(this).parent().slideUp(300, function () {$(this).remove();});">__</a>
+              <br />
+              <textarea name="chunk_list" py:content="chunk.text" rows="2" cols="80" /><br/>
+              <a class="add_chunk" onclick="insertChunk(this)" ><img src="static/images/add.png"></img></a>
+            </li>
+          </ol>
+        </div>
+        <br />
+        Copyright:<input type="text" name="copyright" size="60" py:attrs="{'value': song.copyright}" />
+        <br />
+        <input type="hidden" name="path" size="20" py:attrs="{'value': 'path'}" /><br />
+        <div data-role="navbar">
+          <ul>
+            <li><input type="submit" name="submit" value="Save" /></li>
+            <li><input type="button" onclick="history.back()" value="Cancel" /></li>
+            <li><input type="button" onclick="window.location.reload()" value="Reset" /></li>
+          </ul>
+        </div>
+        <br />
+      </form>  
     </div>
     <!-- Left Panel -->
     <div class="jsdatastorage">
