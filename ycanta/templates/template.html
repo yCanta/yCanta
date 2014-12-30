@@ -85,7 +85,10 @@ def song_url(book,song):
     $("#toppings").listview("refresh");
     $("#list").filterable({ theme: "a" });
     $("#list").filterable("refresh");
-
+   
+    //song.html specific javascript needs to be here in case we navigate from another page    
+    makeSearchable('.categories', 'c:')
+    makeSearchable('.author', 'a:')
     $(this).find("chunk").each(function(index){
       if($(this).find('c').length == 0){
         $(this).addClass('nochords')
