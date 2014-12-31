@@ -29,7 +29,7 @@
           </dl-->
           <!--Add new category -->
           <!--dl id="add_cat">  
-            <input class="def_input" type="text" defaultText="Add category" size="15" value="Add category" /><a onclick="addCategory($(this).prev(), '#cat_list');"> Add</a>
+            <input class="def_input" type="text" defaultText="Add category" value="Add category" /><a onclick="addCategory($(this).prev(), '#cat_list');"> Add</a>
           </dl>
         </div-->
         <br/>
@@ -41,26 +41,43 @@
           </ul>
         </div>
         <!--input type="hidden" name="new" value="${new}" /--><br />
-        <h2>Title:
-          <input class="def_input" defaultText="New Song" type="text" name="title" size="40" py:attrs="{'value': song.title}" />
-        </h2>
-        <h4>
-          Author:<input type="text" name="author" size="30" py:attrs="{'value': song.author}" /> 
-          Scripture Ref:<input type="text" name="scripture" size="15" py:attrs="{'value': song.scripture}" />
-        </h4>
-        CCLI:<input type="checkbox" name="cclis" size="6" checked="${song.ccli}" />
-        Intro:<input type="text" name="introduction" size="46" py:attrs="{'value': song.introduction}" /> 
-        Key:<input type="text" name="key" size="1" py:attrs="{'value': song.key}" />
-          <a onclick="$('.transpose-keys').toggle()">
-            <img src="static/images/transpose.png" />
-          </a>
+        <label><big><b>Title:</b></big></label>
+        <input class="def_input" defaultText="New Song" type="text" name="title" py:attrs="{'value': song.title}" />
+        <div class="columns">
+          <span data-role="fieldcontain">
+            <label><b>Author:</b></label>
+            <input type="text" name="author" py:attrs="{'value': song.author}" />
+          </span>
+          <span data-role="fieldcontain">
+            <label><b>Scripture:</b></label>
+            <input type="text" name="scripture" py:attrs="{'value': song.scripture}" />
+          </span>
+        </div>
+        <div class="columns">
+          <span data-role="fieldcontain">
+            <label>Intro:</label>
+            <input type="text" name="introduction" py:attrs="{'value': song.introduction}" /> 
+          </span>
+          <span data-role="fieldcontain">
+            <label>Key:
+              <a onclick="$('.transpose-keys').toggle()">
+                <img src="static/images/transpose.png" />
+              </a>
+            </label>
+            <input type="text" name="key" py:attrs="{'value': song.key}" />
+          </span>
+        </div>
+        <span data-role="fieldcontain">
+          <label>CCLI:</label>
+          <input type="checkbox" name="cclis" checked="${song.ccli}" />
+        </span>
 
         <p><i>A blank line between text in a chunk will split it when saved.</i></p>
         <div>
           <ol id="songsOl">
             <li class="hover" py:for="chunk in song.toxmlET().findall('chunk')">
               <img class="handle" src="static/images/move.png" />
-              <select name="types" size="1">
+              <select name="types" >
                 <option py:for="item in ['verse','chorus']" py:content='item.title()' selected='${item == chunk.get("type") or None}'></option>
                 <optgroup label='Misc'>
                   <option py:for="item in ['pre-chorus','final chorus','bridge','ending',
@@ -76,9 +93,12 @@
           </ol>
         </div>
         <br />
-        Copyright:<input type="text" name="copyright" size="60" py:attrs="{'value': song.copyright}" />
+        <span data-role="fieldcontain">
+          <label>Copyright:</label>
+          <input type="text" name="copyright" py:attrs="{'value': song.copyright}" />
+        </span>
         <br />
-        <input type="hidden" name="path" size="20" py:attrs="{'value': 'path'}" /><br />
+        <input type="hidden" name="path" py:attrs="{'value': 'path'}" /><br />
         <div data-role="navbar">
           <ul>
             <li><input type="submit" name="submit" value="Save" /></li>
