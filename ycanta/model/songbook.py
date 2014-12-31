@@ -98,7 +98,7 @@ class Song(LastModifiedMixin, DeclarativeBase):
     ret = u't:%s; ' % self.title
     ret += u' '.join('a:%s; ' % a for a in ensure_str(self.author, '!a').split(','))
     ret += u' '.join('c:%s; ' % c for c in ensure_str(self.categories, '!c').split(','))
-    ret += u'\n\n'.join(ycanta.lib.song.song_chunks_to_mono(self, exclude_chords=True))
+    ret += u'\n'.join(ycanta.lib.song.song_chunks_to_mono(self, exclude_chords=True))
     return ret
 
   @classmethod

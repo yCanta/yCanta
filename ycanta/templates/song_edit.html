@@ -41,22 +41,23 @@
           </ul>
         </div>
         <!--input type="hidden" name="new" value="${new}" /--><br />
-        <label><big><b>Title:</b></big></label>
-        <input class="def_input" defaultText="New Song" type="text" name="title" py:attrs="{'value': song.title}" />
+        <label><big><b>Title:</b></big>
+          <input data-mini="True" class="def_input" defaultText="New Song" type="text" name="title" py:attrs="{'value': song.title}" />
+        </label>
         <div class="columns">
           <span data-role="fieldcontain">
             <label><b>Author:</b></label>
-            <input type="text" name="author" py:attrs="{'value': song.author}" />
+            <input data-mini="True" type="text" name="author" py:attrs="{'value': song.author}" />
           </span>
           <span data-role="fieldcontain">
             <label><b>Scripture:</b></label>
-            <input type="text" name="scripture" py:attrs="{'value': song.scripture}" />
+            <input data-mini="True" type="text" name="scripture" py:attrs="{'value': song.scripture}" />
           </span>
         </div>
         <div class="columns">
           <span data-role="fieldcontain">
             <label>Intro:</label>
-            <input type="text" name="introduction" py:attrs="{'value': song.introduction}" /> 
+            <input data-mini="True" type="text" name="introduction" py:attrs="{'value': song.introduction}" /> 
           </span>
           <span data-role="fieldcontain">
             <label>Key:
@@ -64,20 +65,24 @@
                 <img src="static/images/transpose.png" />
               </a>
             </label>
-            <input type="text" name="key" py:attrs="{'value': song.key}" />
+            <input data-mini="True" type="text" name="key" py:attrs="{'value': song.key}" />
           </span>
         </div>
         <span data-role="fieldcontain">
-          <label>CCLI:</label>
-          <input type="checkbox" name="cclis" checked="${song.ccli}" />
+          <label>CCLI:
+            <input data-mini="True" type="checkbox" name="cclis" checked="${song.ccli}" />
+          </label>
         </span>
 
         <p><i>A blank line between text in a chunk will split it when saved.</i></p>
         <div>
+          <?python
+          import ycanta.lib.song
+          ?>
           <ol id="songsOl">
             <li class="hover" py:for="chunk in song.toxmlET().findall('chunk')">
               <img class="handle" src="static/images/move.png" />
-              <select name="types" >
+              <select data-mini="True" name="types" >
                 <option py:for="item in ['verse','chorus']" py:content='item.title()' selected='${item == chunk.get("type") or None}'></option>
                 <optgroup label='Misc'>
                   <option py:for="item in ['pre-chorus','final chorus','bridge','ending',
@@ -87,7 +92,7 @@
               </select>
               <a onclick="$(this).parent().slideUp(300, function () {$(this).remove();});">__</a>
               <br />
-              <textarea name="chunk_list" py:content="chunk.text" rows="2" cols="80" /><br/>
+              <textarea name="chunk_list" py:content="ycanta.lib.song.chunk_to_mono(chunk)" rows="2" cols="80" /><br/>
               <a class="add_chunk" onclick="insertChunk(this)" ><img src="static/images/add.png"></img></a>
             </li>
           </ol>

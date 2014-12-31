@@ -68,7 +68,14 @@ def song_to_ET(song):
   return dom
 
 def song_chunks_to_mono(song, exclude_chords=False):
-  
+  chunks = []
+  for chunk in song_to_ET(song).findall('chunk'):
+    chunk_text =  chunk_to_mono(chunk, exclude_chords)
+    chunks.append(chunk_text)
+
+  return chunks
+ 
+def chunk_to_mono(chunk, exclude_chords=False):
   def is_chord_line(line):
     return line.find('c') is not None
 
@@ -109,23 +116,18 @@ def song_chunks_to_mono(song, exclude_chords=False):
 
   
   # Start of actual function ...
-  chunks = []
-
-  for chunk in song_to_ET(song).findall('chunk'):
-    chunk_text=[]
-    lines = chunk.findall('line')
-    for line in lines:
-      if is_chord_line(line):
-        if exclude_chords:
-          chunk_text.append(strip_chord(line))
-        else:
-          chunk_text.append(expand_chord(line))
+  chunk_text=[]
+  lines = chunk.findall('line')
+  for line in lines:
+    if is_chord_line(line):
+      if exclude_chords:
+        chunk_text.append(strip_chord(line))
       else:
-        chunk_text.append(line.text or "")
+        chunk_text.append(expand_chord(line))
+    else:
+      chunk_text.append(line.text or "")
 
-    chunks.append('\n'.join(chunk_text))
-
-  return chunks
+  return '\n'.join(chunk_text)
 
 
 
