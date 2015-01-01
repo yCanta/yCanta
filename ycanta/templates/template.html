@@ -89,7 +89,6 @@ def song_url(book,song):
     $(this).find(".sortable").sortable({placeholder: 'ui-selected', forcePlaceholderSize: true});
    
     //song.html specific javascript needs to be here in case we navigate from another page    
-    makeSearchable('.categories', 'c:')
     makeSearchable('.author', 'a:')
     $(this).find("chunk").each(function(index){
       if($(this).find('c').length == 0){

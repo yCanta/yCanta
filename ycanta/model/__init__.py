@@ -60,5 +60,5 @@ def init_model(engine):
 
 # Import your model modules here.
 from ycanta.model.auth import User, Group, Permission
-from ycanta.model.songbook import Book, Song, BookHistory, SongHistory
+from ycanta.model.songbook import Book, Song, BookHistory, SongHistory, Category
 

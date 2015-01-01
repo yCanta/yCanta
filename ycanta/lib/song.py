@@ -4,6 +4,7 @@ except ImportError:
     import xml.etree.ElementTree as ET
 
 import ycanta.model
+from ycanta.model import DBSession
 
 CHORD_SPACE_RATIO = 0.45
 
@@ -34,6 +35,15 @@ def load(path):
   content = ET.Element('song')
   content.extend(dom.findall('chunk'))
 
+  categories = []
+  cat_dom = get_piece(dom, 'categories')
+  if cat_dom:
+    for cat in cat_dom.split(','):
+      cat = cat.strip()
+      one = DBSession.query(ycanta.model.Category).filter_by(name=cat).first() 
+      two = ycanta.model.Category(name=cat)
+      categories.append(one or two)
+
 
   song = ycanta.model.Song(
       title        = get_piece(dom, 'stitle', nullable=False),
@@ -41,7 +51,7 @@ def load(path):
       scripture    = get_piece(dom, 'scripture_ref'),
       introduction = get_piece(dom, 'introduction'),
       key          = get_piece(dom, 'key'),
-      categories   = get_piece(dom, 'categories'),
+      categories   = categories, 
       ccli         = to_boolean(get_piece(dom, 'cclis')),
       copyright    = get_piece(dom, 'copyright'),
       content      = ET.tostring(content, encoding='utf-8').decode('utf-8'),
@@ -60,7 +70,7 @@ def song_to_ET(song):
   ET.SubElement(dom, 'scripture_ref').text = song.scripture
   ET.SubElement(dom, 'introduction').text  = song.introduction
   ET.SubElement(dom, 'key').text           = song.key
-  ET.SubElement(dom, 'categories').text    = song.categories
+  ET.SubElement(dom, 'categories').text    = ', '.join([cat.name for cat in song.categories])
   ET.SubElement(dom, 'cclis').text         = unicode(song.ccli)
   chunks = ET.XML(song.content.encode('utf-8'))
   dom.extend(chunks.findall('chunk'))

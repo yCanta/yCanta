@@ -2,7 +2,7 @@
 """Sample model module."""
 
 from sqlalchemy import *
-from sqlalchemy.orm import mapper, relation
+from sqlalchemy.orm import mapper, relationship
 from sqlalchemy import Table, ForeignKey, Column
 from sqlalchemy.types import Integer, Unicode, UnicodeText, DateTime
 from sqlalchemy.ext.declarative import declared_attr
@@ -66,6 +66,21 @@ class BookHistory(LastModifiedMixin, DeclarativeBase):
   content = Column(UnicodeText(), nullable=False)
 
 
+song_category_association_table = Table('association', DeclarativeBase.metadata,
+        Column('category_id', Integer, ForeignKey('category.id')),
+        Column('song_id',     Integer, ForeignKey('song.id')))
+
+
+class Category(DeclarativeBase):
+  __tablename__ = 'category'
+
+  id    = Column(Integer, primary_key=True)
+  name  = Column(Unicode(), nullable=False)
+  songs = relationship('Song', 
+          secondary=song_category_association_table, 
+          backref='categories')
+
+
 class Song(LastModifiedMixin, DeclarativeBase):
   __tablename__ = 'song'
 
@@ -75,7 +90,6 @@ class Song(LastModifiedMixin, DeclarativeBase):
   scripture    = Column(Unicode(), nullable=True)
   introduction = Column(Unicode(), nullable=True)
   key          = Column(Unicode(), nullable=True)
-  categories   = Column(Unicode(), nullable=True)
   ccli         = Column(Boolean(), nullable=False)
   copyright    = Column(Unicode(), nullable=True)
   content      = Column(UnicodeText(), nullable=False)
@@ -97,7 +111,10 @@ class Song(LastModifiedMixin, DeclarativeBase):
 
     ret = u't:%s; ' % self.title
     ret += u' '.join('a:%s; ' % a for a in ensure_str(self.author, '!a').split(','))
-    ret += u' '.join('c:%s; ' % c for c in ensure_str(self.categories, '!c').split(','))
+    if len(self.categories):
+      ret += u' '.join('c:%s; ' % c.name for c in self.categories)
+    else:
+      ret += u'c:!c'
     ret += u'\n'.join(ycanta.lib.song.song_chunks_to_mono(self, exclude_chords=True))
     return ret
 

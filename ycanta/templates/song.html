@@ -41,7 +41,9 @@
         <span py:if="song.introduction" py:content="song.introduction"></span>
         <span py:if="song.key">Key: <span py:replace="song.key"></span></span>
       </p>
-      <p><span py:if="song.categories" class="categories" py:content="song.categories"></span></p>
+      <p py:if="song.categories">
+        <a py:for="cat in song.categories" py:content="cat.name+', '" onclick="$('#left_panel .ui-filterable input').val('c:${cat.name}'); $('#left_panel .ui-filterable input').keyup()"></a>
+      </p>
       <p py:if="song.ccli">CCLI</p>
       <!-- Song content -->
       <p py:replace="HTML(song.content)"></p>
