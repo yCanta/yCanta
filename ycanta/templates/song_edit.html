@@ -16,23 +16,6 @@
     </span>
     <div role="main" class="ui-content scrollable">
       <form action="song_save" method="post">
-        <!--div class="scrollable" style="float:right; width:240px;">
-          <dl id="cat_list">
-            <dt>Song Categories</dt>
-            <dd py:for="cat in db.get_st_categories()".>
-              <input type="checkbox" py:attrs="value=cat" py:content="cat" checked="${cat in categories or None}" name="categories" />
-            </dd>
-            <hr />
-            <dd py:for="cat in categories">
-              <input py:if="cat not in db.get_st_categories()" type="checkbox" py:attrs="value=cat" py:content="cat" checked="checked" name="categories" />
-            </dd>
-          </dl-->
-          <!--Add new category -->
-          <!--dl id="add_cat">  
-            <input class="def_input" type="text" defaultText="Add category" value="Add category" /><a onclick="addCategory($(this).prev(), '#cat_list');"> Add</a>
-          </dl>
-        </div-->
-        <br/>
         <div data-role="navbar">
           <ul>
             <li><input type="submit" name="submit" value="Save" /></li>
@@ -70,10 +53,10 @@
         </div>
         <span data-role="fieldcontain">
           <label>CCLI:
-            <input data-mini="True" type="checkbox" name="cclis" checked="${song.ccli}" />
+            <input py:if="song.ccli == True" data-mini="True" type="checkbox" name="ccli" checked=""/>
+            <input py:if="song.ccli == False" data-mini="True" type="checkbox" name="ccli"/>
           </label>
         </span>
-
         <p><i>A blank line between text in a chunk will split it when saved.</i></p>
         <div>
           <?python
@@ -94,7 +77,7 @@
               <span data-mini="true" data-role="controlgroup" data-type="horizontal" class="ui-li-aside">
                 <a class="ui-btn ui-btn-icon-notext ui-icon-plus" onclick="insertChunk(this)">A</a>
                 <a class="ui-btn ui-btn-icon-notext ui-icon-paste" onclick="insertChunk(this)">P</a>
-                <a class="ui-btn ui-btn-icon-right ui-btn-icon-notext ui-icon-delete" onclick="$(this).parent().parent().slideUp(300, function () {$(this).parent().remove();});">D</a>
+                <a class="ui-btn ui-btn-icon-right ui-btn-icon-notext ui-icon-delete" onclick="$(this).parent().parent().parent().slideUp(300, function () {$(this).remove();});">D</a>
               </span>
               <textarea name="chunk_list" py:content="ycanta.lib.song.chunk_to_mono(chunk)"/>
             </li>
@@ -104,7 +87,7 @@
           <label>Copyright:</label>
           <input type="text" name="copyright" py:attrs="{'value': song.copyright}" />
         </span>
-        <input type="hidden" name="path" py:attrs="{'value': 'path'}" /><br />
+        <input type="hidden" name="path" py:attrs="{'value': 'path'}" />
         <div data-role="navbar">
           <ul>
             <li><input type="submit" name="submit" value="Save" /></li>
@@ -113,15 +96,30 @@
           </ul>
         </div>
         <br />
+        <!-- Right Panel -->
+        <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">
+          <div class="scrollable" style="float:right; width:240px;">
+            <dl id="cat_list">
+              <dt>Song Categories</dt>
+              <!--dd py:for="cat in db.get_st_categories()">
+              <input type="checkbox" py:attrs="{'value': cat}" py:content="cat" checked="${cat in categories or None}" name="categories" />
+              </dd>
+              <hr />
+              <dd py:for="cat in categories">
+              <input py:if="cat not in db.get_st_categories()" type="checkbox" py:attrs="{'value': cat}" py:content="cat" checked="checked" name="categories" />
+              </dd-->
+            </dl>
+            <!--Add new category -->
+            <dl id="add_cat">  
+              <input class="def_input" type="text" defaultText="Add category" value="Add category" /><a onclick="addCategory($(this).prev(), '#cat_list');"> Add</a>
+            </dl>
+          </div>
+        </div>
       </form>  
     </div>
     <!-- Left Panel -->
     <div class="jsdatastorage">
       <a py:for="s in book.songs()" href="${song_url(book, s)}" data-filtertext="${s.tosearchstr()}" class="leftnav selected${s.title==song.title}">${s.title}</a>
-    </div>
-    <!-- Right Panel -->
-    <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">
-      <!-- panel content here -->
     </div>
   </div>
   <script type="text/javascript">
