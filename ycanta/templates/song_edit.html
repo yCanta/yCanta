@@ -79,30 +79,31 @@
           <?python
           import ycanta.lib.song
           ?>
-          <ol id="songsOl">
-            <li class="hover" py:for="chunk in song.toxmlET().findall('chunk')">
-              <img class="handle" src="static/images/move.png" />
-              <select data-mini="True" name="types" >
-                <option py:for="item in ['verse','chorus']" py:content='item.title()' selected='${item == chunk.get("type") or None}'></option>
-                <optgroup label='Misc'>
-                  <option py:for="item in ['pre-chorus','final chorus','bridge','ending',
-                    'no label', 'indented no label', 'comment']" py:content='item.title()' 
-                    selected='${item == chunk.get("type") or None}'></option>
-                </optgroup>
-              </select>
-              <a onclick="$(this).parent().slideUp(300, function () {$(this).remove();});">__</a>
-              <br />
-              <textarea name="chunk_list" py:content="ycanta.lib.song.chunk_to_mono(chunk)" rows="2" cols="80" /><br/>
-              <a class="add_chunk" onclick="insertChunk(this)" ><img src="static/images/add.png"></img></a>
+          <ol data-inset="true" data-role="listview" class="sortable">
+            <li py:for="chunk in song.toxmlET().findall('chunk')">
+              <span data-role="controlgroup" data-type="horizontal">
+                <select data-mini="true" name="types" >
+                  <option py:for="item in ['verse','chorus']" py:content='item.title()' selected='${item == chunk.get("type") or None}'></option>
+                  <optgroup label='Misc'>
+                    <option py:for="item in ['pre-chorus','final chorus','bridge','ending',
+                      'no label', 'indented no label', 'comment']" py:content='item.title()' 
+                      selected='${item == chunk.get("type") or None}'></option>
+                  </optgroup>
+                </select>
+              </span>
+              <span data-mini="true" data-role="controlgroup" data-type="horizontal" class="ui-li-aside">
+                <a class="ui-btn ui-btn-icon-notext ui-icon-plus" onclick="insertChunk(this)">A</a>
+                <a class="ui-btn ui-btn-icon-notext ui-icon-paste" onclick="insertChunk(this)">P</a>
+                <a class="ui-btn ui-btn-icon-right ui-btn-icon-notext ui-icon-delete" onclick="$(this).parent().parent().slideUp(300, function () {$(this).parent().remove();});">D</a>
+              </span>
+              <textarea name="chunk_list" py:content="ycanta.lib.song.chunk_to_mono(chunk)"/>
             </li>
           </ol>
         </div>
-        <br />
         <span data-role="fieldcontain">
           <label>Copyright:</label>
           <input type="text" name="copyright" py:attrs="{'value': song.copyright}" />
         </span>
-        <br />
         <input type="hidden" name="path" py:attrs="{'value': 'path'}" /><br />
         <div data-role="navbar">
           <ul>

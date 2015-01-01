@@ -66,6 +66,7 @@ def song_url(book,song):
     $.mobile.defaultPageTransition = 'none';
   });
   </script>
+  <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script src="${tg.url('/javascript/lib.js')}"></script>
   <script type="text/javascript">
@@ -85,6 +86,7 @@ def song_url(book,song):
     $("#toppings").listview("refresh");
     $("#list").filterable({ theme: "a" });
     $("#list").filterable("refresh");
+    $(this).find(".sortable").sortable({placeholder: 'ui-selected', forcePlaceholderSize: true});
    
     //song.html specific javascript needs to be here in case we navigate from another page    
     makeSearchable('.categories', 'c:')
