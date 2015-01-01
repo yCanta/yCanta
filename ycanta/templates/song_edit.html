@@ -99,20 +99,24 @@
         <!-- Right Panel -->
         <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">
           <div class="scrollable" style="float:right; width:240px;">
-            <dl id="cat_list">
-              <dt>Song Categories</dt>
-              <!--dd py:for="cat in db.get_st_categories()">
-              <input type="checkbox" py:attrs="{'value': cat}" py:content="cat" checked="${cat in categories or None}" name="categories" />
-              </dd>
+            <fieldset data-role="controlgroup">
+              <legend><strong>Song Categories</strong></legend>
+              <span py:for="cat in categories">
+                <label>
+                  <span py:replace="cat.name"></span>
+                  <input data-mini="true" type="checkbox" py:attrs="{'value': cat.id}" checked="${cat in song.categories or None}" name="categories" />
+                </label>
+              </span>
               <hr />
-              <dd py:for="cat in categories">
-              <input py:if="cat not in db.get_st_categories()" type="checkbox" py:attrs="{'value': cat}" py:content="cat" checked="checked" name="categories" />
-              </dd-->
-            </dl>
+              <span py:for="cat in song.categories">
+                <input py:if="cat not in categories" type="checkbox" py:attrs="{'value': cat.id}" py:content="cat.name" checked="checked" name="categories" />
+              </span>
+            </fieldset>
             <!--Add new category -->
-            <dl id="add_cat">  
-              <input class="def_input" type="text" defaultText="Add category" value="Add category" /><a onclick="addCategory($(this).prev(), '#cat_list');"> Add</a>
-            </dl>
+            <div data-mini="true" data-role="controlgroup" data-type="horizontal" id="add_cat">  
+              <input data-mini="true" data-wrapper-class="controlgroup-textinput ui-btn" class="def_input" type="text" defaultText="Add category" value="Add category" />
+              <a data-mini="true" class="ui-btn" onclick="addCategory($(this).prev(), '#cat_list');">Add</a>
+            </div>
           </div>
         </div>
       </form>  

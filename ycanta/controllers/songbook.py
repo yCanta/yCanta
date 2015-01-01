@@ -84,7 +84,7 @@ class SongController(object):
     breadcrumbs = [[book.title,'/book/'+ book.title],
               [song.title, '/book/'+book.title+'/song/'+str(song.id)+'-'+song.title],['Edit','/book/%s/song/%s-%s/edit' % (book.title, song.id, song.title)]]
 
-    return dict(song=self.song, book=self.book, breadcrumbs = breadcrumbs)
+    return dict(song=self.song, book=self.book, categories=model.DBSession.query(model.Category), breadcrumbs = breadcrumbs)
 
   @expose('ycanta.templates.pdf')
   def pdf(self):
