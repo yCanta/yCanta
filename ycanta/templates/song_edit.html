@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div class="ui-responsive-panel" id="main" data-role="page">
+  <div id="main" data-role="page">
     <span class="jsdatastorage">
       <breadcrumb />
       <li class="toppings"><a class="ui-btn ui-icon-back ui-btn-icon-left" href="${tg.url('/book/%s' % book.title)}" data-rel="back">Cancel</a></li>
@@ -27,7 +27,7 @@
         <label><big><b>Title:</b></big>
           <input data-mini="True" class="def_input" defaultText="New Song" type="text" name="title" py:attrs="{'value': song.title}" />
         </label>
-        <div class="columns">
+        <div class="columns-sm">
           <span data-role="fieldcontain">
             <label><b>Author:</b></label>
             <input data-mini="True" type="text" name="author" py:attrs="{'value': song.author}" />
@@ -36,8 +36,6 @@
             <label><b>Scripture:</b></label>
             <input data-mini="True" type="text" name="scripture" py:attrs="{'value': song.scripture}" />
           </span>
-        </div>
-        <div class="columns">
           <span data-role="fieldcontain">
             <label>Intro:</label>
             <input data-mini="True" type="text" name="introduction" py:attrs="{'value': song.introduction}" /> 
@@ -98,9 +96,9 @@
         <br />
         <!-- Right Panel -->
         <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">
-          <div class="scrollable" style="float:right; width:240px;">
+          <legend><strong>Song Categories</strong></legend>
+          <div class="scrollable" style="float:right">
             <fieldset data-role="controlgroup">
-              <legend><strong>Song Categories</strong></legend>
               <span py:for="cat in categories">
                 <label>
                   <span py:replace="cat.name"></span>

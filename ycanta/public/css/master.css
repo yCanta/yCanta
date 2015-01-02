@@ -12,6 +12,9 @@ body.jsdatastorage .jsdatastorage {display: none;}
     column-rule-width: 1pt;       -moz-column-rule-width: 1pt;       -webkit-column-rule-width: 1pt;  
     column-rule-style: solid;     -moz-column-rule-style: solid;     -webkit-column-rule-style: solid;
   }
+  .columns-sm {
+    column-width: 20em;           -moz-column-width: 20em;           -webkit-column-width: 20em;      
+  }
   #actions_menu{
     text-align: right;
     position: relative;
@@ -165,12 +168,12 @@ body.jsdatastorage .jsdatastorage {display: none;}
   #toppings li, #toppings li a, #toppings{
     display: inline
   }
-
-@media (min-width: 60em) {
-/* disable "dismiss" on wide viewports */
-.ui-panel-dismiss{
-    display: none;
 }
+@media (min-width: 60em) {
+  /* disable "dismiss" on wide viewports */
+  .ui-panel-dismiss{
+    display: none;
+  }
   #open_left_panel {
     display: none;
   }
@@ -199,6 +202,9 @@ body.jsdatastorage .jsdatastorage {display: none;}
     padding-left: 8%;
     float: right;
   }
+ /* #main.right_panel_open > .scrollable {
+    padding-right: 17em;
+  }*/
 }
 
 @media print {
