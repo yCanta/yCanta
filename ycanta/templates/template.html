@@ -23,7 +23,7 @@ def song_url(book,song):
   <div data-role="header" class="header">
     <a id="open_left_panel" class="ui-btn ui-icon-carat-l ui-btn-icon-left ui-btn-icon-notext" href="#left_panel">&nbsp;</a>
     <b><h1 align="center">yCanta!</h1></b>
-    <a class="ui-btn ui-icon-carat-r ui-btn-icon-right ui-btn-icon-notext" href="#right_panel">&nbsp;</a>
+    <a class="ui-btn ui-icon-carat-r ui-btn-icon-right ui-btn-icon-notext" onclick="$('.ui-page-active .right_panel').panel('toggle')">&nbsp;</a>
     <a href="/book" class="ui-btn ui-icon-home ui-btn-icon-right">&nbsp;</a>
     <span id="breadcrumb">
       <py:match path="breadcrumb">
@@ -73,7 +73,7 @@ def song_url(book,song):
   $(document).ready(function(){
     $("body").addClass("jsdatastorage")
     $("[data-role='header'], [data-role='footer']").toolbar({ theme: "a" });
-    $("#left_panel, #right_panel").panel({ theme: "a" });      
+    $("#left_panel, .right_panel").panel({ theme: "a" });      
     $(window).trigger("resize")
 
   });

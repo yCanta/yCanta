@@ -195,14 +195,14 @@ body.jsdatastorage .jsdatastorage {display: none;}
     -moz-box-shadow: none;
     box-shadow: none;
   }
-  #main {
+  .main.ui-page.ui-page-active {
     position: relative;
     width: 67%;
     padding-top: 0.5em;
     padding-left: 8%;
     float: right;
   }
- /* #main.right_panel_open > .scrollable {
+ /* .main.right_panel_open > .scrollable {
     padding-right: 17em;
   }*/
 }

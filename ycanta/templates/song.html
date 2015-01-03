@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div class="ui-responsive-panel" id="main" data-role="page">
+  <div class="main" data-role="page">
     <span class="jsdatastorage">
       <breadcrumb />
       <li class="toppings"><a href="${tg.url(breadcrumbs[-1][1])}/edit" class="ui-btn ui-icon-edit ui-btn-icon-left">Edit</a></li>
@@ -54,7 +54,7 @@
       <a py:for="s in book.songs()" href="${song_url(book, s)}" data-filtertext="${s.tosearchstr()}" class="leftnav selected${s.title==song.title}">${s.title}</a>
     </div>
     <!-- Right Panel -->
-    <div data-role="panel" data-position="right" data-display="overlay" id="right_panel">
+    <div data-role="panel" data-position="right" data-display="overlay" class="right_panel">
       <!-- panel content here -->
     </div>
   </div>
