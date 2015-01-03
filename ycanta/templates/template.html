@@ -54,6 +54,7 @@ def song_url(book,song):
     <div class="scrollable " style="overflow:auto;" id="list" data-filter="true">
       <strong>Javascript Required</strong>
     </div> 
+    <span class="badge left-search-count">123</span>
   </div>
 
   <!-- Footer -->
@@ -87,6 +88,10 @@ def song_url(book,song):
     $("#list").filterable({ theme: "a" });
     $("#list").filterable("refresh");
     $(this).find(".sortable").sortable({placeholder: 'ui-selected', forcePlaceholderSize: true});
+    $("#left_panel #list").on( "filterablefilter", function(event, ui) {
+      $("#left_panel .left-search-count").text($("#left_panel #list a:visible").size())
+    });
+    $("#left_panel .ui-filterable input").keyup()  //triggers update to count bubble
    
     //song.html specific javascript needs to be here in case we navigate from another page    
     makeSearchable('.author', 'a:')

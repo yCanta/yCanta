@@ -1,6 +1,16 @@
 body.jsdatastorage .jsdatastorage {display: none;}
 
 @media screen{
+  .badge {
+    background: gray;
+    color: #fff;
+    padding: 1px 5px;
+    position: absolute;
+    right: -0.2em;
+    top: 0.3em;
+    border-radius: .8em;
+    border: 2px solid #fff;
+  }  
   .inline{
     display: inline;
   }
