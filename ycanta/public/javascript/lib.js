@@ -27,6 +27,13 @@ function makeSearchable(tag,prepend) {
   }
 }
 
+function insertChunk(current_li) {
+  current_li.after(current_li.clone());
+  var new_li = current_li.next();
+  new_li.hide().find('select').selectmenu().selectmenu('destroy');
+  new_li.enhanceWithin().find(':input').val('').keyup();
+  new_li.slideDown(300);
+}
 
 function confirmSubmit(text) {
   if(text){

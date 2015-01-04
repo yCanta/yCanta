@@ -125,14 +125,6 @@
   </div>
   <script src="${tg.url('/javascript/jquery.myTransposer.js')}"></script>
   <script type="text/javascript">
-  function insertChunk(current_li) {
-    current_li.after(current_li.clone());
-    var new_li = current_li.next();
-    new_li.hide().find('select').selectmenu().selectmenu('destroy');
-    new_li.enhanceWithin().find(':input').val('').keyup();
-    new_li.slideDown(300);
-  }
-
   $(document).on("pageshow","[data-role='page']", function() {
     makeSearchable('.categories', 'c:')
     makeSearchable('.author', 'a:')
