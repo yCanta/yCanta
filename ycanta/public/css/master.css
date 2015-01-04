@@ -1,6 +1,9 @@
 body.jsdatastorage .jsdatastorage {display: none;}
 
-@media screen{
+@media screen {
+  body textarea {
+    font-family: monospace;
+  }
   .badge {
     background: gray;
     color: #fff;

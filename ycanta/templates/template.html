@@ -15,7 +15,7 @@ def song_url(book,song):
   <link rel="stylesheet" type="text/css" media="screen" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/2html.css')}" />
   <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/master.css')}" />
-
+  <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/css/jquery.transposer.css')}"/>
 </head>
 
 <body class="nochords" py:match="body" py:attrs="select('@*')">
@@ -70,6 +70,7 @@ def song_url(book,song):
   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script src="${tg.url('/javascript/lib.js')}"></script>
+  <script src="${tg.url('/javascript/jquery.myTransposer.js')}"></script>
   <script type="text/javascript">
   $(document).ready(function(){
     $("body").addClass("jsdatastorage")
@@ -92,7 +93,11 @@ def song_url(book,song):
       $("#left_panel .left-search-count").text($("#left_panel #list a:visible").size())
     });
     $("#left_panel .ui-filterable input").keyup()  //triggers update to count bubble
-   
+
+    
+    $('.songsOl').transpose()
+  
+
     //song.html specific javascript needs to be here in case we navigate from another page    
     makeSearchable('.author', 'a:')
     $(this).find("chunk").each(function(index){

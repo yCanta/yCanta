@@ -7,7 +7,8 @@
  * http://codegavin.com/license
  *
  * Date: Sat Jun 26 21:27:00 2010 -0600
- * Modified by: Carl Hempelk 11/12/12
+ * Modified by: Carl Hempel 11/12/12
+ * Modified by: Carl Hempel 01/03/15
  */
 (function($) {
 
@@ -132,7 +133,7 @@
       var delta = getDelta(currentKey.value, newKey.value);
      /*This is where we need to change the target for change.  Will also need to come up with way to fix spacing . . .    */
     
-      $('#songsOl textarea').each(function() {
+      $('.ui-page-active .songsOl textarea').each(function() {
         var output = [];
         var lines = $(this).val().split("\n");
         var line = "";
@@ -241,9 +242,9 @@
       var keyLinks = [];
       $(keys).each(function(i, key) {
           if (currentKey.name == key.name)
-              keyLinks.push("<a href='#' id='"+key.name.replace('#','_')+"' class='selected'>" + key.name + "</a>");
+              keyLinks.push("<a href='#' class='ui-btn' id='"+key.name.replace('#','_')+"' class='selected'>" + key.name + "</a>");
           else
-              keyLinks.push("<a href='#' id='"+key.name.replace('#','_')+"'>" + key.name + "</a>");
+              keyLinks.push("<a href='#' class='ui-btn' id='"+key.name.replace('#','_')+"'>" + key.name + "</a>");
       });
 
 
