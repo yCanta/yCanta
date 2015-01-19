@@ -27,9 +27,17 @@ function makeSearchable(tag,prepend) {
   }
 }
 
-function insertChunk(current_li) {
-  current_li.after(current_li.clone());
-  var new_li = current_li.next();
+function insertChunk(current_li, place) {
+  if(typeof(place)==='undefined') place = 'after';
+
+  if(place == 'after'){
+    current_li.after(current_li.clone());
+    var new_li = current_li.next();
+  }
+  else{
+    current_li.before(current_li.clone());
+    var new_li = current_li.prev();
+  }
   new_li.hide().find('select').selectmenu().selectmenu('destroy');
   new_li.enhanceWithin().find(':input').val('').keyup();
   new_li.slideDown(300);

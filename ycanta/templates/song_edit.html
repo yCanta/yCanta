@@ -53,7 +53,15 @@
             <input py:if="song.ccli == False" data-mini="True" type="checkbox" name="ccli"/>
           </label>
         </span>
-        <p><i>A blank line between text in a chunk will split it when saved.</i></p>
+        <p>
+          <i>A blank line between text in a chunk will split it when saved.</i>
+          <span data-mini="true" data-role="controlgroup" data-type="horizontal" class="ui-li-aside">
+            <a class="ui-btn ui-btn-icon-notext ui-icon-plus" 
+              onclick="insertChunk($('.ui-page-active .songsOl li:first'), 'before')">A</a>
+            <a class="ui-btn ui-icon ui-btn-icon-notext ui-icon-copy" onclick="insertChunk(this)">P</a>
+          </span>
+        </p>
+
         <div>
           <?python
           import ycanta.lib.song
