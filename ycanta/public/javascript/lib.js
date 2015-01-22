@@ -41,6 +41,18 @@ function insertChunk(current_li, place) {
   new_li.hide().find('select').selectmenu().selectmenu('destroy');
   new_li.enhanceWithin().find(':input').val('').keyup();
   new_li.slideDown(300);
+
+  //find element positions
+  var docViewTop = new_li.parents('.scrollable').parent().offset().top;
+  var docViewBottom = $(window).height() - docViewTop;
+  var elemTop = $(new_li).offset().top;
+  var elemBottom = elemTop + $(new_li).height();
+
+  if(!((elemBottom + 100 <= docViewBottom) && (elemTop >= docViewTop))){
+    new_li.parents('.scrollable').animate({
+      scrollTop: new_li.parents('.scrollable').scrollTop() + (elemBottom - docViewBottom) + 100 
+    }, 1000);
+  }
 }
 
 function confirmSubmit(text) {
