@@ -27,19 +27,23 @@ function makeSearchable(tag,prepend) {
   }
 }
 
-function insertChunk(current_li, place) {
+function copyChunk(from_li, to_li, blank, place) {
+  if(typeof(blank)==='undefined') blank = false;
   if(typeof(place)==='undefined') place = 'after';
 
   if(place == 'after'){
-    current_li.after(current_li.clone());
-    var new_li = current_li.next();
+    to_li.after(from_li.clone());
+    var new_li = to_li.next();
   }
   else{
-    current_li.before(current_li.clone());
-    var new_li = current_li.prev();
+    to_li.before(from_li.clone());
+    var new_li = to_li.prev();
   }
   new_li.hide().find('select').selectmenu().selectmenu('destroy');
-  new_li.enhanceWithin().find(':input').val('').keyup();
+  new_li.enhanceWithin();
+  if(blank){
+    new_li.find(':input').val('').keyup();
+  }
   new_li.slideDown(300);
 
   //find element positions

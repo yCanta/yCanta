@@ -29,11 +29,11 @@
         </label>
         <div class="columns-sm">
           <span data-role="fieldcontain">
-            <label><b>Author:</b></label>
+            <label>Author:</label>
             <input data-mini="True" type="text" name="author" py:attrs="{'value': song.author}" />
           </span>
           <span data-role="fieldcontain">
-            <label><b>Scripture:</b></label>
+            <label>Scripture:</label>
             <input data-mini="True" type="text" name="scripture" py:attrs="{'value': song.scripture}" />
           </span>
           <span data-role="fieldcontain">
@@ -56,9 +56,9 @@
         <p>
           <i>A blank line between text in a chunk will split it when saved.</i>
           <span data-mini="true" data-role="controlgroup" data-type="horizontal" class="ui-li-aside">
-            <a class="ui-btn ui-btn-icon-notext ui-icon-plus" 
-              onclick="insertChunk($('.ui-page-active .songsOl li:first'), 'before')">A</a>
-            <a class="ui-btn ui-icon ui-btn-icon-notext ui-icon-copy" onclick="insertChunk(this)">P</a>
+            <a title="Add new" class="ui-btn ui-btn-icon-notext ui-icon-plus" 
+              onclick="copyChunk($('.ui-page-active .songsOl li:first'), $('.ui-page-active .songsOl li:first'), true, 'before')">A</a>
+            <a title="Paste" class="ui-btn ui-icon ui-btn-icon-notext ui-icon-paste" onclick="copyChunk($('.jsdatastorage.buffer li'), $('.ui-page-active .songsOl li:first'), false, 'before')">P</a>
           </span>
         </p>
 
@@ -79,10 +79,12 @@
                 </select>
               </span>
               <span data-mini="true" data-role="controlgroup" data-type="horizontal" class="ui-li-aside">
-                <a class="ui-btn ui-btn-icon-notext ui-icon-plus" 
-                  onclick="insertChunk($(this).parents('li'))">A</a>
-                <a class="ui-btn ui-btn-icon-notext ui-icon-paste" onclick="insertChunk(this)">P</a>
-                <a class="ui-btn ui-btn-icon-right ui-btn-icon-notext ui-icon-delete" onclick="$(this).parents('li').slideUp(300, function () {$(this).remove();});">D</a>
+                <a title="Add new" class="ui-btn ui-btn-icon-notext ui-icon-plus" 
+                  onclick="copyChunk($(this).parents('li'), $(this).parents('li'), true)">A</a>
+                <a title="Paste" class="ui-btn ui-icon ui-btn-icon-notext ui-icon-paste"
+                  onclick="copyChunk($('.jsdatastorage.buffer li'), $(this).parents('li'))">P</a>
+                <a title="Cut" class="ui-btn ui-btn-icon-right ui-btn-icon-notext ui-icon-delete" 
+                  onclick="$(this).parents('li').slideUp(300, function () {$('.jsdatastorage.buffer').html($(this));});">D</a>
               </span>
               <textarea data-mini="true" name="chunk_list" py:content="ycanta.lib.song.chunk_to_mono(chunk)"/>
             </li>
@@ -125,6 +127,8 @@
           </div>
         </div>
       </form>  
+    </div>
+    <div class="jsdatastorage buffer">
     </div>
     <!-- Left Panel -->
     <div class="jsdatastorage">
