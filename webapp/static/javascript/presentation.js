@@ -484,8 +484,11 @@ function gotoVerse(num){
   var cur = $("#current");
   var verse = cur.parent().children('[type=verse]:eq('+num+')');
 
-  if(verse.length == 0){ // no verse -- do nothing
-    verse = cur;
+  if(verse.length == 0){ // no verse -- fall back to picking the nth unlabeled chunk
+    verse = cur.parent().children('[type="no label"], [type="indented no label"]').eq(num);
+    if(verse.length == 0){ // still got nothing, go with current
+      verse = cur;
+    }
   }
   showChunk(verse);
 }
