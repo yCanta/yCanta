@@ -171,8 +171,6 @@ def save_song(title, author, scripture_ref, introduction, key,
     if title.strip() == '':
       title = 'New Song'
     
-    title = re.sub(r'(^|[\s\-)(\\\/]\b)(\S)', lambda m: m.group(1) + m.group(2).upper(), title)
-
     chunk_list = [c.fix_encoding(chunk) for chunk in chunk_list]
     categories = [c.fix_encoding(category) for category in categories if category.strip()]
     types      = [c.fix_encoding(typ.lower()) for typ in types]               #lowering case because edit is upper
