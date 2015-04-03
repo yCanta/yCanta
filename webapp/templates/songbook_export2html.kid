@@ -53,7 +53,7 @@
       chunk[type=chorus]:before {
         content: 'Chorus:';
       }
-      chunk[type=final-chorus]:before {
+      chunk[type="final chorus"]:before {
         content: 'Final Chorus:';
       }
       chunk[type=bridge]:before {

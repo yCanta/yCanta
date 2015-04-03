@@ -437,17 +437,19 @@ function gotoChorus(){
   }
 
   var cur = $("#current");
-  var chorus = cur.parent().children('[type=pre-chorus]:first');
-  if (chorus.length == 0){ // no pre-chorus find the chorus
-    chorus = cur.parent().children('[type=chorus]:first');
+
+  // First we look for a chorus type AFTER the current chunk and take the first one
+  var chorus = cur.nextAll('[type=pre-chorus], [type=chorus], [type="final chorus"]').eq(0);
+
+  if (chorus.length == 0){ // no chorus type following current chunk search whole song and take the first
+    chorus = cur.parent().children('[type=pre-chorus], [type=chorus], [type="final chorus"]').eq(0);
   }
 
-  if(chorus.length == 0){ // no chorus -- do nothing
-    chorus = cur; // we show chorus next so its ok
+  if(chorus.length != 0){
+    showChunk(chorus);
   }
-
-  showChunk(chorus);
 }
+
 function gotoBridge(){
   if(! inPresentation()){ // presentation mode only
     return;
@@ -462,6 +464,7 @@ function gotoBridge(){
 
   showChunk(bridge);
 }
+
 function gotoEnding(){
   if(! inPresentation()){ // presentation mode only
     return;
@@ -476,6 +479,7 @@ function gotoEnding(){
 
   showChunk(ending);
 }
+
 function gotoVerse(num){
   if(! inPresentation()){
     return;
