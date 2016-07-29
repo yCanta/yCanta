@@ -189,6 +189,14 @@
       chunk:before {
         display: block;
         margin-bottom: 1em;
+        font-size: 60%;
+        font-style: italic; 
+        color: grey;
+      }
+      body.presentation chunk[type=verse] span {
+        font-size: 60%;
+        font-style: italic; 
+        color: gray;
       }
       body.nochords chunk:before {
         margin-bottom: 0em;
