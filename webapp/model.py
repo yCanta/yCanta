@@ -28,6 +28,7 @@ class Song(SQLObject):
   author = StringCol(alternateID=False)
   categories = StringCol(alternateID=False)
   content = StringCol(alternateID=False)
+  copyright = StringCol(alternateID=False)
 
 
 class Songbook(SQLObject):

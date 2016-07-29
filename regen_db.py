@@ -53,6 +53,11 @@ for song in songlist:
       categories = dom.find('categories').text
     else:
       categories = ''
+    
+    if dom.find('copyright') != None and dom.find('copyright').text != None:    #don't die if no copyright
+      copyright = dom.find('copyright').text
+    else:
+      copyright = ''
 
     #this code is direct copy from db.py song_save
     if dom.find('chunk/line') != None: #don't die if no content
@@ -69,7 +74,8 @@ for song in songlist:
     print 'MALFORMED:', path
   
   Song(title=c.fix_encoding(title), path=path, author=c.fix_encoding(author), 
-      categories=c.fix_encoding(categories), content=c.fix_encoding(content))
+      categories=c.fix_encoding(categories), content=c.fix_encoding(content), 
+      copyright=c.fix_encoding(copyright))
   hub.commit() #commit song to database
 
 # enter songbooks into database

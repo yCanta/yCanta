@@ -154,7 +154,7 @@
           </span>
           <!--LIST OF SEARCHABLE LINKS-->
           <div id="songs_list" >
-            <a py:for="song in songs_list" py:attrs="title='t:'+re.sub(r'[^a-zA-Z0-9\s:-]', '', song.title)+'; a:'+' a:'.join((song.author or '!a').split(', '))+'; c:'+' c:'.join((song.categories or '!c').split(', '))+' '+re.sub(r'[^a-zA-Z0-9\s:-]','',' '.join(song.content.split()))" py:content="song.title" href="${tg.url('song_view#path=%s' % song.path)}" ></a>
+            <a py:for="song in songs_list" py:attrs="title='t:'+re.sub(r'[^a-zA-Z0-9\s:-]', '', song.title)+'; a:'+' a:'.join((song.author or '!a').split(', '))+'; c:'+' c:'.join((song.categories or '!c').split(', '))+' '+re.sub(r'[^a-zA-Z0-9\s:-]','',' '.join(song.content.split()))+' '+song.copyright" py:content="song.title" href="${tg.url('song_view#path=%s' % song.path)}" ></a>
           </div>
           <!--END OF LIST OF SEARCHABLE LINKS-->
         </div>
